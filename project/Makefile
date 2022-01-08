@@ -1,55 +1,63 @@
-NAME		= fdf
-CC			= gcc
-FLAGS		= -O3 -Wall -Wextra -Werror
-FLAGS_MLX	= -lXext -lX11 -lm -lz
+NAME			= minishell
+
+SRCS_DIR		= srcs
+
+OBJS_DIR		= objs
+
+OBJS			= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
+
+LIBFT			= libs/libft/libft.a
+
+LIBREADLINE		= libs/libreadline
+
+INC_HEADERS		= -Iheaders -I$(dir ${LIBFT})
+
+INC_LIBS_DIR	= -L$(dir ${LIBFT})
+
+INC_LIBS		=  -lft
+
+OS_NAME			:= $(shell uname -s)
+ifeq ($(OS_NAME), Darwin)
+	INC_HEADERS		+= -I${LIBREADLINE}/include
+	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib -L/usr/local/opt/readline/lib
+	INC_LIBS		+= -lncurses
+	OS_V			:= $(shell sw_vers -productVersion | cut -f1,2 -d.)
+ifeq ($(shell echo "$(OS_V) <= 10.14" | bc), 1)
+	INC_LIBS		+= -lreadline_macos_v10_14
+else
+	INC_LIBS		+= -lreadline_macos_v10_15
+endif
+else
+	INC_LIBS		+= -lreadline
+endif
+
+CC			= cc
+
+CFLAGS		= -Wall -Wextra -Werror
+
+OPTFLAGS	= -MMD -MP -g
+
 RM			= rm -rf
-AR			= ar rc
-INC			= ./inc
-INC_MLX		= ./minilibx_linux
-INC_FILE	= ./inc/*
-LIBFT		= libft/libft.a
-MINILIBX	= minilibx-linux/libmlx_Linux.a
 
-SRCS_PATH	= ./src/
-OBJS_PATH	= ./objs/
+all:		$(dir ${LIBFT}) ${NAME}
 
-SRCS_NAME	=	main.c read_map.c error.c get_next_line.c \
-				get_next_line_utils.c helper_func.c draw.c \
-				color.c param_view.c draw_turn.c draw2.c control.c
-SRCS		= $(addprefix $(SRCS_PATH), $(SRCS_NAME))
-OBJS		= $(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
+${NAME}:	${OBJS} ${LIBFT}
+			${CC} ${CFLAGS} ${OBJS} -o ${NAME} ${INC_LIBS_DIR} ${INC_LIBS}
 
-all: $(LIBFT) $(MINILIBX) $(NAME)
+.SECONDEXPANSION:
+${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
+			@mkdir -p ${@D}
+			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 
-$(NAME): $(OBJS_PATH) $(OBJS)
-	$(CC) $(FLAGS) -L$(INC_MLX) $(OBJS) $(LIBFT) $(MINILIBX) -I$(INC_MLX) $(FLAGS_MLX) -o $(NAME)
+$(dir ${LIBFT}):
+			@make -C $@ $(MAKECMDGOALS)
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC_FILE)
-	$(CC) $(FLAGS) -I $(INC) -I $(INC_MLX) -c $< -o $@
+clean:		$(dir ${LIBFT})
+			${RM} ${OBJS_DIR}
 
-$(OBJS_PATH):
-	mkdir -p $(OBJS_PATH)
-
-$(MINILIBX):
-	@make -C ./minilibx-linux
-
-$(LIBFT):
-	@make -C ./libft
-
-clean: clean_libft
-	$(RM) $(OBJS_PATH)
-
-clean_libft:
-	@make clean -C ./libft
-
-clean_minilibx:
-	@make clean -C ./minilibx-linux
-
-fclean:		clean clean_minilibx
-	$(RM) $(NAME)
-	$(RM) $(NAME_BONUS)
-	$(RM) $(LIBFT)
+fclean:		clean
+			${RM} ${NAME} ${NAME}.dSYM
 
 re:			fclean all
 
-.PHONY: all clean fclean re $(LIBFT)
+.PHONY: all $(dir ${LIBFT}) clean fclean re
