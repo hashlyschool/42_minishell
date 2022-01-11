@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/11 17:54:29 by hashly           ###   ########.fr       */
+/*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
+/*   Updated: 2022/01/11 16:16:39 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main()
+char	*get_line(void)
 {
-	char	*cmd_line;
-	// t_list	*cmd_list;
+	char	*line_read;
+	char	*promt;
 
-	// argv = NULL;
-	// if (argc != 1)
-	// 	return (0);
-	set_signal();
-	// printf("%s\n", envp[0]);
-	while (1)
-	{
-		cmd_line = get_line();
-		// cmd_list = split_on_cmd(cmd_line);
-		free(cmd_line);
-	}
-	return (0);
+	promt = get_promt();
+	line_read = readline(promt);
+	free(promt);
+	if (line_read && *line_read)
+		add_history (line_read);
+	if (!line_read)
+		sig_d(0);
+	return (line_read);
+}
+
+t_list	*split_on_cmd(char *str)
+{
+	t_list	*list;
+	t_data	temp;
+
+	temp.cmd = str;
+	temp.pipe = 0;
+	list = ft_lstnew(&temp);
+	return (list);
 }

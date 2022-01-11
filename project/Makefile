@@ -1,63 +1,46 @@
 NAME			= minishell
+CC				= clang
+RM				= rm -rf
+FLAGS			= -O3 -Wall -Wextra -Werror
+FLAGS_RL		= -lreadline
+LIBFT_PATH		= ./42_libft/
+LIBFT_NAME		= libft.a
+LIBFT			= $(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
+INC_PATH		= ./inc/
+INC_NAME		= minishell.h
+INC				= $(addprefix $(INC_PATH), $(INC_NAME))
+SRCS_PATH		= ./src/
+OBJS_PATH		= ./objs/
+SRCS_NAME		= minishell.c signal.c parsing.c output.c
+SRCS			= $(addprefix $(SRCS_PATH), $(SRCS_NAME))
+OBJS			= $(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 
-SRCS_DIR		= srcs
+OPTFLAGS		= -MMD -g
 
-OBJS_DIR		= objs
+all: libft ${NAME}
 
-OBJS			= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
+$(NAME): $(OBJS_PATH) $(OBJS)
+	$(CC) $(FLAGS) $(OPTFLAGS) $(FLAGS_RL) $(OBJS) -L$(LIBFT_PATH) -lft -o $(NAME)
 
-LIBFT			= libs/libft/libft.a
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)
+	$(CC) $(FLAGS) $(OPTFLAGS) -I $(INC_PATH) -c $< -o $@
 
-LIBREADLINE		= libs/libreadline
+$(OBJS_PATH):
+	mkdir -p $(OBJS_PATH)
 
-INC_HEADERS		= -Iheaders -I$(dir ${LIBFT})
+libft:
+	@make -C $(LIBFT_PATH)
 
-INC_LIBS_DIR	= -L$(dir ${LIBFT})
+clean:		clean_libft
+	$(RM) $(OBJS_PATH)
 
-INC_LIBS		=  -lft
-
-OS_NAME			:= $(shell uname -s)
-ifeq ($(OS_NAME), Darwin)
-	INC_HEADERS		+= -I${LIBREADLINE}/include
-	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib -L/usr/local/opt/readline/lib
-	INC_LIBS		+= -lncurses
-	OS_V			:= $(shell sw_vers -productVersion | cut -f1,2 -d.)
-ifeq ($(shell echo "$(OS_V) <= 10.14" | bc), 1)
-	INC_LIBS		+= -lreadline_macos_v10_14
-else
-	INC_LIBS		+= -lreadline_macos_v10_15
-endif
-else
-	INC_LIBS		+= -lreadline
-endif
-
-CC			= cc
-
-CFLAGS		= -Wall -Wextra -Werror
-
-OPTFLAGS	= -MMD -MP -g
-
-RM			= rm -rf
-
-all:		$(dir ${LIBFT}) ${NAME}
-
-${NAME}:	${OBJS} ${LIBFT}
-			${CC} ${CFLAGS} ${OBJS} -o ${NAME} ${INC_LIBS_DIR} ${INC_LIBS}
-
-.SECONDEXPANSION:
-${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
-			@mkdir -p ${@D}
-			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
-
-$(dir ${LIBFT}):
-			@make -C $@ $(MAKECMDGOALS)
-
-clean:		$(dir ${LIBFT})
-			${RM} ${OBJS_DIR}
+clean_libft:
+	@make clean -C $(LIBFT_PATH)
 
 fclean:		clean
-			${RM} ${NAME} ${NAME}.dSYM
+	$(RM) $(NAME)
+	$(RM) $(LIBFT)
 
 re:			fclean all
 
-.PHONY: all $(dir ${LIBFT}) clean fclean re
+.PHONY: all clean fclean re

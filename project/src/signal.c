@@ -1,32 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/11 17:54:29 by hashly           ###   ########.fr       */
+/*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
+/*   Updated: 2022/01/11 16:07:34 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main()
+void	sig_d(int signo)
 {
-	char	*cmd_line;
-	// t_list	*cmd_list;
+	signo = 0;
+	write(1, "exit\n", 6);
+	rl_clear_history();
+	exit(0);
+}
 
-	// argv = NULL;
-	// if (argc != 1)
-	// 	return (0);
-	set_signal();
-	// printf("%s\n", envp[0]);
-	while (1)
-	{
-		cmd_line = get_line();
-		// cmd_list = split_on_cmd(cmd_line);
-		free(cmd_line);
-	}
-	return (0);
+static void	sig_int(int signo)
+{
+	char	*promt;
+
+	promt = get_promt();
+	signo = 0;
+	write(1, "\n", 2);
+	write(1, promt, ft_strlen(promt));
+	free(promt);
+}
+
+static void	sig_quit(int signo)
+{
+	signo = 0;
+	write(1, "\b\b  \b\b", 7);
+	return ;
+}
+
+void	set_signal(void)
+{
+	signal(SIGINT, sig_int);
+	signal(SIGQUIT, sig_quit);
+	return ;
 }
