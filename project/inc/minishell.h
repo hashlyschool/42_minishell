@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/11 16:29:21 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/13 17:25:58 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@
 typedef struct s_data
 {
 	char	*cmd;
+	char	**args;
 	int		pipe;
+	char	*flag;
 }	t_data;
 
 //minishell.c
