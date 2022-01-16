@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/11 18:10:36 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/15 17:07:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*get_pwd(void)
 	dir = getcwd(NULL, 1024);
 	if (!dir)
 		return (NULL);
-	home = getenv("HOME");
+	home = ft_getenv("HOME");
 	if (home)
 	{
 		len_home = ft_strlen(home);
