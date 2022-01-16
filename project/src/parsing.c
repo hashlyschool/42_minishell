@@ -6,13 +6,13 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/15 14:13:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/16 23:43:07 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*get_line(void)
+static char	*get_line(void)
 {
 	char	*line_read;
 	char	*promt;
@@ -27,13 +27,14 @@ char	*get_line(void)
 	return (line_read);
 }
 
-t_list	*split_on_cmd(char *str)
+char	**parsing(void)
 {
-	t_list	*list;
-	t_data	temp;
+	char	*str;
+	char	**ret;
 
-	temp.cmd = str;
-	temp.pipe = 0;
-	list = ft_lstnew(&temp);
-	return (list);
+	str = get_line(); //+
+	// ret = split_str(str); //- Masha
+	ret = ft_split(str, ' ');
+	free(str); //+
+	return (ret);
 }

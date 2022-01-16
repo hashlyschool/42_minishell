@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/15 17:07:28 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/16 14:58:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	**ft_copy_env(char **envp)
 	ret[i] = NULL;
 	ret[i + 1] = ft_strdup("0");
 	ret[i + 2] = NULL;
-	i = i - 2;
 	while (--i > 0)
 		ret[i] = ft_strdup(envp[i]);
 	ret[i] = ft_strdup(envp[i]);

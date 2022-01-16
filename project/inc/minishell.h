@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/16 14:47:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/16 23:16:38 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,28 @@
 
 # define CLOSE "\001\033[0m\002$ \0"
 # define PROMT "\001\033[1m\002\033[32mhashly@minishell:\033[34m"
-
+# define NONE 0
+# define AND 1
+# define OR 2
+# define PIPE 3
 char	**g_envp;
 
 typedef struct s_data
 {
 	char	*cmd;
 	char	**flag;
-	char	**pipe;
-	char	**redir;
 	char	**argv;
-	char	and;
-	char	or;
+	char	**pipe_redir;
+	char	 sep; //none, and, or
 }	t_data;
+
+typedef struct s_node
+{
+	t_node	*next;
+	t_node	*next_lvl;
+	t_node	*prev_lvl;
+	t_data	*data;
+}	t_node;
 
 //minishell.c
 
@@ -54,8 +63,7 @@ char	*ft_getenv(char *name);
 void	sig_d(int signo);
 void	set_signal(void);
 //parsing.c
-char	*get_line(void);
-t_list	*split_on_cmd(char *str);
+char	**parsing(void);
 //output.c
 char	*get_promt(void);
 char	*ft_getenv(char *name);
@@ -70,5 +78,7 @@ int		ft_export(char *key, char *value);
 int		ft_unset(char *key);
 //built_in_4.c
 
+//forest.c
+t_node	*get_forest(const char * line);
 
 #endif
