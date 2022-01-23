@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/16 23:43:07 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/23 15:41:17 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,33 @@ static char	*get_line(void)
 	return (line_read);
 }
 
+/*
+cmd\0
+option or argv\0
+\1\2>\3\4	file_name
+\1\2>>\3\4	file_name
+\1\2<\3\4	file_name
+\1\2<<\3\4	file_name
+(
+)
+&&
+||
+|
+;
+NULL
+*/
+char **split_str(char *str)
+{
+	return (ft_split(str, ' '));
+}
+
 char	**parsing(void)
 {
 	char	*str;
 	char	**ret;
 
 	str = get_line(); //+
-	// ret = split_str(str); //- Masha
-	ret = ft_split(str, ' ');
+	ret = split_str(str); //- Masha
 	free(str); //+
 	return (ret);
 }

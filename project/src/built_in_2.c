@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/15 17:03:20 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/23 15:46:35 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static char	**malloc_for_export(char *key, char *value)
 	return (ret);
 }
 
-//export
-int	ft_export(char *key, char *value)
+
+static void	export_action(char *key, char *value)
 {
 	char	**temp_envp;
 	size_t	len_key;
@@ -68,10 +68,65 @@ int	ft_export(char *key, char *value)
 		{
 			free(g_envp[i]);
 			g_envp[i] = ft_fill_str(key, value);
-			return (ft_set_ret(0));
+			return ;
 		}
 		i++;
 	}
 	g_envp = malloc_for_export(key, value);
-	return (ft_set_ret(0));
+	return ;
+}
+
+static int	parsing_argv(char **argv, char ***key, char ***value)
+{
+	size_t	i;
+	size_t	j;
+	char	*temp;
+
+	i = 0;
+	while (argv && argv[i])
+	{
+		if (argv[i++][0] == '-')
+			return (1);
+	}
+	i = 0;
+	j = 0;
+	while (argv && argv[i])
+	{
+		while (argv[i][j] != '=')
+			j++;
+		if (argv[i][j] == 0)
+		{
+			*key = ft_add_line(*key, argv[i]);
+			*value = ft_add_line(*value, NULL);
+		}
+		else
+		{
+			temp = ft_substr(argv[i], 0, j - 1);
+			*key = ft_add_line(*key, temp);
+			free(temp);
+			temp = ft_strdup(argv[i] + (j + 1));
+			*value = ft_add_line(*value, temp);
+			free(temp);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_export(char **argv)
+{
+	size_t	i;
+	char	**key;
+	char	**value;
+
+	i = 0;
+	if (parsing_argv(argv, &key, &value))
+		return (ft_set_ret(1, "minishell: export: invalid argument\n"));
+	while (key[i])
+	{
+		if (value[i])
+			export_action(key[i], value[i]);
+		i++;
+	}
+	return (ft_set_ret(0, NULL));
 }

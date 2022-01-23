@@ -1,7 +1,7 @@
 NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
-FLAGS			=	-O3 -Wall -Wextra -Werror
+FLAGS			=	-Wall -Wextra -Werror
 FLAGS_RL		=	-lreadline
 LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a

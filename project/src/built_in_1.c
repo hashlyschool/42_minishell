@@ -6,99 +6,84 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/16 14:46:07 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/23 15:42:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 //echo
-int	ft_echo(t_data *data)
+int	ft_echo(char **argv)
 {
 	char	flag_n;
 	size_t	i;
 
 	flag_n = 0;
-	if (data->flag && data->flag[0] && ft_strncmp(data->flag[0], "-n", 3) == 0)
+	if (argv && argv[0] && ft_strncmp(argv[0], "-n", 3) == 0)
 		flag_n = 1;
 	i = flag_n;
-	while (data->flag[i])
+	while (argv && argv[i])
 	{
-		ft_putstr_fd(data->flag[i++], 1);
-		if (data->flag[i] || (data->argv && data->argv[0]))
-			write(1, " ", 1);
-	}
-	i = 0;
-	while (data->argv && data->argv[i])
-	{
-		ft_putstr_fd(data->argv[i++], 1);
-		if (data->argv[i])
+		ft_putstr_fd(argv[i++], 1);
+		if (argv[i])
 			write(1, " ", 1);
 	}
 	if (flag_n == 0)
 		write(1, "\n", 1);
-	return (ft_set_ret(0));
+	return (ft_set_ret(0, NULL));
 }
 
+/*
+Синтаксис		Объяснение
+cd				Перемещение в домашний каталог +
+cd ~			Перемещение в домашний каталог ?
+cd ..			Перемещение на один уровень выше ?
+cd -			Перемещение в предыдущий каталог ?
+cd Directory1	Перемещение в каталог Directory1 ? нужно
+cd Dir1/Dir2	Перемещение в каталог Dir2 по указанному пути ? нужно
+*/
 //cd
-int	ft_cd(t_data *data)
+int	ft_cd(char **argv)
 {
-	if (data->flag)
+	if (argv[0] == NULL)
 	{
-		write(2, "minishell: cd: options are not processed\n", 42);
-		return (ft_set_ret(1));
+		argv[0] = ft_getenv("HOME");
+		if (argv[0] == NULL)
+			return (ft_set_ret(1, "minishell: cd: HOME not set\n"));
 	}
-	if (data->argv[0] == NULL)
-	{
-		data->argv[0] = ft_getenv("HOME");
-		if (data->argv[0] == NULL)
-		{
-			write(2, "minishell: cd: HOME not set\n", 29);
-			return (ft_set_ret(1));
-		}
-	}
-	if (data->argv[1] != NULL)
-	{
-		write(2, "minishell: cd: too many arguments\n", 35);
-		return (ft_set_ret(1));
-	}
-	if (chdir(data->argv[0]) == 0)
-		return (ft_set_ret(0));
+	if (argv[1] != NULL)
+		return (ft_set_ret(1, "minishell: cd: too many arguments\n"));
+	if (chdir(argv[0]) == 0)
+		return (ft_set_ret(0, NULL));
 	perror("minishell: cd");
 	errno = 0;
-	return (ft_set_ret(1));
+	return (ft_set_ret(1, NULL));
 }
 
 //pwd
-int	ft_pwd(t_data *data)
+int	ft_pwd(char **argv)
 {
 	char	*dir;
 
-	if (data->flag)
-	{
-		write(2, "minishell: pwd: options are not processed\n", 43);
-		return (ft_set_ret(1));
-	}
+	if (argv && argv[0])
+		return (ft_set_ret(1, "minishell: pwd: options are not processed\n"));
 	dir = getcwd(NULL, 1024);
 	if (!dir)
-		return (ft_set_ret(-1));
+		return (ft_set_ret(-1, "minishell: pwd: invalid argument\n"));
 	ft_putstr_fd(dir, 1);
 	write(1, "\n", 1);
 	free(dir);
-	return (ft_set_ret(0));
+	return (ft_set_ret(0, NULL));
 }
 
 //env
-int	ft_env(t_data *data)
+int	ft_env(char **argv)
 {
 	char	*temp;
 	size_t	i;
 
-	if (data->flag)
-	{
-		write(2, "minishell: env: options are not processed\n", 43);
-		return (ft_set_ret(1));
-	}
+	if (argv && argv[0])
+		return (ft_set_ret(1, "minishell: env: options are not processed\n"));
 	i = 0;
 	temp = g_envp[i];
 	while (temp)
@@ -106,5 +91,5 @@ int	ft_env(t_data *data)
 		ft_putstr_fd(temp, 1);
 		temp = g_envp[++i];
 	}
-	return (ft_set_ret(0));
+	return (ft_set_ret(0, NULL));
 }
