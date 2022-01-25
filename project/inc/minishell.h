@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/23 15:52:17 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/25 23:13:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	**ft_copy_env(char **envp);
 int		ft_free_envp(void);
 int		ft_set_ret(int value, char *msg);
 char	*ft_getenv(char *name);
+int		ft_get_status();
 //signal.c
 void	sig_d(int signo);
 void	set_signal(void);
@@ -93,5 +94,15 @@ int		ft_unset(char *key);
 
 //forest.c
 t_node	*get_forest(char **line);
+//execute.c
+void	execute(t_node *node, void (*action)(t_node *));
+void	action(t_node *node);
+//free.c
+void	free_cmd_line(char ***arg);
+void	free_node(t_node *node);
+void	free_forest(t_node *temp);
+//condition.c
+int		cond_status(t_node	*node);
+int		cond_is_built_in(t_node *node);
 
 #endif
