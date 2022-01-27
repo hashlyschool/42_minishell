@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/23 17:34:44 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/27 23:15:57 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_node	*create_empty_node()
 
 	node = (t_node *)malloc(sizeof(t_node));
 	node->exec = 0;
+	node->def_fd[0] = dup(0);
+	node->def_fd[1] = dup(1);
 	node->next = NULL;
 	node->next_lvl = NULL;
 	node->prev_lvl = NULL;
@@ -56,7 +58,13 @@ t_node	*create_next_node(t_node *node, char separator)
 	if (separator != PIPE)
 		temp->data->sep = separator;
 	if (separator == PIPE)
-		temp->data->pipe = separator;
+	{
+		temp->data->pipe = PIPE_ON_THE_LEFT;
+		if (node->data->pipe == PIPE_ON_THE_LEFT)
+			node->data->pipe = PIPE_BOTH_SIDES;
+		else
+			node->data->pipe = PIPE_ON_THE_RIGHT;
+	}
 	node->next = temp;
 	return (temp);
 }

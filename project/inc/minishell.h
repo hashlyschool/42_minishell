@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/25 23:13:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/01/27 23:13:58 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,21 @@
 # include <stdlib.h>
 //for errno
 # include <errno.h>
+//for waitpid
+# include <sys/wait.h>
 
 # define CLOSE "\001\033[0m\002$ \0"
 # define PROMT "\001\033[1m\002\033[32mhashly@minishell:\033[34m"
+
 # define NONE 0
 # define AND 1
 # define OR 2
 # define PIPE 3
-# define SEMICOLON_CODE 4
+# define PIPE_ON_THE_LEFT 4
+# define PIPE_ON_THE_RIGHT 5
+# define PIPE_BOTH_SIDES 6
+# define SEMICOLON_CODE 7
+
 # define BRACKET_LEFT "(" //")\004"
 # define BRACKET_RIGHT ")" //)\004"
 # define TWO_AMPERSAND "&&" //"&&\004"
@@ -53,7 +60,10 @@ typedef struct s_data
 	char	**argv;
 	char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
-	char	pipe; //NONE, PIPE
+	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
+	int		fd_def[2];
+	int		fd_old[2];
+	int		fd_now[2];
 }	t_data;
 
 typedef struct s_node
@@ -63,6 +73,8 @@ typedef struct s_node
 	struct s_node	*prev_lvl;
 	t_data	*data;
 	char	exec;
+	int		def_fd[2];
+	int		pipe[2];
 }	t_node;
 
 //minishell.c
@@ -95,8 +107,8 @@ int		ft_unset(char *key);
 //forest.c
 t_node	*get_forest(char **line);
 //execute.c
-void	execute(t_node *node, void (*action)(t_node *));
 void	action(t_node *node);
+void	execute(t_node *node, void (*action)(t_node *));
 //free.c
 void	free_cmd_line(char ***arg);
 void	free_node(t_node *node);
