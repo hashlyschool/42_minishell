@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/27 23:15:57 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:42:29 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,20 @@ void	ft_add_redir(t_node *node, char *str, char type)
 		str++;
 	++str;
 	if (type == 1)
-		ret[q_str] = ret[q_str] = ft_strjoin("> ", str);
+		ret[q_str] = ft_strjoin("> ", str);
 	if (type == 2)
-		ret[q_str] = ret[q_str] = ft_strjoin(">> ", str);
+		ret[q_str] = ft_strjoin(">> ", str);
 	if (type == 3)
-		ret[q_str] = ret[q_str] = ft_strjoin("< ", str);
+		ret[q_str] = ft_strjoin("< ", str);
 	if (type == 4)
-		ret[q_str] = ret[q_str] = ft_strjoin("<< ", str);
+		ret[q_str] = ft_strjoin("<< ", str);
 	free(node->data->redir);
 	node->data->redir = ret;
 }
 
 void	ft_add_argv(t_node *node, char *str)
 {
-	int	q_str;
+	int		q_str;
 	char	**ret;
 
 	q_str = 0;
@@ -136,7 +136,8 @@ void	ft_add_argv(t_node *node, char *str)
 	ret[q_str] = ft_strdup(str);
 	while (--q_str >= 0)
 		ret[q_str] = node->data->argv[q_str];
-	free(node->data->argv);
+	if (node->data->argv)
+		free(node->data->argv);
 	node->data->argv = ret;
 }
 

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/27 23:13:58 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/05 20:19:12 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,14 @@
 # define VERTICAL_BAR "|" //"|\004"
 # define TWO_VERTICAL_BAR "||" //"||\004"
 # define SEMICOLON ";" //";\004"
-# define REDIR_RIGHT_ONE ">"	//"\1\2>\3\4"
-# define REDIR_RIGHT_TWO ">>"	//"\1\2>>\3\4"
-# define REDIR_LEFT_ONE "<"		//"\1\2<\3\4"
-# define REDIR_LEFT_TWO "<<"	//"\1\2<<\3\4"
+
+# define REDIR_RIGHT_ONE ">"	//"\1\2>\3\23"
+# define REDIR_RIGHT_TWO ">>"	//"\1\2>>\3\23"
+# define REDIR_LEFT_ONE "<"		//"\1\2<\3\23"
+# define REDIR_LEFT_TWO "<<"	//"\1\2<<\3\23"
+
+# define START_VALUE "${" //"\001\002${"
+# define END_VALUE "}" //"}\003\023"
 
 char	**g_envp;
 
@@ -106,6 +110,7 @@ int		ft_unset(char *key);
 
 //forest.c
 t_node	*get_forest(char **line);
+void	ft_add_argv(t_node *node, char *str);
 //execute.c
 void	action(t_node *node);
 void	execute(t_node *node, void (*action)(t_node *));
@@ -116,5 +121,10 @@ void	free_forest(t_node *temp);
 //condition.c
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
+//redir_pipe.c
+void	ft_set_redir_pipe(t_node *node);
+void	ft_close_redir_pipe(t_node *node);
+//predparsing.c
+void	preparsing(t_node *node);
 
 #endif
