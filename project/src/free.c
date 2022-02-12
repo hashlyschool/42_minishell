@@ -6,12 +6,15 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/25 22:54:15 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 16:04:37 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Функция для освобождения массива строк и зануления указателя
+*/
 void	free_cmd_line(char ***arg)
 {
 	char	**arr;
@@ -22,9 +25,13 @@ void	free_cmd_line(char ***arg)
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
+	arr = NULL;
 	return ;
 }
 
+/*
+Функция для освобождения узла дерева
+*/
 void	free_node(t_node *node)
 {
 	size_t	i;
@@ -54,6 +61,9 @@ void	free_node(t_node *node)
 	free(node);
 }
 
+/*
+Функция для освобождения памяти под дерево
+*/
 void	free_forest(t_node *temp)
 {
 	t_node	*for_free;

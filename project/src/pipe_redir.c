@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:27:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/05 18:28:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 16:34:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ static int	find_def_fd(t_node *node, int fd)
 	return (node->def_fd[fd]);
 }
 
+/*
+Функция, которая устанавливает пайп.
+редиректы еще не работают
+*/
 void	ft_set_redir_pipe(t_node *node)
 {
 	int	*fd_left;
@@ -57,6 +61,10 @@ void	ft_set_redir_pipe(t_node *node)
 	}
 }
 
+/*
+Функция, которая закрывает пайпы.
+редиректы еще не работают
+*/
 void	ft_close_redir_pipe(t_node *node)
 {
 	int	*fd_left;

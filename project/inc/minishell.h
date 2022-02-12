@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/05 20:19:12 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 20:58:30 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
 
-# define BRACKET_LEFT "(" //")\004"
-# define BRACKET_RIGHT ")" //)\004"
-# define TWO_AMPERSAND "&&" //"&&\004"
-# define VERTICAL_BAR "|" //"|\004"
-# define TWO_VERTICAL_BAR "||" //"||\004"
-# define SEMICOLON ";" //";\004"
+# define BRACKET_LEFT "(" //"\1\2(\3\23"
+# define BRACKET_RIGHT ")" //\1\2)\3\23"
+# define TWO_AMPERSAND "&&" //"\1\2&&\3\23"
+# define VERTICAL_BAR "|" //"\1\2|\3\23"
+# define TWO_VERTICAL_BAR "||" //"\1\2||\3\23"
+# define SEMICOLON ";" //"\1\2;\3\23"
 
 # define REDIR_RIGHT_ONE ">"	//"\1\2>\3\23"
 # define REDIR_RIGHT_TWO ">>"	//"\1\2>>\3\23"
@@ -108,12 +108,16 @@ int		ft_export(char **argv);
 int		ft_unset(char *key);
 //built_in_4.c
 
-//forest.c
+//forest_1.c
+t_node	*create_empty_node(void);
+t_node	*create_node_next_lvl(t_node *node);
+t_node	*go_prev_lvl(t_node *node);
+t_node	*create_next_node(t_node *node, char separator);
 t_node	*get_forest(char **line);
 void	ft_add_argv(t_node *node, char *str);
 //execute.c
 void	action(t_node *node);
-void	execute(t_node *node, void (*action)(t_node *));
+void	execute(t_node *node);
 //free.c
 void	free_cmd_line(char ***arg);
 void	free_node(t_node *node);
@@ -121,6 +125,7 @@ void	free_forest(t_node *temp);
 //condition.c
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
+int		node_is_not_empty(t_node *root);
 //redir_pipe.c
 void	ft_set_redir_pipe(t_node *node);
 void	ft_close_redir_pipe(t_node *node);

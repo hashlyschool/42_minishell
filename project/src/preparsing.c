@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/06 00:47:08 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 20:31:01 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,27 @@ static char	*get_end_str(char *str)
 		return (NULL);
 	}
 	i = 0;
+	ret = NULL;
 	while (split_start[i])
 	{
-		split_end = ft_split_2(split_start[i], END_VALUE);
-		if (!ret)
-			ret = ft_strdup(ft_getenv(split_end[0]));
+		if (ft_strnstr(split_start[i], END_VALUE, ft_strlen(split_start[i])) == NULL)
+		{
+			if (!ret)
+				ret = ft_strdup(split_start[i]);
+			else
+				ret = ft_strjoin_free_s1(ret, split_start[i]);
+		}
 		else
-			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0]));
-		if (split_end[1])
-			ret = ft_strjoin_free_s1(ret, split_end[1]);
-		ft_free_str_of_str(&split_end);
+		{
+			split_end = ft_split_2(split_start[i], END_VALUE);
+			if (!ret)
+				ret = ft_strdup(ft_getenv(split_end[0]));
+			else
+				ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0]));
+			if (split_end[1])
+				ret = ft_strjoin_free_s1(ret, split_end[1]);
+			ft_free_str_of_str(&split_end);
+		}
 		i++;
 	}
 	ft_free_str_of_str(&split_start);
@@ -80,8 +91,8 @@ static void	replace_data_in_node(char ***arr, t_node *node)
 	i = 0;
 	temp = *arr;
 	free(node->data->cmd);
-	if (node->data->argv)
-		ft_free_str_of_str(&(node->data->argv));
+	ft_free_str_of_str(&(node->data->argv));
+	i = 0;
 	if (temp && temp[i])
 		node->data->cmd = ft_strdup(temp[i++]);
 	while (temp[i])
@@ -91,6 +102,10 @@ static void	replace_data_in_node(char ***arr, t_node *node)
 	}
 }
 
+/*
+Функция, которая раскрывает переменные окружения в узле дерева
+и преписывает узел
+*/
 void	preparsing(t_node *node)
 {
 	char	*str;

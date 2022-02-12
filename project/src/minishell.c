@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/05 23:39:36 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 17:55:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(int argc, char **argv, char **envp)
 		cmd_line = parsing(); //Masha
 		root = get_forest(cmd_line); //ILYA
 		free_cmd_line(&cmd_line); //+
-		execute(root, action); //ILYA
+		if (node_is_not_empty(root))
+			execute(root); //ILYA
 		free_forest(root); //ILYA
 	}
 	return (0);

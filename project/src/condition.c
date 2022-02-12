@@ -6,12 +6,16 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/27 23:38:56 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 17:56:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Функция, которая возвращает 0, если нужно выполнять команду
+иначе 1
+*/
 int	cond_status(t_node	*node)
 {
 	int	status;
@@ -43,6 +47,14 @@ int	cond_is_built_in(t_node *node)
 	// else if (ft_strncmp(node->data->cmd, "exit", 5) == 0)
 	// 	ft_exit(node->data->argv);
 	else
+		return (0);
+	return (1);
+}
+
+int	node_is_not_empty(t_node *root)
+{
+	if (!root->next && !root->next_lvl && !root->prev_lvl && \
+	!root->data->cmd)
 		return (0);
 	return (1);
 }

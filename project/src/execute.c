@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/06 01:11:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 18:02:29 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ void	action(t_node *node)
 	else
 		ft_execve(node); //-
 }
-
-void	execute(t_node *node, void (*action)(t_node *))
+/*
+Функция принимает указатель на корень дерева.
+В зависимости от содержимого и структуры дерева происходит
+выполнение соответствующих операций
+*/
+void	execute(t_node *node)
 {
 	t_node * temp;
 
@@ -54,7 +58,8 @@ void	execute(t_node *node, void (*action)(t_node *))
 		}
 		if (temp->exec == 1)
 			ft_close_redir_pipe(temp);//+-
-		if (!node->prev_lvl && !node->next && node->exec == 0)
+		if (!node->prev_lvl && !node->next && node->exec == 0 && \
+		node->data->cmd)
 		{
 			action(node);
 			ft_close_redir_pipe(node);//+-

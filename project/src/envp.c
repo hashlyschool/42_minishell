@@ -6,12 +6,23 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/25 22:51:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/12 20:54:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Функция, которая принимает указатель на дефолтный список окружения
+и создает на его основе массив строк следующей структуры:
+str 1
+str 2
+...
+str i
+NULL
+Код окончания последней программы верхнего уровня
+NULL
+*/
 char	**ft_copy_env(char **envp)
 {
 	size_t	i;
@@ -30,6 +41,9 @@ char	**ft_copy_env(char **envp)
 	return (ret);
 }
 
+/*
+Функция для очистки глобального массива кастомного окружения.
+*/
 int	ft_free_envp(void)
 {
 	size_t	i;
@@ -43,6 +57,9 @@ int	ft_free_envp(void)
 	return (0);
 }
 
+/*
+Функция для установки статуса завершения последней операции
+*/
 int	ft_set_ret(int value, char *msg)
 {
 	size_t	i;
@@ -57,7 +74,10 @@ int	ft_set_ret(int value, char *msg)
 	return (0);
 }
 
-int	ft_get_status()
+/*
+Функция для получения статуса последней операции
+*/
+int	ft_get_status(void)
 {
 	size_t	i;
 
@@ -68,6 +88,9 @@ int	ft_get_status()
 	return (ft_atoi(g_envp[i]));
 }
 
+/*
+Функция для получения содержимого переменной окружения по ключу
+*/
 char	*ft_getenv(char *name)
 {
 	char	*temp;
