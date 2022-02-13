@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:05:33 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 19:51:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static char	*get_line(char **env)
 }
 
 /*
+Masha
 Эта функция разбивает строку str на составные части. В строках должна быть
 информация следующего рода :
 	cmd
@@ -86,8 +87,8 @@ char	**parsing(char **env)
 	char	*str;
 	char	**ret;
 
-	str = get_line(env); //+
-	ret = split_str(str, env); //- Masha
-	free(str); //+
+	str = get_line(env);
+	ret = split_str(str, env);
+	free(str);
 	return (ret);
 }

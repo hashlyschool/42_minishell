@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 16:50:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 20:00:47 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,27 @@ t_node	*get_forest(char **line, char **env)
 {
 	t_node	*root;
 	t_node	*temp;
-	size_t	i;
+	int		i;
 
 	temp = create_empty_node(env);
 	root = temp;
-	i = 0;
-	while (line && line[i])
+	i = -1;
+	while (line && line[++i])
 	{
-		if (ft_strncmp(line[i], BRACKET_LEFT, ft_strlen(BRACKET_LEFT) + 1) == 0)
+		if (ft_strncmp(line[i], BR_LEFT, ft_strlen(BR_LEFT) + 1) == 0)
 			temp = create_node_next_lvl(temp, env);
-		else if (ft_strncmp(line[i], BRACKET_RIGHT, ft_strlen(BRACKET_RIGHT) + 1) == 0)
+		else if (ft_strncmp(line[i], BR_RIGHT, ft_strlen(BR_RIGHT) + 1) == 0)
 			temp = go_prev_lvl(temp);
-		else if (ft_strncmp(line[i], TWO_AMPERSAND, ft_strlen(TWO_AMPERSAND) + 1) == 0)
+		else if (ft_strncmp(line[i], AND_STR, ft_strlen(AND_STR) + 1) == 0)
 			temp = create_next_node(temp, AND, env);
-		else if (ft_strncmp(line[i], TWO_VERTICAL_BAR, ft_strlen(TWO_VERTICAL_BAR) + 1) == 0)
+		else if (ft_strncmp(line[i], OR_STR, ft_strlen(OR_STR) + 1) == 0)
 			temp = create_next_node(temp, OR, env);
-		else if (ft_strncmp(line[i], VERTICAL_BAR, ft_strlen(VERTICAL_BAR) + 1) == 0)
+		else if (ft_strncmp(line[i], PIPE_STR, ft_strlen(PIPE_STR) + 1) == 0)
 			temp = create_next_node(temp, PIPE, env);
 		else if (ft_strncmp(line[i], SEMICOLON, ft_strlen(SEMICOLON) + 1) == 0)
 			temp = create_next_node(temp, SEMICOLON_CODE, env);
 		else
 			fill_node(line[i], temp);
-		i++;
 	}
 	return (root);
 }

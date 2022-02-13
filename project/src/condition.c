@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:06:45 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 20:04:23 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cond_status(t_node	*node)
 {
 	int	status;
 
-	status = ft_get_status(node->env);
+	status = ft_atoi(ft_get_status(node->env));
 	if (node->data->sep == NONE || node->data->sep == SEMICOLON_CODE)
 		return (0);
 	if (status == 0 && node->data->sep == AND)

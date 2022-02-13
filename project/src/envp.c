@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:01:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 20:03:04 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_set_ret(int value, char *msg, char **env)
 /*
 Функция для получения статуса последней операции
 */
-int	ft_get_status(char **env)
+char	*ft_get_status(char **env)
 {
 	size_t	i;
 
@@ -85,7 +85,7 @@ int	ft_get_status(char **env)
 	while (env[i])
 		i++;
 	i++;
-	return (ft_atoi(env[i]));
+	return (env[i]);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:49:17 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 20:03:08 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
 
-# define BRACKET_LEFT "(" //"\1\2(\3\23"
-# define BRACKET_RIGHT ")" //\1\2)\3\23"
-# define TWO_AMPERSAND "&&" //"\1\2&&\3\23"
-# define VERTICAL_BAR "|" //"\1\2|\3\23"
-# define TWO_VERTICAL_BAR "||" //"\1\2||\3\23"
+# define BR_LEFT "(" //"\1\2(\3\23"
+# define BR_RIGHT ")" //\1\2)\3\23"
+# define AND_STR "&&" //"\1\2&&\3\23"
+# define PIPE_STR "|" //"\1\2|\3\23"
+# define OR_STR "||" //"\1\2||\3\23"
 # define SEMICOLON ";" //"\1\2;\3\23"
 
 # define REDIR_RIGHT_ONE ">"	//"\1\2>\3\23"
@@ -90,7 +90,7 @@ char	**ft_copy_env(char **env);
 int		ft_free_envp(char **env);
 int		ft_set_ret(int value, char *msg, char **env);
 char	*ft_getenv(char *name, char **env);
-int		ft_get_status(char **env);
+char	*ft_get_status(char **env);
 //signal.c
 void	sig_d(int signo);
 void	set_signal(void);
@@ -133,7 +133,10 @@ int		node_is_not_empty(t_node *root);
 //redir_pipe.c
 void	ft_set_redir_pipe(t_node *node);
 void	ft_close_redir_pipe(t_node *node);
-//predparsing.c
+//predparsing_1.c
 void	preparsing(t_node *node);
+//preparsing_2.c
+void	replace_data_in_node(char ***arr, t_node *node);
+char	**split_cmd_line(char **end_str);
 
 #endif

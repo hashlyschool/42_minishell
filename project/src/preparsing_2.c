@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   preparsing_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 19:59:11 by hashly           ###   ########.fr       */
+/*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
+/*   Updated: 2022/02/13 19:51:19 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	replace_data_in_node(char ***arr, t_node *node)
 {
-	char	**cmd_line;
-	t_node	*root;
-	char	**env;
+	size_t	i;
+	char	**temp;
 
-	env = ft_copy_env(envp);
-	argv = NULL;
-	if (argc != 1)
-		return (0);
-	set_signal();
-	while (1)
+	i = 0;
+	temp = *arr;
+	free(node->data->cmd);
+	ft_free_str_of_str(&(node->data->argv));
+	i = 0;
+	if (temp && temp[i])
+		node->data->cmd = ft_strdup(temp[i++]);
+	while (temp[i])
 	{
-		cmd_line = parsing(env);
-		root = get_forest(cmd_line, env);
-		free_cmd_line(&cmd_line);
-		if (node_is_not_empty(root))
-			execute(root);
-		free_forest(root);
+		ft_add_argv(node, temp[i]);
+		i++;
 	}
-	return (0);
+}
+
+/*
+Masha
+*/
+char	**split_cmd_line(char **end_str)
+{
+	char	**ret;
+
+	ret = ft_split(*end_str, ' ');
+	free(*end_str);
+	return (ret);
 }
