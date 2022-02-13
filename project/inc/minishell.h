@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 20:03:08 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 22:36:10 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,7 @@ t_node	*create_next_node(t_node *node, char separator, char **env);
 //forest_2.c
 void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char **env);
-
 //execute.c
-void	action(t_node *node);
 void	execute(t_node *node);
 //free.c
 void	free_cmd_line(char ***arg);
