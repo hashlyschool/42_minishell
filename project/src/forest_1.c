@@ -6,17 +6,18 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 20:57:06 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:50:02 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_node	*create_empty_node(void)
+t_node	*create_empty_node(char **env)
 {
 	t_node	*node;
 
 	node = (t_node *)malloc(sizeof(t_node));
+	node->env = env;
 	node->exec = 0;
 	node->def_fd[0] = dup(0);
 	node->def_fd[1] = dup(1);
@@ -32,11 +33,11 @@ t_node	*create_empty_node(void)
 	return (node);
 }
 
-t_node	*create_node_next_lvl(t_node *node)
+t_node	*create_node_next_lvl(t_node *node, char **env)
 {
 	t_node	*temp;
 
-	temp = create_empty_node();
+	temp = create_empty_node(env);
 	node->next_lvl = temp;
 	temp->prev_lvl = node;
 	return (temp);
@@ -48,11 +49,11 @@ t_node	*go_prev_lvl(t_node *node)
 	return (node);
 }
 
-t_node	*create_next_node(t_node *node, char separator)
+t_node	*create_next_node(t_node *node, char separator, char **env)
 {
 	t_node	*temp;
 
-	temp = create_empty_node();
+	temp = create_empty_node(env);
 	temp->next_lvl = node->next_lvl;
 	temp->prev_lvl = node->prev_lvl;
 	if (separator != PIPE)

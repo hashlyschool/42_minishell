@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 20:54:29 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:05:33 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,21 @@
 Функция для получения строки из терминала с помощью readline
 promt - начальная строка aka bash
 */
-static char	*get_line(void)
+static char	*get_line(char **env)
 {
 	char	*line_read;
 	char	*promt;
 
-	promt = get_promt();
+	promt = get_promt(env);
 	line_read = readline(promt);
 	free(promt);
 	if (line_read && *line_read)
-		add_history (line_read);
+		add_history(line_read);
 	if (!line_read)
+	{
+		ft_free_envp(env);
 		sig_d(0);
+	}
 	return (line_read);
 }
 
@@ -67,8 +70,10 @@ static char	*get_line(void)
 	\001\002${NAME}\3\23
 	NULL
 */
-char	**split_str(char *str)
+static char	**split_str(char *str, char **env)
 {
+	if (!env)
+		;
 	return (ft_split(str, ' '));
 }
 
@@ -76,13 +81,13 @@ char	**split_str(char *str)
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
 */
-char	**parsing(void)
+char	**parsing(char **env)
 {
 	char	*str;
 	char	**ret;
 
-	str = get_line(); //+
-	ret = split_str(str); //- Masha
+	str = get_line(env); //+
+	ret = split_str(str, env); //- Masha
 	free(str); //+
 	return (ret);
 }

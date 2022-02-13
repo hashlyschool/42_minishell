@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 15:59:38 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 16:56:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	sig_d(int signo)
 	signo = 0;
 	write(1, "exit\n", 5);
 	rl_clear_history();
-	ft_free_envp();
 	exit(0);
 }
 
@@ -29,13 +28,9 @@ void	sig_d(int signo)
 */
 static void	sig_int(int signo)
 {
-	char	*promt;
-
 	signo = 0;
-	promt = get_promt();
 	write(1, "\n", 1);
-	write(1, promt, ft_strlen(promt));
-	free(promt);
+	write(1, rl_prompt, ft_strlen(rl_prompt));
 }
 
 /*

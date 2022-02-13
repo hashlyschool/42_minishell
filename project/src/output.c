@@ -6,13 +6,13 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/15 17:07:14 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:04:59 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*get_pwd(void)
+static char	*get_pwd(char **env)
 {
 	char	*home;
 	char	*dir;
@@ -22,7 +22,7 @@ static char	*get_pwd(void)
 	dir = getcwd(NULL, 1024);
 	if (!dir)
 		return (NULL);
-	home = ft_getenv("HOME");
+	home = ft_getenv("HOME", env);
 	if (home)
 	{
 		len_home = ft_strlen(home);
@@ -37,16 +37,16 @@ static char	*get_pwd(void)
 	return (dir);
 }
 
-char	*get_promt(void)
+char	*get_promt(char **env)
 {
 	char	*str;
 	char	*dir;
 	char	*promt;
 
-	dir = get_pwd();
-	str = ft_strjoin(PROMT, dir);
+	dir = get_pwd(env);
+	str = ft_strjoin(RL_GREEN""PROMT""RL_RESET":"RL_BLUE, dir);
 	free(dir);
-	promt = ft_strjoin(str, CLOSE);
+	promt = ft_strjoin(str, RL_RESET""CLOSE);
 	free(str);
 	return (promt);
 }

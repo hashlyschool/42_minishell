@@ -6,13 +6,13 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 20:31:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:26:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*get_end_str(char *str)
+static char	*get_end_str(char *str, char **env)
 {
 	char	**split_start;
 	char	**split_end;
@@ -42,9 +42,9 @@ static char	*get_end_str(char *str)
 		{
 			split_end = ft_split_2(split_start[i], END_VALUE);
 			if (!ret)
-				ret = ft_strdup(ft_getenv(split_end[0]));
+				ret = ft_strdup(ft_getenv(split_end[0], env));
 			else
-				ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0]));
+				ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], env));
 			if (split_end[1])
 				ret = ft_strjoin_free_s1(ret, split_end[1]);
 			ft_free_str_of_str(&split_end);
@@ -64,13 +64,13 @@ static char	**split_cmd_line(char **end_str)
 	return (ret);
 }
 
-static void	get_new_cmd_line(char ***cmd_line, char *str)
+static void	get_new_cmd_line(char ***cmd_line, char *str, char **env)
 {
 	char	*end_str;
 	char	**arr;
 	size_t	i;
 
-	end_str = get_end_str(str); //+
+	end_str = get_end_str(str, env); //+
 	if (!end_str)
 	{
 		*cmd_line = ft_add_line(*cmd_line, str);
@@ -113,14 +113,14 @@ void	preparsing(t_node *node)
 	char	**cmd_line;
 
 	cmd_line = NULL;
-	get_new_cmd_line(&cmd_line, node->data->cmd); //+-
+	get_new_cmd_line(&cmd_line, node->data->cmd, node->env); //+-
 	i = 0;
 	if (node->data->argv)
 	{
 		str = node->data->argv[i++];
 		while (str)
 		{
-			get_new_cmd_line(&cmd_line, str); //+-
+			get_new_cmd_line(&cmd_line, str, node->env); //+-
 			str = node->data->argv[i++];
 		}
 	}

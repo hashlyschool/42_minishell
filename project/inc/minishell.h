@@ -6,14 +6,17 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 20:58:30 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:49:17 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//for libft
 # include "../42_libft/include/libft.h"
+//for readline color
+# include "./color.h"
 //for getcwd, chdir
 # include <unistd.h>
 //for signal
@@ -29,8 +32,8 @@
 //for waitpid
 # include <sys/wait.h>
 
-# define CLOSE "\001\033[0m\002$ \0"
-# define PROMT "\001\033[1m\002\033[32mhashly@minishell:\033[34m"
+# define CLOSE "$ "
+# define PROMT "FlexTeam@minishell"
 
 # define NONE 0
 # define AND 1
@@ -56,8 +59,6 @@
 # define START_VALUE "${" //"\001\002${"
 # define END_VALUE "}" //"}\003\023"
 
-char	**g_envp;
-
 typedef struct s_data
 {
 	char	*cmd;
@@ -75,46 +76,49 @@ typedef struct s_node
 	struct s_node	*next;
 	struct s_node	*next_lvl;
 	struct s_node	*prev_lvl;
-	t_data	*data;
-	char	exec;
-	int		def_fd[2];
-	int		pipe[2];
+	t_data			*data;
+	char			exec;
+	int				def_fd[2];
+	int				pipe[2];
+	char			**env;
 }	t_node;
 
 //minishell.c
 
 //envp.c
-char	**ft_copy_env(char **envp);
-int		ft_free_envp(void);
-int		ft_set_ret(int value, char *msg);
-char	*ft_getenv(char *name);
-int		ft_get_status();
+char	**ft_copy_env(char **env);
+int		ft_free_envp(char **env);
+int		ft_set_ret(int value, char *msg, char **env);
+char	*ft_getenv(char *name, char **env);
+int		ft_get_status(char **env);
 //signal.c
 void	sig_d(int signo);
 void	set_signal(void);
 //parsing.c
-char	**parsing(void);
+char	**parsing(char **env);
 //output.c
-char	*get_promt(void);
-char	*ft_getenv(char *name);
+char	*get_promt(char **env);
+char	*ft_getenv(char *name, char **env);
 //built_in_1.c
-int		ft_echo(char **argv);
-int		ft_cd(char **argv);
-int		ft_pwd(char **argv);
-int		ft_env(char **argv);
+int		ft_echo(char **argv, char **env);
+int		ft_cd(char **argv, char **env);
+int		ft_pwd(char **argv, char **env);
+int		ft_env(char **argv, char **env);
 //built_in_2.c
-int		ft_export(char **argv);
+int		ft_export(char **argv, char **env);
 //built_in_3.c
-int		ft_unset(char *key);
+int		ft_unset(char *key, char **env);
 //built_in_4.c
 
 //forest_1.c
-t_node	*create_empty_node(void);
-t_node	*create_node_next_lvl(t_node *node);
+t_node	*create_empty_node(char **env);
+t_node	*create_node_next_lvl(t_node *node, char **env);
 t_node	*go_prev_lvl(t_node *node);
-t_node	*create_next_node(t_node *node, char separator);
-t_node	*get_forest(char **line);
+t_node	*create_next_node(t_node *node, char separator, char **env);
+//forest_2.c
 void	ft_add_argv(t_node *node, char *str);
+t_node	*get_forest(char **line, char **env);
+
 //execute.c
 void	action(t_node *node);
 void	execute(t_node *node);

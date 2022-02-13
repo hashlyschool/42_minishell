@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/01/23 15:46:35 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:50:23 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,37 +28,36 @@ static char	*ft_fill_str(char *s1, char *s2)
 	return (str);
 }
 
-static char	**malloc_for_export(char *key, char *value)
+static char	**malloc_for_export(char *key, char *value, char **env)
 {
 	char	**ret;
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (g_envp[i])
+	while (env[i])
 		i++;
 	ret = (char **)malloc(sizeof(char *) * (i + 2 + 2));
 	ret[i] = ft_fill_str(key, value);
 	ret[i + 1] = NULL;
-	ret[i + 2] = g_envp[i + 1];
+	ret[i + 2] = env[i + 1];
 	ret[i + 3] = NULL;
 	j = -1;
 	i = i - 2;
 	while (++j < i)
-		ret[j] = g_envp[j];
-	free(g_envp);
+		ret[j] = env[j];
+	free(env);
 	return (ret);
 }
 
-
-static void	export_action(char *key, char *value)
+static void	export_action(char *key, char *value, char **env)
 {
 	char	**temp_envp;
 	size_t	len_key;
 	size_t	i;
 
 	i = 0;
-	temp_envp = g_envp;
+	temp_envp = env;
 	len_key = ft_strlen(key);
 	while (temp_envp[i])
 	{
@@ -66,13 +65,13 @@ static void	export_action(char *key, char *value)
 		ft_strncmp(temp_envp[i], key, len_key) == 0 && \
 		temp_envp[i][len_key] == '=')
 		{
-			free(g_envp[i]);
-			g_envp[i] = ft_fill_str(key, value);
+			free(env[i]);
+			env[i] = ft_fill_str(key, value);
 			return ;
 		}
 		i++;
 	}
-	g_envp = malloc_for_export(key, value);
+	env = malloc_for_export(key, value, env);
 	return ;
 }
 
@@ -113,7 +112,7 @@ static int	parsing_argv(char **argv, char ***key, char ***value)
 	return (0);
 }
 
-int	ft_export(char **argv)
+int	ft_export(char **argv, char **env)
 {
 	size_t	i;
 	char	**key;
@@ -121,12 +120,12 @@ int	ft_export(char **argv)
 
 	i = 0;
 	if (parsing_argv(argv, &key, &value))
-		return (ft_set_ret(1, "minishell: export: invalid argument\n"));
+		return (ft_set_ret(1, "minishell: export: invalid argument\n", env));
 	while (key[i])
 	{
 		if (value[i])
-			export_action(key[i], value[i]);
+			export_action(key[i], value[i], env);
 		i++;
 	}
-	return (ft_set_ret(0, NULL));
+	return (ft_set_ret(0, NULL, env));
 }
