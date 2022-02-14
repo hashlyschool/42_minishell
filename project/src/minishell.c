@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 21:43:43 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/14 15:11:59 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ int	main(int argc, char **argv, char **envp)
 	t_node	*root;
 	char	**env;
 
+	if (argc != 1)
+	{
+		ft_putstr_fd("minishel: Invalid number of arguments\n", 1);
+		return (0);
+	}
 	env = ft_copy_env(envp);
 	argv = NULL;
-	if (argc != 1)
-		return (0);
 	set_signal();
 	while (1)
 	{

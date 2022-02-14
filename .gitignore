@@ -3,3 +3,4 @@ a.out
 launch.json
 tasks.json
 minishell
+test.c
