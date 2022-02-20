@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/20 17:33:21 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/20 20:23:25 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../42_libft/include/libft.h"
 //for readline color
 # include "./color.h"
+//for parsing
+# include "./parser.h"
 //for getcwd, chdir
 # include <unistd.h>
 //for signal

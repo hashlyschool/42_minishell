@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/02/19 18:06:13 by a79856           ###   ########.fr       */
+/*   Updated: 2022/02/20 20:25:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parser.h"
+#include "../inc/minishell.h"
 
 char	*ft_gap(char *str, int i)
 {
@@ -56,6 +56,8 @@ char	*ft_quotechar(char *str, int i, char **env)
 	char	*tmp2;
 	char	*tmp3;
 
+	if (env)
+		;
 	j = i;
 	while (str[(i)++])
 	{
