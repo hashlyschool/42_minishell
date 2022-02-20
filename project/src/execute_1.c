@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/14 19:37:33 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/19 15:16:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,10 @@ static char	**get_argv(t_node *node)
 	return (ret);
 }
 
-// static int	find_cmd_in_path(t_node *node)
-// {
-// 	if
-// 	return (0);
-// }
-
 /*
 Если имя команды file и если есть PATH
 - сплитуем PATH по :
-- ищем в каждой из директорий нужный файл
+- ищем в каждой из директорий нужный файл или папка
 	(если нет bash: ./qwerty: No such file or directory 127)
 - если папка, то (bash: /bin: Is a directory, error 126)
 - есть ли права на исполнение файла (если нет 126)
@@ -63,13 +57,7 @@ static void	ft_execve(t_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
-		// if (find_cmd_in_path(node))
-		// 	exit(ft_set_ret(126, ;
-		if (access(node->data->cmd, X_OK))
-		{
-			perror(node->data->cmd);
-			exit(errno);
-		}
+		open_path_and_check_access(node);
 		argv = get_argv(node);
 		execve(node->data->cmd, argv, node->env);
 		ft_free_str_of_str(&argv);
