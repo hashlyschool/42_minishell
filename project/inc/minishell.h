@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 22:36:10 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/20 17:33:21 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # include <errno.h>
 //for waitpid
 # include <sys/wait.h>
+//for opendir, readdir, closedir
+#include <sys/types.h>
+#include <dirent.h>
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"
@@ -44,20 +47,22 @@
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
 
-# define BR_LEFT "(" //"\1\2(\3\23"
-# define BR_RIGHT ")" //\1\2)\3\23"
-# define AND_STR "&&" //"\1\2&&\3\23"
-# define PIPE_STR "|" //"\1\2|\3\23"
-# define OR_STR "||" //"\1\2||\3\23"
-# define SEMICOLON ";" //"\1\2;\3\23"
+# define BR_LEFT "("		//"\1\2(\3\23"
+# define BR_RIGHT ")"		//\1\2)\3\23"
+# define AND_STR "&&"		//"\1\2&&\3\23"
+# define PIPE_STR "|"		//"\1\2|\3\23"
+# define OR_STR "||"		//"\1\2||\3\23"
+# define SEMICOLON ";"		//"\1\2;\3\23"
 
 # define REDIR_RIGHT_ONE ">"	//"\1\2>\3\23"
 # define REDIR_RIGHT_TWO ">>"	//"\1\2>>\3\23"
 # define REDIR_LEFT_ONE "<"		//"\1\2<\3\23"
 # define REDIR_LEFT_TWO "<<"	//"\1\2<<\3\23"
 
-# define START_VALUE "${" //"\001\002${"
-# define END_VALUE "}" //"}\003\023"
+# define START_VALUE "${"	//"\001\002${"
+# define END_VALUE "}"		//"}\003\023"
+# define START_STAR ""		//"\001\002"
+# define end_STAR ""		//"\003\023"
 
 typedef struct s_data
 {
@@ -118,8 +123,10 @@ t_node	*create_next_node(t_node *node, char separator, char **env);
 //forest_2.c
 void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char **env);
-//execute.c
+//execute_1.c
 void	execute(t_node *node);
+//execute_2.c
+void	open_path_and_check_access(t_node *node);
 //free.c
 void	free_cmd_line(char ***arg);
 void	free_node(t_node *node);
@@ -128,6 +135,7 @@ void	free_forest(t_node *temp);
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
 int		node_is_not_empty(t_node *root);
+int		cmd_in_path(t_node *node);
 //redir_pipe.c
 void	ft_set_redir_pipe(t_node *node);
 void	ft_close_redir_pipe(t_node *node);

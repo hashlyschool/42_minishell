@@ -6,11 +6,38 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 20:04:23 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/20 19:40:44 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+/*
+
+*/
+int	cmd_in_path(t_node *node)
+{
+	char	*path;
+	char	flag_path;
+	char	flag_abs_rel_path;
+
+	path = ft_getenv("PATH", node->env);
+	flag_path = 1;
+	flag_abs_rel_path = 1;
+	if (!path)
+		flag_path = 0;
+	if (ft_strnstr(node->data->cmd, "./", 2) == NULL && \
+	ft_strnstr(node->data->cmd, "../", 3) == NULL && \
+	ft_strnstr(node->data->cmd, "/", ft_strlen(node->data->cmd)) == NULL)
+		flag_abs_rel_path = 0;
+	if (flag_path && !flag_abs_rel_path)
+		return (1);
+	if (ft_strnstr(node->data->cmd, "./", 2) == NULL && \
+	ft_strnstr(node->data->cmd, "../", 3) == NULL && \
+	ft_strnstr(node->data->cmd, "/", 1) == NULL)
+		node->data->cmd = ft_strjoin_free_s2("./", node->data->cmd);
+	return (0);
+}
 
 /*
 Функция, которая возвращает 0, если нужно выполнять команду
