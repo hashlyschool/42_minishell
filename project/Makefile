@@ -13,8 +13,9 @@ SRCS_PATH		=	./src/
 OBJS_PATH		=	./objs/
 SRCS_NAME		=	minishell.c signal.c parsing.c output.c envp.c \
 					built_in_1.c built_in_2.c built_in_3.c built_in_4.c \
-          forest_1.c forest_2.c execute_1.c execute_2.c condition.c \
-          free.c pipe_redir.c preparsing_1.c preparsing_2.c parsing_utils.c
+					forest_1.c forest_2.c execute_1.c execute_2.c condition.c \
+					free.c pipe_redir.c preparsing_1.c preparsing_2.c \
+					parsing_utils.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 

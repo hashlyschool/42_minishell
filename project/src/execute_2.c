@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/20 20:04:55 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:48:46 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ static char	find_cmd_in_dir(t_node *node, char *path)
 	flag = 0;
 	dir = opendir(path);
 	if (!dir)
-		return (flag);
+	{
+		ft_putstr_fd(PROGRAM_NAME": ", 1);
+		perror(node->data->cmd);
+		exit(ft_set_ret(126, NULL, node->env));
+	}
 	dirent = readdir(dir);
 	while (dirent)
 	{
-		if (!flag && ft_strncmp(node->data->cmd, dirent->d_name, \
-		ft_strlen(node->data->cmd) + 1) == 0)
+		if (!flag && ft_strncmp(node->data->cmd_exec, dirent->d_name, \
+		ft_strlen(node->data->cmd_exec) + 1) == 0)
 			flag = 1;
 		dirent = readdir(dir);
 	}
@@ -37,60 +41,64 @@ static char	find_cmd_in_dir(t_node *node, char *path)
 static char	**ret_path_replace_cmd(t_node *node)
 {
 	size_t	i;
-	size_t	end;
+	int		end;
 	char	**ret;
 	char	*temp;
 
-	end = 0;
+	end = -1;
 	i = 0;
 	ret = NULL;
-	while (node->data->cmd[i])
+	while (node->data->cmd_exec[i])
 	{
-		if (node->data->cmd[i++] == '/')
+		if (node->data->cmd_exec[i++] == '/')
 			end = i - 1;
 	}
-	temp = ft_substr(node->data->cmd, 0, end);
+	if (end == -1)
+		return (ft_add_line(ret, "."));
+	temp = ft_substr(node->data->cmd_exec, 0, end);
 	ret = ft_add_line(ret, temp);
 	free(temp);
-	temp = ft_substr(node->data->cmd, end + 1, ft_strlen(node->data->cmd));
-	free(node->data->cmd);
-	node->data->cmd = temp;
+	temp = ft_substr(node->data->cmd_exec, end + 1, \
+	ft_strlen(node->data->cmd_exec));
+	free(node->data->cmd_exec);
+	node->data->cmd_exec = temp;
 	return (ret);
 }
 
-static int	find_cmd(t_node *node)
+static void	find_cmd(t_node *node)
 {
 	char	**path;
 	int		i;
 	char	file_find;
+	int		mode;
 
 	path = NULL;
-	if (cmd_in_path(node)) //+
+	mode = cmd_in_path(node);
+	if (mode)
 		path = ft_split(ft_getenv("PATH", node->env), ':');
 	else
-		path = ret_path_replace_cmd(node); //+
-	i = -1;
+		path = ret_path_replace_cmd(node);
+	i = 0;
 	file_find = 0;
-	while (path[++i] && file_find == 0)
+	while (path && path[i] && file_find == 0)
 	{
-		file_find = find_cmd_in_dir(node, path[i]); //+
-		if (file_find)
+		file_find = find_cmd_in_dir(node, path[i]);
+		if (file_find || mode == 0)
 			break ;
+		i++;
 	}
-	// if (file_find)
-	// {
-		node->data->cmd = ft_strjoin_free_s2("/", node->data->cmd);
-		node->data->cmd = ft_strjoin_free_s2(path[i], node->data->cmd);
-	// }
+	if (!file_find)
+		error_handling(mode, node, path);
+	node->data->cmd_exec = ft_strjoin_free_s2("/", node->data->cmd_exec);
+	node->data->cmd_exec = ft_strjoin_free_s2(path[i], node->data->cmd_exec);
 	ft_free_str_of_str(&path);
-	return (file_find);
 }
 
 static char	cmd_is_folder(t_node *node)
 {
 	DIR				*dir;
 
-	dir = opendir(node->data->cmd);
+	dir = opendir(node->data->cmd_exec);
 	if (dir)
 	{
 		closedir(dir);
@@ -99,16 +107,17 @@ static char	cmd_is_folder(t_node *node)
 	return (0);
 }
 
+/*
+status:
+	0 - все ок, идет выполнение дальше
+	1 - Path-1, cmd not found in path
+*/
 void	open_path_and_check_access(t_node *node)
 {
-	int	status;
-
-	status = find_cmd(node);
-	if (status == 0) //+
-		exit(ft_set_ret(127, "minishell: command not found\n", node->env)) ;
-	if (cmd_is_folder(node)) //-
-		exit(ft_set_ret(126, "minishell: /bin: Is a directory\n", node->env));
-	if (access(node->data->cmd, X_OK))
+	find_cmd(node);
+	if (cmd_is_folder(node))
+		output_error(3, node);
+	if (access(node->data->cmd_exec, X_OK))
 	{
 		perror(node->data->cmd);
 		exit(errno);

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 16:04:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 15:59:42 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	free_node(t_node *node)
 		}
 		if (data->cmd)
 			free(data->cmd);
+		if (data->cmd_exec)
+			free(data->cmd_exec);
 	}
 	free(data);
 	free(node);

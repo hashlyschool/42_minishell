@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/19 15:16:18 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:47:34 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	**get_argv(t_node *node)
 
 	i = 0;
 	ret = NULL;
-	ret = ft_add_line(ret, node->data->cmd);
+	ret = ft_add_line(ret, node->data->cmd_exec);
 	while (node->data->argv && node->data->argv[i])
 	{
 		ret = ft_add_line(ret, node->data->argv[i]);
@@ -54,12 +54,13 @@ static void	ft_execve(t_node *node)
 	int		ret;
 	char	**argv;
 
+	node->data->cmd_exec = ft_strdup(node->data->cmd);
 	pid = fork();
 	if (pid == 0)
 	{
 		open_path_and_check_access(node);
 		argv = get_argv(node);
-		execve(node->data->cmd, argv, node->env);
+		execve(node->data->cmd_exec, argv, node->env);
 		ft_free_str_of_str(&argv);
 		perror(node->data->cmd);
 		exit(errno);
@@ -89,6 +90,16 @@ static void	action(t_node *node)
 		ft_execve(node);
 }
 
+void	error_handling(int mode, t_node *node, char **path)
+{
+	if (path)
+		ft_free_str_of_str(&path);
+	if (mode == 1)
+		output_error(1, node);
+	if (mode == 0)
+		output_error(2, node);
+}
+
 /*
 Функция принимает указатель на корень дерева.
 В зависимости от содержимого и структуры дерева происходит
@@ -96,7 +107,7 @@ static void	action(t_node *node)
 */
 void	execute(t_node *node)
 {
-	t_node * temp;
+	t_node	*temp;
 
 	while (node->exec != 1)
 	{

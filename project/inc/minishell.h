@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/20 20:23:25 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:50:00 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@
 //for waitpid
 # include <sys/wait.h>
 //for opendir, readdir, closedir
-#include <sys/types.h>
-#include <dirent.h>
+# include <sys/types.h>
+# include <dirent.h>
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"
+# define PROGRAM_NAME "minishell"
 
 # define NONE 0
 # define AND 1
@@ -63,12 +64,13 @@
 
 # define START_VALUE "${"	//"\001\002${"
 # define END_VALUE "}"		//"}\003\023"
-# define START_STAR ""		//"\001\002"
-# define end_STAR ""		//"\003\023"
+# define START_STAR "\001\002"
+# define END_STAR "\003\023"
 
 typedef struct s_data
 {
 	char	*cmd;
+	char	*cmd_exec;
 	char	**argv;
 	char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
@@ -106,6 +108,7 @@ char	**parsing(char **env);
 //output.c
 char	*get_promt(char **env);
 char	*ft_getenv(char *name, char **env);
+void	output_error(int status, t_node *node);
 //built_in_1.c
 int		ft_echo(char **argv, char **env);
 int		ft_cd(char **argv, char **env);
@@ -127,6 +130,7 @@ void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char **env);
 //execute_1.c
 void	execute(t_node *node);
+void	error_handling(int mode, t_node *node, char **path);
 //execute_2.c
 void	open_path_and_check_access(t_node *node);
 //free.c

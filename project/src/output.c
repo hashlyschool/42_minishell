@@ -6,11 +6,32 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:04:59 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:44:46 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	output_error(int status, t_node *node)
+{
+	if (status == 1)
+	{
+		ft_putstr_fd(node->data->cmd, 1);
+		exit(ft_set_ret(127, ": command not found\n", node->env));
+	}
+	else if (status == 2)
+	{
+		ft_putstr_fd(PROGRAM_NAME": ", 1);
+		ft_putstr_fd(node->data->cmd, 1);
+		exit(ft_set_ret(127, ": No such file or directory\n", node->env));
+	}
+	else if (status == 3)
+	{
+		ft_putstr_fd(PROGRAM_NAME": ", 1);
+		ft_putstr_fd(node->data->cmd, 1);
+		exit(ft_set_ret(126, ": Is a directory\n", node->env));
+	}
+}
 
 static char	*get_pwd(char **env)
 {

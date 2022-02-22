@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:50:02 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/22 15:59:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_node	*create_empty_node(char **env)
 	node->prev_lvl = NULL;
 	node->data = (t_data *)malloc(sizeof(t_data));
 	node->data->cmd = NULL;
+	node->data->cmd_exec = NULL;
 	node->data->argv = NULL;
 	node->data->redir = NULL;
 	node->data->pipe = NONE;
