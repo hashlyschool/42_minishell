@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 18:50:23 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 00:13:25 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@ static char	*ft_fill_str(char *s1, char *s2)
 {
 	size_t	len;
 	char	*str;
+	char	*ret;
 
 	len = ft_strlen(s1) + ft_strlen(s2) + 2;
 	str = (char *)malloc(sizeof(char) * len);
+	ret = str;
 	while (*s1)
 		*str++ = *s1++;
 	*str++ = '=';
 	while (*s2)
 		*str++ = *s2++;
 	*str = 0;
-	return (str);
+	return (ret);
 }
 
 static char	**malloc_for_export(char *key, char *value, char **env)
@@ -100,7 +102,7 @@ static int	parsing_argv(char **argv, char ***key, char ***value)
 		}
 		else
 		{
-			temp = ft_substr(argv[i], 0, j - 1);
+			temp = ft_substr(argv[i], 0, j);
 			*key = ft_add_line(*key, temp);
 			free(temp);
 			temp = ft_strdup(argv[i] + (j + 1));
@@ -119,6 +121,8 @@ int	ft_export(char **argv, char **env)
 	char	**value;
 
 	i = 0;
+	key = NULL;
+	value = NULL;
 	if (parsing_argv(argv, &key, &value))
 		return (ft_set_ret(1, "minishell: export: invalid argument\n", env));
 	while (key[i])
@@ -127,5 +131,14 @@ int	ft_export(char **argv, char **env)
 			export_action(key[i], value[i], env);
 		i++;
 	}
+	i = 0;
+	while (key[i])
+	{
+		free(key[i]);
+		if (value[i++])
+			free(value[i - 1]);
+	}
+	free(key);
+	free(value);
 	return (ft_set_ret(0, NULL, env));
 }

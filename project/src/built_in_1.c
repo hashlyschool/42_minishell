@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 19:49:29 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 00:32:25 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ int	ft_echo(char **argv, char **env)
 	return (ft_set_ret(0, NULL, env));
 }
 
+static void	change_old_pwd(char **env)
+{
+	char	**argv;
+	char	*old_pwd;
+
+	argv = NULL;
+	old_pwd = getcwd(NULL, 1024);
+	if (!old_pwd)
+		return ;
+	old_pwd = ft_strjoin_free_s2("OLDPWD=", old_pwd);
+	argv = ft_add_line(argv, old_pwd);
+	free(old_pwd);
+	ft_export(argv, env);
+	ft_free_str_of_str(&argv);
+}
+
 /*
 Синтаксис		Объяснение
 cd				Перемещение в домашний каталог +
@@ -45,17 +61,33 @@ cd Dir1/Dir2	Перемещение в каталог Dir2 по указанно
 //cd
 int	ft_cd(char **argv, char **env)
 {
-	if (argv[0] == NULL)
+	char	*path;
+
+	if (!argv || !argv[0] || ft_strncmp(argv[0], "~", 2) == 0)
 	{
-		argv[0] = ft_getenv("HOME", env);
-		if (argv[0] == NULL)
+		path = ft_strdup(ft_getenv("HOME", env));
+		if (path == NULL)
 			return (ft_set_ret(1, "minishell: cd: HOME not set\n", env));
 	}
-	if (argv[1] != NULL)
-		return (ft_set_ret(1, "minishell: cd: too many arguments\n", env));
-	if (chdir(argv[0]) == 0)
+	else if (ft_strncmp(argv[0], "-", 2) == 0)
+	{
+		path = ft_strdup(ft_getenv("OLDPWD", env));
+		if (path == NULL)
+			return (ft_set_ret(1, "minishell: cd: OLDPWD not set\n", env));
+		ft_putstr_fd(path, 1);
+		write(1, "\n", 1);
+	}
+	else
+		path = ft_strdup(argv[0]);
+	change_old_pwd(env);
+	if (chdir(path) == 0)
+	{
+		free(path);
 		return (ft_set_ret(0, NULL, env));
-	perror("minishell: cd");
+	}
+	path = ft_strjoin_free_s2("minishell: cd: ", path);
+	perror(path);
+	free(path);
 	errno = 0;
 	return (ft_set_ret(1, NULL, env));
 }
@@ -89,6 +121,7 @@ int	ft_env(char **argv, char **env)
 	while (temp)
 	{
 		ft_putstr_fd(temp, 1);
+		write(1, "\n", 1);
 		temp = env[++i];
 	}
 	return (ft_set_ret(0, NULL, env));

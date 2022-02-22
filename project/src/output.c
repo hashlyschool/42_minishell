@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/22 17:44:46 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 00:20:35 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_pwd(char **env)
 	if (home)
 	{
 		len_home = ft_strlen(home);
-		if (ft_strncmp(home, dir, len_home) == 0 && ft_strlen(dir) > len_home)
+		if (ft_strncmp(home, dir, len_home) == 0 && ft_strlen(dir) >= len_home)
 		{
 			dir_new = ft_strdup(dir + len_home - 1);
 			dir_new[0] = '~';
