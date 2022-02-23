@@ -6,59 +6,131 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:03:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/13 16:40:39 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 20:47:36 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	**malloc_for_unset(size_t index, char **env)
+static void	malloc_for_unset(size_t index, char ***env)
 {
 	char	**ret;
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	ret = env;
+	ret = (*env);
 	while (ret[i])
 		i++;
 	ret = (char **)malloc(sizeof(char *) * (i + 2));
 	ret[i - 1] = NULL;
-	ret[i] = env[i + 1];
+	ret[i] = (*env)[i + 1];
 	ret[i + 1] = NULL;
 	i = 0;
 	j = 0;
-	while (ret[i])
+	while ((*env)[i])
 	{
 		if (j != index)
-			ret[i++] = env[j];
+			ret[i++] = (*env)[j];
 		j++;
 	}
-	free(env[index]);
-	free(env);
-	return (ret);
+	free((*env)[index]);
+	free((*env));
+	*env = ret;
 }
 
-//unset
-int	ft_unset(char *key, char **env)
+//unset in loop
+static int	ft_unset_in_loop(char *key, char ***env)
 {
 	char	**temp_envp;
 	size_t	len_key;
 	size_t	i;
 
 	i = 0;
-	temp_envp = env;
+	temp_envp = (*env);
 	len_key = ft_strlen(key);
 	while (temp_envp[i])
 	{
-		if (ft_strlen(temp_envp[i]) > len_key && \
+		if (ft_strlen(temp_envp[i]) >= len_key && \
 		ft_strncmp(temp_envp[i], key, len_key) == 0 && \
-		temp_envp[i][len_key] == '=')
+		(temp_envp[i][len_key] == '=' || temp_envp[i][len_key] == 0))
 		{
-			env = malloc_for_unset(i, env);
+			malloc_for_unset(i, env);
 			return (0);
 		}
 		i++;
 	}
 	return (-1);
+}
+
+//unset
+int	ft_unset(char **argv, char ***env)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	if (!argv)
+		return (ret);
+	while (argv[i])
+	{
+		if (ft_unset_in_loop(argv[i++], env))
+			ret = -1;
+	}
+	return (ret);
+}
+
+static char	**ft_add_line_for_export(char **arg, char *line, char **key)
+{
+	int		i;
+	char	**ret;
+
+	i = 0;
+	while (key && key[i])
+		i++;
+	ret = (char **)malloc(sizeof(char *) * (i + 1));
+	ret[i] = NULL;
+	if (line)
+		ret[i - 1] = ft_strdup(line);
+	else
+		ret[i - 1] = NULL;
+	i = i - 2;
+	while (i >= 0 && arg)
+	{
+		ret[i] = arg[i];
+		i--;
+	}
+	if (arg)
+		free(arg);
+	return (ret);
+}
+
+//continue export
+void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j)
+{
+	size_t	i;
+	char	*temp;
+
+	i = 0;
+	while (argv && argv[i])
+	{
+		while (argv[i][j] && argv[i][j] != '=')
+			j++;
+		if (argv[i][j] == 0)
+		{
+			*key = ft_add_line(*key, argv[i]);
+			*value = ft_add_line_for_export(*value, NULL, *key);
+		}
+		else
+		{
+			temp = ft_substr(argv[i], 0, j);
+			*key = ft_add_line(*key, temp);
+			free(temp);
+			temp = ft_strdup(argv[i] + (j + 1));
+			*value = ft_add_line_for_export(*value, temp, *key);
+			free(temp);
+		}
+		i++;
+	}
 }

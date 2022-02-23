@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/22 17:50:00 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 22:48:22 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_node
 	struct s_node	*prev_lvl;
 	t_data			*data;
 	char			exec;
+	char			exit;
 	int				def_fd[2];
 	int				pipe[2];
 	char			**env;
@@ -95,7 +96,7 @@ typedef struct s_node
 //minishell.c
 
 //envp.c
-char	**ft_copy_env(char **env);
+char	**ft_copy_env(char **env, char ***argv);
 int		ft_free_envp(char **env);
 int		ft_set_ret(int value, char *msg, char **env);
 char	*ft_getenv(char *name, char **env);
@@ -112,14 +113,15 @@ void	output_error(int status, t_node *node);
 //built_in_1.c
 int		ft_echo(char **argv, char **env);
 int		ft_cd(char **argv, char **env);
-int		ft_pwd(char **argv, char **env);
 int		ft_env(char **argv, char **env);
 //built_in_2.c
-int		ft_export(char **argv, char **env);
+int		ft_export(char **argv, char ***env);
 //built_in_3.c
-int		ft_unset(char *key, char **env);
+int		ft_unset(char **argv, char ***env);
+void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j);
 //built_in_4.c
-
+int		ft_pwd(char **argv, char **env);
+int		ft_exit(char **argv, char **env, char *exit);
 //forest_1.c
 t_node	*create_empty_node(char **env);
 t_node	*create_node_next_lvl(t_node *node, char **env);
@@ -136,7 +138,7 @@ void	open_path_and_check_access(t_node *node);
 //free.c
 void	free_cmd_line(char ***arg);
 void	free_node(t_node *node);
-void	free_forest(t_node *temp);
+void	free_forest(t_node *temp, char ***env);
 //condition.c
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/22 17:47:34 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 22:28:04 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static void	ft_execve(t_node *node)
 static void	action(t_node *node)
 {
 	node->exec = 1;
+	if (node->exit == 1)
+		return ;
 	if (cond_status(node))
 		return ;
 	preparsing(node);
@@ -109,7 +111,7 @@ void	execute(t_node *node)
 {
 	t_node	*temp;
 
-	while (node->exec != 1)
+	while (node->exec != 1 && node->exit == 0)
 	{
 		temp = node;
 		ft_set_redir_pipe(temp);

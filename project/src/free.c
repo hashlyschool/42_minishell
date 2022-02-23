@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/22 15:59:42 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 22:53:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ void	free_cmd_line(char ***arg)
 	free(arr);
 	arr = NULL;
 	return ;
+}
+
+static void	free_node_2(t_data *data)
+{
+	if (data->cmd)
+		free(data->cmd);
+	if (data->cmd_exec)
+		free(data->cmd_exec);
 }
 
 /*
@@ -54,10 +62,7 @@ void	free_node(t_node *node)
 				free(data->redir[i++]);
 			free(data->redir);
 		}
-		if (data->cmd)
-			free(data->cmd);
-		if (data->cmd_exec)
-			free(data->cmd_exec);
+		free_node_2(data);
 	}
 	free(data);
 	free(node);
@@ -65,11 +70,13 @@ void	free_node(t_node *node)
 
 /*
 Функция для освобождения памяти под дерево
+и подмены указателя на env
 */
-void	free_forest(t_node *temp)
+void	free_forest(t_node *temp, char ***env)
 {
 	t_node	*for_free;
 
+	*env = temp->env;
 	while (temp->next_lvl || temp->prev_lvl || temp->next)
 	{
 		for_free = temp;

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 00:31:54 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/23 22:50:11 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	cmd_in_path(t_node *node)
 		flag_path = 0;
 	if (ft_strnstr(node->data->cmd_exec, "./", 2) == NULL && \
 	ft_strnstr(node->data->cmd_exec, "../", 3) == NULL && \
-	ft_strnstr(node->data->cmd_exec, "/", ft_strlen(node->data->cmd_exec)) == NULL)
+	ft_strnstr(node->data->cmd_exec, "/", \
+	ft_strlen(node->data->cmd_exec)) == NULL)
 		flag_abs_rel_path = 0;
 	if (flag_path && !flag_abs_rel_path)
 		return (1);
@@ -62,14 +63,14 @@ int	cond_is_built_in(t_node *node)
 		ft_cd(node->data->argv, node->env);
 	else if (ft_strncmp(node->data->cmd, "pwd", 4) == 0)
 		ft_pwd(node->data->argv, node->env);
-	// else if (ft_strncmp(node->data->cmd, "export", 7) == 0)
-	// 	ft_export(node->data->argv, node->env);
-	// else if (ft_strncmp(node->data->cmd, "unset", 6) == 0)
-	// 	ft_unset(node->data->argv, node->env);
 	else if (ft_strncmp(node->data->cmd, "env", 4) == 0)
 		ft_env(node->data->argv, node->env);
-	// else if (ft_strncmp(node->data->cmd, "exit", 5) == 0)
-	// 	ft_exit(node->data->argv, node->env);
+	else if (ft_strncmp(node->data->cmd, "export", 7) == 0)
+		ft_export(node->data->argv, &node->env);
+	else if (ft_strncmp(node->data->cmd, "unset", 6) == 0)
+		ft_unset(node->data->argv, &node->env);
+	else if (ft_strncmp(node->data->cmd, "exit", 5) == 0)
+		ft_exit(node->data->argv, node->env, &node->exit);
 	else
 		return (0);
 	return (1);
