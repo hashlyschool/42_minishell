@@ -4,3 +4,5 @@ launch.json
 tasks.json
 minishell
 test.c
+.DS_Store
+src/.DS_Store
