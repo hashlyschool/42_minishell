@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 22:48:38 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/24 03:57:05 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 	{
 		status_exit = (char)(ft_atoi(ft_get_status(*env)));
 		ft_free_envp(*env);
-		rl_clear_history();
+		// rl_clear_history();
 		exit(status_exit);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/20 20:24:15 by hashly           ###   ########.fr       */
+/*   Updated: 2022/02/24 03:54:05 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,57 @@ static char	*get_line(char **env)
 	return (line_read);
 }
 
+// char	*parce(char *str, char **env)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '\'')
+// 			str = ft_gap(str, &i);
+// 		else if (str[i] == '\\')
+// 			str = ft_slash(str, &i);
+// 		else if (str[i] == '\"')
+// 			str = ft_quotechar(str, &i);
+// 		else if (str[i] == '$')
+// 			str = ft_dollar(str, &i);
+// 		else if (str[i] == '>')
+// 			str = ft_dollar(str, &i);
+// 		else if (str[i] == '<')
+// 			ft_gap(str);
+// 		else if (str[i] == '|')
+// 			ft_gap(str);
+// 		else if (str[i] == '(')
+// 			ft_gap(str);
+// 		else if (str[i] == '&')
+// 			ft_gap(str);
+// 		i++;
+// 	}
+// 	return (str);
+// }
+
 char	*parce(char *str, char **env)
 {
 	int	i;
 
 	i = 0;
-	while (str[i++])
+	while (str[i])
 	{
 		if (str[i] == '\'')
-			str = ft_gap(str, i);
-		if (str[i] == '\\')
-			str = ft_slash(str, i);
-		if (str[i] == '\"')
-			str = ft_quotechar(str, i, env);
-		// else if (str[i] == '$')
-		// 	ft_gap(str);
-		// else if (str[i] == '>')
-		// 	ft_gap(str);
-		// else if (str[i] == '<')
-		// 	ft_gap(str);
-		// else if (str[i] == '|')
-		// 	ft_gap(str);
+			str = ft_gap(str, &i);
+		else if (str[i] == '\\')
+			str = ft_slash(str, &i);
+		else if (str[i] == '\"')
+			str = ft_quotechar(str, &i);
+		else if (str[i] == '$')
+			str = ft_dollar(str, &i, START_VALUE, END_VALUE);
+		else if (str[i] == '(')
+			str = ft_dollar(str, &i, BR_LEFT, BR_RIGHT);
+		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
+			|| str[i] == '&')
+			str = ft_replace(str, &i, str[i]);
+		i++;
 	}
 	return (str);
 }
@@ -102,6 +132,7 @@ static char	**split_str(char *str, char **env)
 	if (!env)
 		;
 	str = parce(str, env);
+	printf("this is str %s\n",str);
 	return (ft_split(str, ' '));
 }
 
@@ -133,7 +164,6 @@ int	preparse(char *str)
 	return (1);
 }
 
-
 /*
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
@@ -145,7 +175,7 @@ char	**parsing(char **env)
 
 	str = get_line(env);
 	if (!(preparse(str)))
-		return(0);
+		return (0);
 	ret = split_str(str, env);
 	free(str);
 	return (ret);

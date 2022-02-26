@@ -1,7 +1,7 @@
 NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	#-Wall -Wextra -Werror
 FLAGS_RL		=	-lreadline
 LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a
@@ -15,7 +15,7 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output.c envp.c \
 					built_in_1.c built_in_2.c built_in_3.c built_in_4.c \
 					forest_1.c forest_2.c execute_1.c execute_2.c condition.c \
 					free.c pipe_redir.c preparsing_1.c preparsing_2.c \
-					parsing_utils.c
+					parsing_utils.c parsing_replase.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 
