@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/24 03:54:05 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/01 21:07:33 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,58 +34,49 @@ static char	*get_line(char **env)
 	return (line_read);
 }
 
-// char	*parce(char *str, char **env)
-// {
-// 	int	i;
+void	ft_parse_split(t_parser *prs)
+{
+	if (prs->str)
+		prs->mass = ft_add_line(prs->mass, prs->str);
+	prs->str = ft_strdup("");
+}
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\'')
-// 			str = ft_gap(str, &i);
-// 		else if (str[i] == '\\')
-// 			str = ft_slash(str, &i);
-// 		else if (str[i] == '\"')
-// 			str = ft_quotechar(str, &i);
-// 		else if (str[i] == '$')
-// 			str = ft_dollar(str, &i);
-// 		else if (str[i] == '>')
-// 			str = ft_dollar(str, &i);
-// 		else if (str[i] == '<')
-// 			ft_gap(str);
-// 		else if (str[i] == '|')
-// 			ft_gap(str);
-// 		else if (str[i] == '(')
-// 			ft_gap(str);
-// 		else if (str[i] == '&')
-// 			ft_gap(str);
-// 		i++;
-// 	}
-// 	return (str);
-// }
-
-char	*parce(char *str, char **env)
+char	*parce(char *str, t_parser *prs)
 {
 	int	i;
 
 	i = 0;
+	prs->str = ft_strdup("");
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			str = ft_gap(str, &i);
+			str = ft_gap(str, &i, prs);
 		else if (str[i] == '\\')
-			str = ft_slash(str, &i);
+			str = ft_slash(str, &i, prs);
 		else if (str[i] == '\"')
-			str = ft_quotechar(str, &i);
+			str = ft_quotechar(str, &i, prs);
 		else if (str[i] == '$')
-			str = ft_dollar(str, &i, START_VALUE, END_VALUE);
+			str = ft_dollar(str, &i, START_VALUE, END_VALUE, prs);
 		else if (str[i] == '(')
-			str = ft_dollar(str, &i, BR_LEFT, BR_RIGHT);
+			str = ft_dollar(str, &i, BR_LEFT, BR_RIGHT, prs);
 		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
 			|| str[i] == '&')
-			str = ft_replace(str, &i, str[i]);
+			str = ft_replace(str, &i, str[i], prs);
+		else if (str[i] == ' ')
+		{
+			if (prs->red == '>' || prs->red == '<')
+				prs->str = ft_charjoin(prs->str, str[i]);
+			else
+				ft_parse_split(prs);
+		}
+		else
+		{
+			prs->str = ft_charjoin(prs->str, str[i]);
+			prs->red = 0;
+		}
 		i++;
 	}
+	ft_parse_split(prs);
 	return (str);
 }
 
@@ -129,11 +120,23 @@ Masha
 */
 static char	**split_str(char *str, char **env)
 {
+	t_parser	prs;
+
+	prs.mass = (char **)malloc(sizeof(char *) * (1));
+	prs.quo = 0;
+	prs.red = 0;
 	if (!env)
 		;
-	str = parce(str, env);
-	printf("this is str %s\n",str);
-	return (ft_split(str, ' '));
+	str = parce(str, &prs);
+	// printf("this is str %s\n", str);
+	free(prs.str);
+	// int i = 0;
+	// while (prs.mass[i])
+	// {
+	// 	printf("this is mass [%s]\n", prs.mass[i]);
+	// 	i++;
+	// }
+	return (prs.mass);
 }
 
 /* функция для посчета кавычек */
@@ -142,9 +145,15 @@ int	preparse(char *str)
 {
 	char	c;
 	int		i;
+	int		c2;
+	int		c3;
+	int		dollar;
 
 	i = 0;
 	c = '0';
+	c2 = 0;
+	c3 = 0;
+	dollar = 0;
 	while (str[i])
 	{
 		if ((str[i] == '\'') || str[i] == '"')
@@ -157,9 +166,29 @@ int	preparse(char *str)
 					c = str[i];
 			}
 		}
+		else if (str[i] == '(' || str[i] == ')' || str[i] == '{' || str[i] == '}')
+		{
+			if (str[i] == '(' && c == '0')
+				c2++;
+			else if (str[i] == ')' && c == '0')
+				c2--;
+			else if ((i != 0 && str[i - 1] == '$' && str[i] == '{' && c != '0')
+				|| (str[i] == '{' && c == '0'))
+			{
+				if (str[i - 1] == '$')
+					dollar = 1;
+				c3++;
+			}
+			else if ((str[i] == '}' && c != '0' && dollar == 1)
+				|| (str[i] == '}' && c == '0'))
+			{
+				c3--;
+				dollar = 0;
+			}
+		}
 		i++;
 	}
-	if (c != '0')
+	if (c != '0' || (c2 + c3) != 0)
 		return (0);
 	return (1);
 }
