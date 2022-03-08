@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/01 21:07:33 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/08 14:43:33 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,23 +120,26 @@ Masha
 */
 static char	**split_str(char *str, char **env)
 {
-	t_parser	prs;
+	t_parser	*prs;
 
-	prs.mass = (char **)malloc(sizeof(char *) * (1));
-	prs.quo = 0;
-	prs.red = 0;
+	prs = malloc(sizeof(t_data));
+	prs->mass = (char **)malloc(sizeof(char *) * (1));
+	prs->quo = 0;
+	prs->red = 0;
+	prs->mass = NULL;
 	if (!env)
 		;
-	str = parce(str, &prs);
+	str = parce(str, prs);
 	// printf("this is str %s\n", str);
-	free(prs.str);
-	// int i = 0;
-	// while (prs.mass[i])
-	// {
-	// 	printf("this is mass [%s]\n", prs.mass[i]);
-	// 	i++;
-	// }
-	return (prs.mass);
+	free(prs->str);
+	int i = 0;
+	while (prs->mass[i])
+	{
+		printf("this is mass [%s]\n", prs->mass[i]);
+		i++;
+	}
+	free (prs);
+	return (prs->mass);
 }
 
 /* функция для посчета кавычек */
@@ -205,6 +208,8 @@ char	**parsing(char **env)
 	str = get_line(env);
 	if (!(preparse(str)))
 		return (0);
+	if (!(str[0]))
+		return NULL;
 	ret = split_str(str, env);
 	free(str);
 	return (ret);

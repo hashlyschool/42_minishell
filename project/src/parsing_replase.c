@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/01 21:09:02 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/05 02:12:11 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_charjoin(char *str, char c)
 {
 	char	*ptr;
 	size_t	len;
+	char	*tmp;
 
 	if (!str || !c)
 		return (NULL);
@@ -24,10 +25,12 @@ char	*ft_charjoin(char *str, char c)
 	ptr = (char *)malloc(sizeof(*str) * (len + 1));
 	if (!ptr)
 		return (NULL);
+	tmp = str;
 	while (*str)
 		*ptr++ = *str++;
 	*ptr++ = c;
 	*ptr = 0;
+	free(tmp);
 	return (ptr - len);
 }
 
