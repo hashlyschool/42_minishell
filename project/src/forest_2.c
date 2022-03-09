@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forest_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/01 19:30:34 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/09 17:48:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	ft_add_redir(t_node *node, char *str, char type)
 	char	**ret;
 
 	q_str = 0;
-	while (node->data->redir[q_str])
+	while (node->data->redir && node->data->redir[q_str])
 		q_str++;
 	ret = (char **)malloc(sizeof(char *) * (q_str + 2));
 	ret[q_str + 1] = NULL;

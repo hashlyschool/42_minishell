@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/09 16:33:12 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/09 18:03:11 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,5 @@ char	**parsing(char **env)
 		ret = ft_add_line(ret, NULL);
 	else
 		ret = split_str(str, env);
-	// free(str);
 	return (ret);
 }
