@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/09 12:41:34 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/09 16:31:10 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,14 @@ char	*ft_charjoin(char *str, char c)
 char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 {
 	char	*tmp;
-	char	*tmp2;
 	int		j;
 
 	j = *i;
 	tmp = ft_substr(str, 0, *i);
-	tmp2 = ft_strdup(str + *i + flag);
-	prs->str = ft_strjoin(prs->str, start);
-	tmp2 = ft_strjoin(start, tmp2);
-	tmp = ft_strjoin(tmp, tmp2);
+	tmp = ft_strjoin_free_s1(tmp, start);
+	tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
+	prs->str = ft_strjoin_free_s1(prs->str, start);
 	*i += ft_strlen(start) - 1;
-	free(tmp2);
 	return (tmp);
 }
 

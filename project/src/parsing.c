@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/08 14:43:33 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/09 16:33:12 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_parse_split(t_parser *prs)
 {
 	if (prs->str)
 		prs->mass = ft_add_line(prs->mass, prs->str);
+	free(prs->str);
 	prs->str = ft_strdup("");
 }
 
@@ -121,15 +122,17 @@ Masha
 static char	**split_str(char *str, char **env)
 {
 	t_parser	*prs;
+	char		**ret;
 
 	prs = malloc(sizeof(t_data));
-	prs->mass = (char **)malloc(sizeof(char *) * (1));
+	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
 	prs->mass = NULL;
 	if (!env)
 		;
 	str = parce(str, prs);
+	free(str);
 	// printf("this is str %s\n", str);
 	free(prs->str);
 	int i = 0;
@@ -138,8 +141,9 @@ static char	**split_str(char *str, char **env)
 		printf("this is mass [%s]\n", prs->mass[i]);
 		i++;
 	}
+	ret = prs->mass;
 	free (prs);
-	return (prs->mass);
+	return (ret);
 }
 
 /* функция для посчета кавычек */
@@ -205,12 +209,14 @@ char	**parsing(char **env)
 	char	*str;
 	char	**ret;
 
+	ret = NULL;
 	str = get_line(env);
 	if (!(preparse(str)))
-		return (0);
+		return (NULL);
 	if (!(str[0]))
-		return NULL;
-	ret = split_str(str, env);
-	free(str);
+		ret = ft_add_line(ret, NULL);
+	else
+		ret = split_str(str, env);
+	// free(str);
 	return (ret);
 }

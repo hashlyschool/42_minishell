@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/01 20:46:42 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/09 15:33:57 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,22 @@
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
 
-# define BR_LEFT "("		//"\1\2(\3\23"
-# define BR_RIGHT ")"		//\1\2)\3\23"
-# define AND_STR "&&"		//"\1\2&&\3\23"
-# define PIPE_STR "|"		//"\1\2|\3\23"
-# define OR_STR "||"		//"\1\2||\3\23"
-# define SEMICOLON ";"		//"\1\2;\3\23"
+# define BR_LEFT			"\1\2(\3\23"
+# define BR_RIGHT			"\1\2)\3\23"
+# define AND_STR			"\1\2&&\3\23"
+# define PIPE_STR			"\1\2|\3\23"
+# define OR_STR				"\1\2||\3\23"
+# define SEMICOLON			"\1\2;\3\23"
 
-# define REDIR_RIGHT_ONE ">"	//"\1\2>\3\23"
-# define REDIR_RIGHT_TWO ">>"	//"\1\2>>\3\23"
-# define REDIR_LEFT_ONE "<"		//"\1\2<\3\23"
-# define REDIR_LEFT_TWO "<<"	//"\1\2<<\3\23"
+# define REDIR_RIGHT_ONE	"\1\2>\3\23"
+# define REDIR_RIGHT_TWO 	"\1\2>>\3\23"
+# define REDIR_LEFT_ONE 	"\1\2<\3\23"
+# define REDIR_LEFT_TWO 	"\1\2<<\3\23"
 
-# define START_VALUE "${"	//"\001\002${"
-# define END_VALUE "}"		//"}\003\023"
-# define START_STAR "\001\002"
-# define END_STAR "\003\023"
+# define START_VALUE		"\001\002${"
+# define END_VALUE			"}\003\023"
+# define START_STAR			"\001\002"
+# define END_STAR			"\003\023"
 
 typedef struct s_data
 {
