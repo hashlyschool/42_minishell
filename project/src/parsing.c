@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/09 18:03:11 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/10 00:14:19 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_parse_split(t_parser *prs)
 	if (prs->str)
 		prs->mass = ft_add_line(prs->mass, prs->str);
 	free(prs->str);
-	prs->str = ft_strdup("");
+	prs->str = NULL;
 }
 
 char	*parce(char *str, t_parser *prs)
@@ -58,10 +58,9 @@ char	*parce(char *str, t_parser *prs)
 			str = ft_quotechar(str, &i, prs);
 		else if (str[i] == '$')
 			str = ft_dollar(str, &i, START_VALUE, END_VALUE, prs);
-		else if (str[i] == '(')
-			str = ft_dollar(str, &i, BR_LEFT, BR_RIGHT, prs);
 		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
-			|| str[i] == '&')
+			|| str[i] == '&' || str[i] == '*' || str[i] == ';' || str[i] == '('
+			|| str[i] == ')')
 			str = ft_replace(str, &i, str[i], prs);
 		else if (str[i] == ' ')
 		{
