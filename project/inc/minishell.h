@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/09 18:42:22 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/10 16:23:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 //for opendir, readdir, closedir
 # include <sys/types.h>
 # include <dirent.h>
+//open
+# include <fcntl.h>
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"
@@ -75,9 +77,9 @@ typedef struct s_data
 	char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
 	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
-	int		fd_def[2];
-	int		fd_old[2];
-	int		fd_now[2];
+	// int		fd_def[2];
+	// int		fd_old[2];
+	// int		fd_now[2];
 }	t_data;
 
 typedef struct s_node

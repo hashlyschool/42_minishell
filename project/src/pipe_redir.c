@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:27:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/12 16:34:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/10 16:24:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,59 @@ static int	find_def_fd(t_node *node, int fd)
 }
 
 /*
+-1	error
+1	>
+2	>>
+3	<
+4	<<
+*/
+static int	find_code(char *str)
+{
+	if (str[0] == '>')
+	{
+		if (str[1] == '>')
+			return (2);
+		return (1);
+	}
+	else if (str[0] == '<')
+	{
+		if (str[1] == '<')
+			return (4);
+		return (3);
+	}
+	return (-1);
+}
+
+static void	ft_set_redir(t_node *node)
+{
+	size_t	i;
+	int		code;
+	// int		fd;
+
+	i = 0;
+	while (node->data->redir[i])
+	{
+		code = find_code(node->data->redir[i]);
+		// if (code == 2)
+		// 	fd = open(node->data->redir[i] + code + 1, O_WRONLY | O_CREAT | O_APPEND);
+		i++;
+
+	}
+
+}
+
+static void	ft_close_redir(t_node *node)
+{
+	size_t	i;
+
+	i = 0;
+	while (node->data->redir[i])
+	{
+		i++;
+	}
+}
+
+/*
 Функция, которая устанавливает пайп.
 редиректы еще не работают
 */
@@ -41,7 +94,9 @@ void	ft_set_redir_pipe(t_node *node)
 	int	*fd_left;
 	int	*fd_right;
 
-	if (node->data->pipe || node->data->redir)
+	if (node->data->redir)
+		ft_set_redir(node);
+	else if (node->data->pipe)
 	{
 		fd_left = node->pipe;
 		if (node->data->pipe == PIPE_ON_THE_LEFT)
@@ -70,7 +125,9 @@ void	ft_close_redir_pipe(t_node *node)
 	int	*fd_left;
 	int	*fd_right;
 
-	if (node->data->pipe || node->data->redir)
+	if (node->data->redir)
+		ft_close_redir(node);
+	else if (node->data->pipe)
 	{
 		if (node->data->pipe == PIPE_ON_THE_LEFT)
 		{
