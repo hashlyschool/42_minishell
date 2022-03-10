@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/09 16:31:10 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/10 00:16:28 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@ char	*ft_charjoin(char *str, char c)
 	size_t	len;
 	char	*tmp;
 
-	if (!str || !c)
+	if (!c)
 		return (NULL);
+	if (!str)
+	{
+		str = (char *)malloc(sizeof(char*) + 1);
+		str[0] = c;
+		str[1] = '\0';
+		return (str);
+	}
 	len = ft_strlen(str) + 1;
 	ptr = (char *)malloc(sizeof(*str) * (len + 1));
 	if (!ptr)
@@ -44,7 +51,18 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	tmp = ft_substr(str, 0, *i);
 	tmp = ft_strjoin_free_s1(tmp, start);
 	tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
-	prs->str = ft_strjoin_free_s1(prs->str, start);
+	if (str[(*i)] == '(' || str[(*i)] == ';' || str[(*i)] == ')')
+	{
+		if (prs->str[0])
+			ft_parse_split(prs);
+		free(prs->str);
+		prs->str = ft_strdup(start);
+		ft_parse_split(prs);
+		free(prs->str);
+		prs->str = NULL;
+	}
+	else
+		prs->str = ft_strjoin_free_s1(prs->str, start);
 	*i += ft_strlen(start) - 1;
 	return (tmp);
 }
@@ -60,7 +78,7 @@ char	*ft_replace(char *str, int *i, char c, t_parser *prs)
 	flag = 0;
 	tmp = NULL;
 	prs->red = c;
-	if (str[(*i + 1)] == c && c != ';')
+	if (str[(*i + 1)] == c && c != ';' && c != '(' && c != ')' && c != '*')
 		flag = 1;
 	if (c == '>' && flag == 1)
 		tmp = ft_replace_util(str, i, flag + 1, REDIR_RIGHT_TWO, prs);
@@ -78,5 +96,17 @@ char	*ft_replace(char *str, int *i, char c, t_parser *prs)
 		tmp = ft_replace_util(str, i, flag + 1, PIPE_STR, prs);
 	else if (c == ';' && flag == 0)
 		tmp = ft_replace_util(str, i, flag + 1, SEMICOLON, prs);
+	else if (c == '*' && flag == 0)
+		tmp = ft_replace_util(str, i, flag + 1, START_STAR, prs);
+	else if (c == '(' && flag == 0)
+		tmp = ft_replace_util(str, i, flag + 1, BR_LEFT, prs);
+	else if (c == ')' && flag == 0)
+		tmp = ft_replace_util(str, i, flag + 1, BR_RIGHT, prs);
+	else
+	{
+		prs->str = ft_charjoin(prs->str, c);
+		free(tmp);
+		return (str);
+	}
 	return (tmp);
 }
