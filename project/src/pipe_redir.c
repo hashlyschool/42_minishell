@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:27:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/10 16:24:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/11 13:01:17 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,29 @@ static void	ft_set_redir(t_node *node)
 {
 	size_t	i;
 	int		code;
-	// int		fd;
+	int		fd;
 
 	i = 0;
 	while (node->data->redir[i])
 	{
 		code = find_code(node->data->redir[i]);
-		// if (code == 2)
-		// 	fd = open(node->data->redir[i] + code + 1, O_WRONLY | O_CREAT | O_APPEND);
+		if (code == 1 || code == 2)
+		{
+			if (code == 1)
+				fd = open(node->data->redir[i] + code + 1, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXO);
+			else
+				fd = open(node->data->redir[i] + code + 1, O_WRONLY | O_CREAT | O_APPEND, S_IRWXO);
+			dup2(fd, 1);
+		}
+		if (code == 3 || code == 4)
+		{
+			if (code == 3)
+				fd = open(node->data->redir[i] + code + 1, O_RDONLY);
+			else
+				fd = 0; //heredoc()
+			dup2(fd, 0);
+		}
 		i++;
-
 	}
 
 }
@@ -96,7 +109,7 @@ void	ft_set_redir_pipe(t_node *node)
 
 	if (node->data->redir)
 		ft_set_redir(node);
-	else if (node->data->pipe)
+	if (node->data->pipe)
 	{
 		fd_left = node->pipe;
 		if (node->data->pipe == PIPE_ON_THE_LEFT)
@@ -127,7 +140,7 @@ void	ft_close_redir_pipe(t_node *node)
 
 	if (node->data->redir)
 		ft_close_redir(node);
-	else if (node->data->pipe)
+	if (node->data->pipe)
 	{
 		if (node->data->pipe == PIPE_ON_THE_LEFT)
 		{

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/10 16:23:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/11 12:53:51 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include <dirent.h>
 //open
 # include <fcntl.h>
+# include <sys/stat.h>
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"
