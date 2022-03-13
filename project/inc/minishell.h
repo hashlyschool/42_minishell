@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/11 12:53:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/13 23:17:28 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,13 @@
 # define SEMICOLON			"\1\2;\3\23"
 
 # define REDIR_RIGHT_ONE	"\1\2>\3\23"
-# define REDIR_RIGHT_TWO 	"\1\2>>\3\23"
-# define REDIR_LEFT_ONE 	"\1\2<\3\23"
-# define REDIR_LEFT_TWO 	"\1\2<<\3\23"
+# define REDIR_RIGHT_TWO	"\1\2>>\3\23"
+# define REDIR_LEFT_ONE		"\1\2<\3\23"
+# define REDIR_LEFT_TWO		"\1\2<<\3\23"
 
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
-# define START_STAR			"\001\002"
-# define END_STAR			"\003\023"
+# define STAR				"\001\002*\003\023"
 
 typedef struct s_data
 {
@@ -78,9 +77,6 @@ typedef struct s_data
 	char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
 	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
-	// int		fd_def[2];
-	// int		fd_old[2];
-	// int		fd_now[2];
 }	t_data;
 
 typedef struct s_node
@@ -93,6 +89,7 @@ typedef struct s_node
 	char			exit;
 	int				def_fd[2];
 	int				pipe[2];
+	int				redir_fd[3];
 	char			**env;
 }	t_node;
 
@@ -147,13 +144,19 @@ int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
 int		node_is_not_empty(t_node *root);
 int		cmd_in_path(t_node *node);
-//redir_pipe.c
+//redir_pipe_1.c
 void	ft_set_redir_pipe(t_node *node);
+int		find_def_fd(t_node *node, int fd);
+//redir_pipe_2.c
+void	ft_set_redir(t_node *node);
+//redir_pipe_3.c
 void	ft_close_redir_pipe(t_node *node);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c
 void	replace_data_in_node(char ***arr, t_node *node);
 char	**split_cmd_line(char **end_str);
+//preparsing_3.c
+char	**open_star(t_node *node);
 
 #endif

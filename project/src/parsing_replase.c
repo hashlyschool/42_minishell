@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/10 00:16:28 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/13 19:30:22 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_replace(char *str, int *i, char c, t_parser *prs)
 	else if (c == ';' && flag == 0)
 		tmp = ft_replace_util(str, i, flag + 1, SEMICOLON, prs);
 	else if (c == '*' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, START_STAR, prs);
+		tmp = ft_replace_util(str, i, flag + 1, STAR, prs);
 	else if (c == '(' && flag == 0)
 		tmp = ft_replace_util(str, i, flag + 1, BR_LEFT, prs);
 	else if (c == ')' && flag == 0)

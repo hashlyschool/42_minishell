@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 22:53:03 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/13 18:57:00 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	free_node(t_node *node)
 		}
 		free_node_2(data);
 	}
+	close(node->def_fd[0]);
+	close(node->def_fd[1]);
 	free(data);
 	free(node);
 }
