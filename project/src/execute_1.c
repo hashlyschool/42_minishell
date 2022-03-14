@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 22:28:04 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/13 19:33:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ static void	action(t_node *node)
 		return ;
 	if (cond_status(node))
 		return ;
-	preparsing(node);
-	// open_star(node);
+	preparsing(node); //-
 	if (cond_is_built_in(node))
 		;
 	else
@@ -130,7 +129,7 @@ void	execute(t_node *node)
 		}
 		if (temp->exec == 1)
 			ft_close_redir_pipe(temp);
-		if (!node->prev_lvl && !node->next && node->exec == 0 && \
+		else if (!node->prev_lvl && !node->next && node->exec == 0 && \
 		node->data->cmd)
 		{
 			action(node);

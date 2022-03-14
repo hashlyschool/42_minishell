@@ -97,7 +97,7 @@ char	*ft_replace(char *str, int *i, char c, t_parser *prs)
 	else if (c == ';' && flag == 0)
 		tmp = ft_replace_util(str, i, flag + 1, SEMICOLON, prs);
 	else if (c == '*' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, START_STAR, prs);
+		tmp = ft_replace_util(str, i, flag + 1, STAR, prs);
 	else if (c == '(' && flag == 0)
 		tmp = ft_replace_util(str, i, flag + 1, BR_LEFT, prs);
 	else if (c == ')' && flag == 0)

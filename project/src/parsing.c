@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/10 00:14:19 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/13 18:42:33 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,12 @@ static char	**split_str(char *str, char **env)
 	free(str);
 	// printf("this is str %s\n", str);
 	free(prs->str);
-	int i = 0;
-	while (prs->mass[i])
-	{
-		printf("this is mass [%s]\n", prs->mass[i]);
-		i++;
-	}
+	// int i = 0;
+	// while (prs->mass[i])
+	// {
+	// 	printf("this is mass [%s]\n", prs->mass[i]);
+	// 	i++;
+	// }
 	ret = prs->mass;
 	free (prs);
 	return (ret);

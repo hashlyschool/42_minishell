@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/14 16:23:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/13 21:19:24 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	get_new_cmd_line(char ***cmd_line, char *str, char **env)
 		*cmd_line = ft_add_line(*cmd_line, str);
 		return ;
 	}
-	arr = split_cmd_line(&end_str);
+	arr = split_cmd_line(&end_str); //-
 	i = 0;
 	while (arr[i])
 		*cmd_line = ft_add_line(*cmd_line, arr[i++]);
@@ -108,20 +108,23 @@ void	preparsing(t_node *node)
 {
 	char	*str;
 	size_t	i;
-	char	**cmd_line;
+	char	**arr;
 
-	cmd_line = NULL;
-	get_new_cmd_line(&cmd_line, node->data->cmd, node->env);
+	arr = NULL;
+	get_new_cmd_line(&arr, node->data->cmd, node->env);
 	i = 0;
 	if (node->data->argv)
 	{
 		str = node->data->argv[i++];
 		while (str)
 		{
-			get_new_cmd_line(&cmd_line, str, node->env);
+			get_new_cmd_line(&arr, str, node->env);
 			str = node->data->argv[i++];
 		}
 	}
-	replace_data_in_node(&cmd_line, node);
-	free_cmd_line(&cmd_line);
+	replace_data_in_node(&arr, node);
+	free_cmd_line(&arr);
+	arr = open_star(node);
+	ft_free_str_of_str(&node->data->argv);
+	node->data->argv = arr;
 }
