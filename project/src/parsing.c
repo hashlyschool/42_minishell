@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 18:42:33 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 23:53:40 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_line(char **env)
 
 void	ft_parse_split(t_parser *prs)
 {
-	if (prs->str)
+	if (prs->str && prs->str[0])
 		prs->mass = ft_add_line(prs->mass, prs->str);
 	free(prs->str);
 	prs->str = NULL;
@@ -62,7 +62,7 @@ char	*parce(char *str, t_parser *prs)
 			|| str[i] == '&' || str[i] == '*' || str[i] == ';' || str[i] == '('
 			|| str[i] == ')')
 			str = ft_replace(str, &i, str[i], prs);
-		else if (str[i] == ' ')
+		else if (str[i] == ' ' || str[i] == '\t')
 		{
 			if (prs->red == '>' || prs->red == '<')
 				prs->str = ft_charjoin(prs->str, str[i]);
@@ -132,14 +132,7 @@ static char	**split_str(char *str, char **env)
 		;
 	str = parce(str, prs);
 	free(str);
-	// printf("this is str %s\n", str);
 	free(prs->str);
-	// int i = 0;
-	// while (prs->mass[i])
-	// {
-	// 	printf("this is mass [%s]\n", prs->mass[i]);
-	// 	i++;
-	// }
 	ret = prs->mass;
 	free (prs);
 	return (ret);
@@ -210,8 +203,8 @@ char	**parsing(char **env)
 
 	ret = NULL;
 	str = get_line(env);
-	if (!(preparse(str)))
-		return (NULL);
+	// if (!(preparse(str)))
+		// return (NULL); // заменить на выход с ошибкой
 	if (!(str[0]))
 		ret = ft_add_line(ret, NULL);
 	else

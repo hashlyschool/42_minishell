@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 21:15:03 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 23:48:57 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 	{
 		status_exit = (char)(ft_atoi(ft_get_status(*env)));
 		ft_free_envp(*env);
-		rl_clear_history();
+		clear_history();
 		exit(status_exit);
 	}
 }
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_check_status_exit(status_exit, &env);
 		cmd_line = parsing(env);
-		// ft_print_str_of_str(cmd_line);
+		ft_print_str_of_str(cmd_line);
 		root = get_forest(cmd_line, env);
 		free_cmd_line(&cmd_line);
 		if (node_is_not_empty(root))

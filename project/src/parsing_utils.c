@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/09 23:43:12 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/15 00:02:34 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_gap(char *str, int *i, t_parser *prs)
 	tmp = ft_strjoin_free_s1(tmp, tmp3);
 	free(tmp2);
 	free(tmp3);
+	free(str);
 	*i -= 2;
 	return (tmp);
 }
@@ -46,6 +47,7 @@ char	*ft_slash(char *str, int *i, t_parser *prs)
 	tmp2 = ft_strdup(str + *i + 1);
 	prs->str = ft_charjoin(prs->str, str[*i + 1]);
 	tmp = ft_strjoin_free_all(tmp, tmp2);
+	free(str);
 	// ++(i);
 	return (tmp);
 }
@@ -80,6 +82,7 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	prs->str = ft_strjoin_free_s1(prs->str, tmp2);
 	free(tmp2);
 	free(tmp3);
+	free(str);
 	(*i) -= 2;
 	return (tmp);
 }
@@ -114,5 +117,6 @@ char	*ft_dollar(char *str, int *i, char *start, char *end, t_parser *prs)
 	free(tmp2);
 	free(tmp3);
 	(*i) += ft_strlen(start) + ft_strlen(end) - 3;
+	free(str);
 	return (tmp);
 }
