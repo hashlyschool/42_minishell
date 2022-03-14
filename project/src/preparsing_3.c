@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 23:16:48 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/14 00:49:02 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 15:16:32 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	matching(char **split_arr, char *d_name)
 	int		i;
 	char	*ptr;
 
-	if (d_name[0] == '.') //Вроде как должно спасти от проблемы [ A ]
+	if (d_name[0] == '.')
 		return (0);
 	i = 0;
 	ptr = d_name;
@@ -38,7 +38,13 @@ static char	matching(char **split_arr, char *d_name)
 		while (*ptr && split_arr[i] && *ptr != split_arr[i][0])
 			ptr++;
 	}
-	//case `echo 1*3`  name_file="*123"
+	else
+	{
+		ptr = ft_strnstr(ptr, split_arr[i], ft_strlen(split_arr[i]));
+		if (!ptr)
+			return (0);
+		ptr += ft_strlen(split_arr[i++]);
+	}
 	while (split_arr[i] && \
 	ft_strncmp(split_arr[i], STAR, ft_strlen(STAR) + 1) != 0)
 	{
@@ -50,6 +56,8 @@ static char	matching(char **split_arr, char *d_name)
 	}
 	if (!split_arr[i] && ft_strncmp(split_arr[i - 1], STAR, ft_strlen(STAR) + 1) != 0)
 	{
+		while (ft_strncmp(split_arr[i - 1], ptr, ft_strlen(split_arr[i - 1])) == 0)
+			ptr += ft_strlen(split_arr[i - 1]);
 		if (*ptr == 0)
 			return (1);
 		return (0);
@@ -74,8 +82,6 @@ static char	find_file_in_dir(char ***arr, char **split_arr)
 	dir = opendir(str);
 	free(str);
 	dirent = readdir(dir);
-	//проблема [ A ] в том, что сравниваем со всеми файлами, а оригинальный баш
-	//вроде, не сравнивает с скрытыми ...
 	while (dirent)
 	{
 		if (matching(split_arr, dirent->d_name))
@@ -107,6 +113,29 @@ static void	add_star(char *str, char ***split_arr)
 		*split_arr = ft_add_line(*split_arr, STAR);
 }
 
+static void	add_line_without_star(char ***ret, char *str, size_t len_star)
+{
+	char	*str_2;
+	size_t	i;
+
+	i = 0;
+	str_2 = NULL;
+	while (str[i])
+	{
+		if (ft_strncmp(str + i, STAR, len_star) == 0)
+		{
+			str_2 = ft_strjoin_free_s1(str_2, "*");
+			i += len_star;
+		}
+		else
+		{
+			str_2 = ft_charjoin_libft(str_2, str[i]);
+			i++;
+		}
+	}
+	*ret = ft_add_line(*ret, str_2);
+}
+
 /*
 Эта функция проссматривает аргументы и заменяет STAR на:
 - один или более аргументов, если находится файл в рабочей директории,
@@ -115,9 +144,9 @@ static void	add_star(char *str, char ***split_arr)
 */
 char	**open_star(t_node *node)
 {
-	size_t			i;
-	char			**split_arr;
-	char **ret;
+	size_t	i;
+	char	**split_arr;
+	char	**ret;
 
 	i = 0;
 	ret = NULL;
@@ -131,7 +160,7 @@ char	**open_star(t_node *node)
 		else
 		{
 			if (!find_file_in_dir(&ret, split_arr))
-				; //add_line_without_star(*ret, node->data->argv[i]); //-
+				add_line_without_star(&ret, node->data->argv[i], ft_strlen(STAR)); //-
 		}
 		ft_free_str_of_str(&split_arr);
 		i++;
