@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 19:33:56 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/15 00:42:08 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,12 @@ static void	ft_execve(t_node *node)
 
 static void	action(t_node *node)
 {
+	if (node->exec == 1)
+		return ;
 	node->exec = 1;
 	if (node->exit == 1)
+		return ;
+	if (node->next_lvl && node->next_lvl->exec == 1)
 		return ;
 	if (cond_status(node))
 		return ;
@@ -110,12 +114,16 @@ void	execute(t_node *node)
 {
 	t_node	*temp;
 
-	while (node->exec != 1 && node->exit == 0)
+	while (node->exit == 0 && node->exec != 1)
 	{
 		temp = node;
-		ft_set_redir_pipe(temp);
+		if (temp->exec == 0)
+			ft_set_redir_pipe(temp);
 		if (node->next_lvl && node->exec == 0)
+		{
+			node->exec = -1;
 			node = node->next_lvl;
+		}
 		else if (node->next)
 		{
 			action(node);
@@ -125,15 +133,10 @@ void	execute(t_node *node)
 		{
 			action(node);
 			node = node->prev_lvl;
-			node->exec = 1;
 		}
+		else if (!node->prev_lvl && !node->next && node->exec != 1)
+			action(node);
 		if (temp->exec == 1)
 			ft_close_redir_pipe(temp);
-		else if (!node->prev_lvl && !node->next && node->exec == 0 && \
-		node->data->cmd)
-		{
-			action(node);
-			ft_close_redir_pipe(node);
-		}
 	}
 }
