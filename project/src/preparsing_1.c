@@ -6,12 +6,18 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 21:19:24 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 21:24:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Нужно сделать проверку на валидность имени переменной окружения
+
+minishell: ${"USER"}: bad substitution
+return (1);
+*/
 static char	*get_ret_2(char **split_start, char *ret, int i, char **env)
 {
 	char	**split_end;

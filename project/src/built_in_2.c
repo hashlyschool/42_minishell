@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 20:46:48 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 21:23:29 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,13 @@ static int	no_arguments(char **argv, char **env)
 	return (0);
 }
 
+
+/*
+нужно проверить на валидность имя переменной окружения
+
+bash: export: `"abc"=1': not a valid identifier
+return (1);
+*/
 int	ft_export(char **argv, char ***env)
 {
 	size_t	i;
