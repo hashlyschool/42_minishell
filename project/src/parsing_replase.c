@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/13 19:30:22 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/13 20:02:09 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	tmp = ft_substr(str, 0, *i);
 	tmp = ft_strjoin_free_s1(tmp, start);
 	tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
-	if (str[(*i)] == '(' || str[(*i)] == ';' || str[(*i)] == ')')
+	if (str[(*i)] != '>' && str[(*i)] != '<')
 	{
-		if (prs->str[0])
+		if (prs->str && prs->str[0])
 			ft_parse_split(prs);
 		free(prs->str);
 		prs->str = ft_strdup(start);
