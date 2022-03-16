@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/15 00:47:45 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/16 18:20:49 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 	{
 		status_exit = (char)(ft_atoi(ft_get_status(*env)));
 		ft_free_envp(*env);
+		#ifdef __APPLE__
+		clear_history();
+		#elif
 		rl_clear_history();
+		#endif
 		exit(status_exit);
 	}
 }

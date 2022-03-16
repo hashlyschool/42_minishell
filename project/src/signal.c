@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 18:01:09 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/16 19:17:00 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@
 void	sig_d(int signo)
 {
 	signo = 0;
-	write(1, "exit\n", 5);
+	#ifdef __APPLE__
+	write(1, "\b\b  \b\bexit\n", 12);
+	clear_history();
+	#elif
 	rl_clear_history();
+	write(1, "exit\n", 5);
+	#endif
+
 	exit(0);
 }
 
@@ -29,8 +35,14 @@ void	sig_d(int signo)
 static void	sig_int(int signo)
 {
 	signo = 0;
+	#ifdef __APPLE__
+	#define STR "\n"
+	write(1, STR, ft_strlen(STR));
+	write(1, rl_prompt, ft_strlen(rl_prompt));
+	#elif
 	write(1, "\n", 1);
 	write(1, rl_prompt, ft_strlen(rl_prompt));
+	#endif
 }
 
 /*
@@ -39,7 +51,11 @@ static void	sig_int(int signo)
 static void	sig_quit(int signo)
 {
 	signo = 0;
+	#ifdef __APPLE__
+
+	#elif
 	write(1, "\b\b  \b\b", 6);
+	#endif
 	return ;
 }
 
