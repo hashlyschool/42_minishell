@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 09:48:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 21:51:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sig_d(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-	write(1, "\b\b  \b\bexit\n", 12);
+	write(1, "exit\n", 5);
 	clear_history();
 	#elif __linux__
 	rl_clear_history();
