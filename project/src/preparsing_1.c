@@ -38,38 +38,41 @@ static int	check_error_in_name(char *name, char *flag)
 minishell: ${"USER"}: bad substitution
 return (1);
 */
-static char	*get_ret_2(char **split_start, char *ret, int i, char **env)
+static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 {
 	char	**split_end;
-	char	flag;
 
-	flag = 0;
 	split_end = ft_split_2(split_start[i], END_VALUE);
 	if (!ret)
 	{
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strdup(ft_get_status(env));
-		else if (check_error_in_name(split_end[0], &flag) == 0)
-			ret = ft_strdup(ft_getenv(split_end[0], env));
+			ret = ft_strdup(ft_get_status(node->env));
+		else if (check_error_in_name(split_end[0], &node->stop) == 0)
+			ret = ft_strdup(ft_getenv(split_end[0], node->env));
 	}
 	else
 	{
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strjoin_free_s1(ret, ft_get_status(env));
-		else if (check_error_in_name(split_end[0], &flag) == 0)
-			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], env));
+			ret = ft_strjoin_free_s1(ret, ft_get_status(node->env));
+		else if (check_error_in_name(split_end[0], &node->stop) == 0)
+			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], node->env));
 	}
 	if (split_end[1])
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
+
+	if (node->stop)
+	{
+		ft_putstr_fd("minishell: ${", 1);
+		ft_putstr_fd(split_end[0], 1);
+		ft_set_ret(1, "}: bad substitution\n", node->env);
+	}
 	ft_free_str_of_str(&split_end);
-	if (flag)
-		ft_set_ret(1, "minishell: ${\"USER\"}: bad substitution\n", env);
 	return (ret);
 }
 
-static char	*get_ret(char **split_start, int i, char **env)
+static char	*get_ret(char **split_start, int i, t_node *node)
 {
 	char	*ret;
 
@@ -85,15 +88,15 @@ static char	*get_ret(char **split_start, int i, char **env)
 				ret = ft_strjoin_free_s1(ret, split_start[i]);
 		}
 		else
-			ret = get_ret_2(split_start, ret, i, env);
-		if (ft_atoi(ft_get_status(env)))
+			ret = get_ret_2(split_start, ret, i, node);
+		if (node->stop)
 			break ;
 		i++;
 	}
 	return (ret);
 }
 
-static char	*get_end_str(char *str, char **env)
+static char	*get_end_str(char *str, t_node *node)
 {
 	char	**split_start;
 	char	*ret;
@@ -108,19 +111,19 @@ static char	*get_end_str(char *str, char **env)
 		return (NULL);
 	}
 	i = 0;
-	ret = get_ret(split_start, i, env);
+	ret = get_ret(split_start, i, node);
 	ft_free_str_of_str(&split_start);
 	return (ret);
 }
 
-static void	get_new_cmd_line(char ***cmd_line, char *str, char **env)
+static void	get_new_cmd_line(char ***cmd_line, char *str, t_node *node)
 {
 	char	*end_str;
 	char	**arr;
 	size_t	i;
 
-	end_str = get_end_str(str, env);
-	if (ft_atoi(ft_get_status(env)))
+	end_str = get_end_str(str, node);
+	if (node->stop)
 		return ;
 	if (!end_str)
 	{
@@ -145,18 +148,18 @@ void	preparsing(t_node *node)
 	char	**arr;
 
 	arr = NULL;
-	get_new_cmd_line(&arr, node->data->cmd, node->env);
+	get_new_cmd_line(&arr, node->data->cmd, node);
 	i = 0;
 	if (node->data->argv)
 	{
 		str = node->data->argv[i++];
-		while (str && ft_atoi(ft_get_status(node->env)) == 0)
+		while (str && node->stop == 0)
 		{
-			get_new_cmd_line(&arr, str, node->env);
+			get_new_cmd_line(&arr, str, node);
 			str = node->data->argv[i++];
 		}
 	}
-	if (ft_atoi(ft_get_status(node->env)) != 0)
+	if (node->stop)
 		return ;
 	replace_data_in_node(&arr, node);
 	free_cmd_line(&arr);
