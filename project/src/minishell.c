@@ -18,7 +18,11 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 	{
 		status_exit = (char)(ft_atoi(ft_get_status(*env)));
 		ft_free_envp(*env);
+		#ifdef __APPLE__
+		clear_history();
+		#elif __linux__
 		rl_clear_history();
+		#endif
 		exit(status_exit);
 	}
 }
