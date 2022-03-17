@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/16 19:33:25 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/17 17:51:20 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 	{
 		status_exit = (char)(ft_atoi(ft_get_status(*env)));
 		ft_free_envp(*env);
+		#ifdef __APPLE__
 		clear_history();
+		#elif __linux__
+		rl_clear_history();
+		#endif
 		exit(status_exit);
 	}
 }
@@ -42,7 +46,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_check_status_exit(status_exit, &env);
 		cmd_line = parsing(env);
-		// ft_print_str_of_str(cmd_line);
 		root = get_forest(cmd_line, env);
 		free_cmd_line(&cmd_line);
 		if (node_is_not_empty(root))

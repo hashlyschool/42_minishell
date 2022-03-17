@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/16 19:55:17 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/17 17:51:58 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ Masha
 char	**split_cmd_line(char **end_str)
 {
 	char	**ret;
-
 	ret = ft_minishell_split(*end_str);
+	ret = ft_split(*end_str, ' ');
+
+
 	free(*end_str);
 	return (ret);
 }

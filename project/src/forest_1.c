@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 18:08:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/14 21:36:58 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ t_node	*create_next_node(t_node *node, char separator, char **env)
 	t_node	*temp;
 
 	temp = create_empty_node(env);
-	temp->next_lvl = node->next_lvl;
+	if (node->data->cmd)
+		temp->next_lvl = node->next_lvl;
 	temp->prev_lvl = node->prev_lvl;
 	if (separator != PIPE)
 		temp->data->sep = separator;
