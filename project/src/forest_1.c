@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/14 21:36:58 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 20:44:03 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_node	*create_empty_node(char **env)
 	node->env = env;
 	node->exec = 0;
 	node->exit = 0;
+	node->stop = 0;
 	node->def_fd[0] = dup(0);
 	node->def_fd[1] = dup(1);
 	node->redir_fd[0] = -1;

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/15 10:39:41 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 20:43:51 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_node
 	t_data			*data;
 	char			exec;
 	char			exit;
+	char			stop;
 	int				def_fd[2];
 	int				pipe[2];
 	int				redir_fd[3];
