@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 19:43:21 by sstyx             #+#    #+#             */
-/*   Updated: 2022/03/16 19:56:17 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/17 17:23:15 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static size_t	ft_find_q_word(char const *s)
 	size_t	q_word;
 
 	q_word = 0;
-	while ((*s == ' ' || *s == '\t' ||
-		*s == '\n' || *s == '\r' || *s == '\v') && *s)
+	while ((*s == ' ' || *s == '\t' || *s == '\n'
+			|| *s == '\r' || *s == '\v') && *s)
 		s++;
 	while (*s)
 	{
 		q_word++;
-		while ((*s != ' ' || *s != '\t' ||
-			*s != '\n' || *s != '\r' || *s != '\v') && *s)
+		while ((*s != ' ' && *s != '\t' && *s != '\n'
+				&& *s != '\r' && *s != '\v') && *s)
 			s++;
-		while ((*s == ' ' || *s == '\t' ||
-			*s == '\n' || *s == '\r' || *s == '\v') && *s)
+		while ((*s == ' ' || *s == '\t' || *s == '\n'
+				|| *s == '\r' || *s == '\v') && *s)
 			s++;
 	}
 	return (q_word);
@@ -46,16 +46,16 @@ static size_t	ft_strlenc(char const *s)
 	size_t	len;
 
 	len = 0;
-	while ((*s != ' ' || *s != '\t' ||
-		*s != '\n' || *s != '\r' || *s != '\v') && *s)
+	while ((*s != ' ' && *s != '\t' && *s != '\n'
+			&& *s != '\r' && *s != '\v') && *s++)
 		len++;
 	return (len);
 }
 
 static char	*ft_skip_c(char const *s)
 {
-	while ((*s == ' ' || *s == '\t' ||
-		*s == '\n' || *s == '\r' || *s == '\v') && *s)
+	while ((*s == ' ' || *s == '\t' || *s == '\n'
+			|| *s == '\r' || *s == '\v') && *s)
 		s++;
 	return ((char *)s);
 }
@@ -88,4 +88,3 @@ char	**ft_minishell_split(char const *s)
 	ptr[i] = NULL;
 	return (ptr);
 }
-
