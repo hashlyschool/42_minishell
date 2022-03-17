@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
 /*   Updated: 2022/03/17 21:51:09 by hashly           ###   ########.fr       */
@@ -18,6 +18,7 @@
 void	sig_d(int signo)
 {
 	signo = 0;
+	write(1, "exit\n", 5);
 	#ifdef __APPLE__
 	write(1, "exit\n", 5);
 	clear_history();

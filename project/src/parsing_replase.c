@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/13 20:02:09 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/14 22:57:32 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,14 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 {
 	char	*tmp;
 	int		j;
+	char	*str2;
 
 	j = *i;
 	tmp = ft_substr(str, 0, *i);
+	str2 = str;
 	tmp = ft_strjoin_free_s1(tmp, start);
-	tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
+	if (str[*i + flag] != '\0')
+		tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
 	if (str[(*i)] != '>' && str[(*i)] != '<')
 	{
 		if (prs->str && prs->str[0])
@@ -64,6 +67,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	else
 		prs->str = ft_strjoin_free_s1(prs->str, start);
 	*i += ft_strlen(start) - 1;
+	free(str);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/16 19:55:39 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 21:25:22 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	action(t_node *node)
 	if (cond_status(node))
 		return ;
 	preparsing(node); //-
-	if (ft_atoi(ft_get_status(node->env)) != 0)
+	if (node->stop)
 		return ;
 	if (cond_is_built_in(node))
 		;
@@ -116,7 +116,8 @@ void	execute(t_node *node)
 {
 	t_node	*temp;
 
-	while (node->exit == 0 && node->exec != 1)
+	temp = NULL;
+	while (node->exit == 0 && node->exec != 1 && (temp == NULL || temp->stop == 0))
 	{
 		temp = node;
 		if (temp->exec == 0)
