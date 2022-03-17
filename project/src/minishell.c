@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/16 18:20:49 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 09:48:12 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_check_status_exit(char status_exit, char ***env)
 		ft_free_envp(*env);
 		#ifdef __APPLE__
 		clear_history();
-		#elif
+		#elif __linux__
 		rl_clear_history();
 		#endif
 		exit(status_exit);
