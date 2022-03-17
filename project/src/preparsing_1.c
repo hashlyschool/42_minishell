@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 21:29:24 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/17 17:54:03 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 
 static int	check_error_in_name(char *name, char *flag)
 {
-	//if (error)
-	//	*flag = 1;
-	//else
-	//	*flag = 0;
-	//return (*flag)
-	if (name || flag)
-		;
-	*flag = 1;
+	int	i;
+
+	*flag = 0;
+	i = 0;
+	while (name[i])
+	{
+		if (ft_isalpha(name[i]) || (ft_isdigit(name[i]) && i > 0)
+			|| name[i] == '_')
+			i++;
+		else
+		{
+			*flag = 1;
+			break ;
+		}
+	}
 	return (*flag);
 }
 
