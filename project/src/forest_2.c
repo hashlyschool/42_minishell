@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/09 17:48:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/18 21:04:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ static void	fill_node(char *str, t_node *node)
 
 	node->exec = 0;
 	redir = str_is_redirect(str);
-	if (node->data->cmd == NULL)
-		node->data->cmd = ft_strdup(str);
-	else if (redir == 1)
+	if (redir == 1)
 		ft_add_redir(node, str, 1);
 	else if (redir == 2)
 		ft_add_redir(node, str, 2);
@@ -100,8 +98,47 @@ static void	fill_node(char *str, t_node *node)
 		ft_add_redir(node, str, 3);
 	else if (redir == 4)
 		ft_add_redir(node, str, 4);
+	else if (node->data->cmd == NULL)
+		node->data->cmd = ft_strdup(str);
 	else
 		ft_add_argv(node, str);
+}
+
+
+/*
+Здесь нужно проверить все токены, которые нам даны по сабжу
+Т.е. 10 штук:
+<	>	|	&&	(
+<<	>>	;	||	)
+Как проверять:
+1) После < << > >> д.б. текст. Причем не обязательно через пробел
+2) До ; должны быть команды
+3) До и после | && || должны быть команды
+4) Команда может быть в скобках или отдельно:
+	cmd
+	cmd argv...
+	(cmd ...)
+
+Может быть эту проверку легче будет сделать уже на свормированном дереве.
+Я могу обьяснить как формируется дерево
+*/
+static char	check_error_in_cmd_line(char **line, t_node *node)
+{
+	char	error;
+
+	error = 0;
+	//check error
+	//if error
+	//	error = 1;
+	if (line || node)
+		;
+	if (error)
+	{
+		ft_set_ret(2, "bash: syntax error near unexpected token `", node->env);
+		ft_putstr_fd("token", 1); //need find token
+		ft_putstr_fd("`'\n", 1);
+	}
+	return (error);
 }
 
 /*
@@ -117,6 +154,11 @@ t_node	*get_forest(char **line, char **env)
 
 	temp = create_empty_node(env);
 	root = temp;
+	if (!line || check_error_in_cmd_line(line, root))
+	{
+		root->stop = 1;
+		return (root);
+	}
 	i = -1;
 	while (line && line[++i])
 	{

@@ -6,28 +6,11 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 18:57:00 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/18 15:06:37 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-Функция для освобождения массива строк и зануления указателя
-*/
-void	free_cmd_line(char ***arg)
-{
-	char	**arr;
-	size_t	i;
-
-	i = 0;
-	arr = *arg;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-	arr = NULL;
-	return ;
-}
 
 static void	free_node_2(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/22 17:48:46 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/18 18:53:01 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	**ret_path_replace_cmd(t_node *node)
 	}
 	if (end == -1)
 		return (ft_add_line(ret, "."));
-	temp = ft_substr(node->data->cmd_exec, 0, end);
+	temp = ft_substr(node->data->cmd_exec, 0, end + 1);
 	ret = ft_add_line(ret, temp);
 	free(temp);
 	temp = ft_substr(node->data->cmd_exec, end + 1, \
@@ -87,9 +87,10 @@ static void	find_cmd(t_node *node)
 			break ;
 		i++;
 	}
-	if (!file_find)
+	if (!file_find && ft_strncmp(node->data->cmd_exec, "", 1) != 0)
 		error_handling(mode, node, path);
-	node->data->cmd_exec = ft_strjoin_free_s2("/", node->data->cmd_exec);
+	if (mode == 1)
+		node->data->cmd_exec = ft_strjoin_free_s2("/", node->data->cmd_exec);
 	node->data->cmd_exec = ft_strjoin_free_s2(path[i], node->data->cmd_exec);
 	ft_free_str_of_str(&path);
 }

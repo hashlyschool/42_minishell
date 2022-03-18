@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/15 02:39:07 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/18 20:43:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static char	**split_str(char *str, char **env)
 	t_parser	*prs;
 	char		**ret;
 
-	prs = malloc(sizeof(t_data));
+	prs = malloc(sizeof(t_parser));
 	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
@@ -203,10 +203,25 @@ char	**parsing(char **env)
 
 	ret = NULL;
 	str = get_line(env);
-	// if (!(preparse(str)))
-		// return (NULL); // заменить на выход с ошибкой
-	if (!(str[0]))
-		ret = ft_add_line(ret, NULL);
+	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
+	//Вызывает вывод текста "minishell: syntax error: unexpected end of file"
+	//А нужно выводить "bash: syntax error near unexpected token `)'"
+	//
+	//Еще ошибочно проверяется доллар (вернее он здесь не должен проверяться)
+	//Если я все правильно понял в парсере, то здесь должны быть проверены
+	//только кавычки
+	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
+	if (!(preparse(str)))
+	{
+		free(str);
+		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", env);
+		return (NULL);
+	}
+	if (str[0] == 0)
+	{
+		ret = ft_add_line(ret, str);
+		free(str);
+	}
 	else
 		ret = split_str(str, env);
 	return (ret);

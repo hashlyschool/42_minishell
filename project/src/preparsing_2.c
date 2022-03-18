@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 17:57:36 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/18 14:39:21 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	replace_data_in_node(char ***arr, t_node *node)
 	i = 0;
 	if (temp && temp[i])
 		node->data->cmd = ft_strdup(temp[i++]);
-	while (temp[i])
+	while (temp && temp[i])
 	{
 		ft_add_argv(node, temp[i]);
 		i++;

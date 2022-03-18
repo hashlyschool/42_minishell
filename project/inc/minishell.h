@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 20:43:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/18 15:22:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ void	error_handling(int mode, t_node *node, char **path);
 //execute_2.c
 void	open_path_and_check_access(t_node *node);
 //free.c
-void	free_cmd_line(char ***arg);
 void	free_node(t_node *node);
 void	free_forest(t_node *temp, char ***env);
 //condition.c

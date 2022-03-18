@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 17:54:03 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/18 21:06:37 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,17 @@ static void	get_new_cmd_line(char ***cmd_line, char *str, t_node *node)
 
 	end_str = get_end_str(str, node);
 	if (node->stop)
+	{
+		if (end_str)
+			free(end_str);
 		return ;
+	}
 	if (!end_str)
 	{
 		*cmd_line = ft_add_line(*cmd_line, str);
 		return ;
 	}
-	arr = split_cmd_line(&end_str); //-
+	arr = split_cmd_line(&end_str);
 	i = 0;
 	while (arr[i])
 		*cmd_line = ft_add_line(*cmd_line, arr[i++]);
@@ -150,7 +154,7 @@ void	preparsing(t_node *node)
 	arr = NULL;
 	get_new_cmd_line(&arr, node->data->cmd, node);
 	i = 0;
-	if (node->data->argv)
+	if (node->data->argv && node->stop == 0)
 	{
 		str = node->data->argv[i++];
 		while (str && node->stop == 0)
@@ -159,10 +163,14 @@ void	preparsing(t_node *node)
 			str = node->data->argv[i++];
 		}
 	}
+	if (arr)
+	{
+		replace_data_in_node(&arr, node);
+		ft_free_str_of_str(&arr);
+	}
 	if (node->stop)
 		return ;
-	replace_data_in_node(&arr, node);
-	free_cmd_line(&arr);
+	//не раскрывает звезду в cmd
 	arr = open_star(node);
 	ft_free_str_of_str(&node->data->argv);
 	node->data->argv = arr;
