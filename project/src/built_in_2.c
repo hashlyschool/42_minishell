@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/19 20:39:05 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 14:27:02 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,23 @@ static int	no_arguments(char **argv, char **env)
 	i = 0;
 	while (env[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd("declare -x ", STD_OUT);
 		len_key = 0;
 		while (env[i][len_key] && env[i][len_key] != '=')
 			len_key++;
-		write(1, env[i], len_key + 1);
+		write(STD_OUT, env[i], len_key + 1);
 		if (env[i][len_key])
 		{
-			write(1, "\"", 1);
-			ft_putstr_fd(env[i] + len_key + 1, 1);
-			write(1, "\"", 1);
+			ft_putstr_fd("\"", STD_OUT);
+			ft_putstr_fd(env[i] + len_key + 1, STD_OUT);
+			ft_putstr_fd("\"", STD_OUT);
 		}
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", STD_OUT);
 		i++;
 	}
 	return (0);
 }
+
 
 /*
 нужно проверить на валидность имя переменной окружения

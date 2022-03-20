@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:34:18 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 22:50:47 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 23:41:21 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	ft_pwd(char **argv, char **env)
 	dir = getcwd(NULL, 1024);
 	if (!dir)
 		return (ft_set_ret(-1, "minishell: pwd: invalid argument\n", env));
-	ft_putstr_fd(dir, 1);
-	write(1, "\n", 1);
+	ft_putendl_fd(dir, STD_OUT);
 	free(dir);
 	return (ft_set_ret(0, NULL, env));
 }
@@ -48,17 +47,19 @@ static char	str_is_number(char *str)
 //exit
 int	ft_exit(char **argv, char **env, char *exit)
 {
-	write(1, "exit\n", 5);
+	ft_putstr_fd("exit\n", STD_ERR);
 	if (argv && argv[0])
 	{
-		if (!str_is_number(argv[0]))
+		if (argv[1])
+			ft_set_ret(1, "minishell: exit: too many arguments\n", env);
+		else if (!str_is_number(argv[0]))
 		{
-			ft_putstr_fd("minishell: exit: ", 1);
-			ft_putstr_fd(argv[0], 1);
+			ft_putstr_fd("minishell: exit: ", STD_ERR);
+			ft_putstr_fd(argv[0], STD_ERR);
 			ft_set_ret(2, ": numeric argument required\n", env);
 		}
 		else
-			ft_set_ret(ft_atoi(argv[0]), "", env);
+			ft_set_ret(ft_atoi_long_long(argv[0]), "", env);
 	}
 	*exit = 1;
 	return (0);

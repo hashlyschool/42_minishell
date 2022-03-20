@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/19 23:20:55 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 16:44:46 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**split_cmd_line(char **end_str)
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
 	 || *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
 	 	i++;
-	if (*end_str[i] == 0)
+	if ((*end_str)[i] == 0)
 		ret = ft_add_line(ret, "");
 	else
 		ret = ft_minishell_split(*end_str);

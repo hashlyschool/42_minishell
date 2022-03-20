@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 16:21:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/13 20:09:23 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 14:33:31 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ static void	proc_heredoc(t_node *node, char *eof, char *name_file)
 		{
 			flag = 1;
 			ft_putstr_fd(PROGRAM_NAME": warning: here-document delimited by \
-			end-of-file (wanted `", 1);
-			ft_putstr_fd(eof, 1);
-			ft_putstr_fd("')\n", 1);
+			end-of-file (wanted `", STD_ERR);
+			ft_putstr_fd(eof, STD_ERR);
+			ft_putstr_fd("')\n", STD_ERR);
 		}
 		else if (ft_strncmp(str, eof, ft_strlen(eof) + 1) == 0)
 		{
@@ -91,8 +91,7 @@ static void	proc_heredoc(t_node *node, char *eof, char *name_file)
 		}
 		else
 		{
-			ft_putstr_fd(str, fd);
-			ft_putstr_fd("\n", fd);
+			ft_putendl_fd(str, fd);
 			free(str);
 		}
 	}

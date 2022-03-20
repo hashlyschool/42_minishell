@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/19 23:12:25 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/21 00:15:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ static int	check_error_in_name(char *name, char *flag)
 
 	*flag = 0;
 	i = 0;
+	if (name && ft_isdigit(name[0]) && name[1] == 0)
+	{
+		*flag = 0;
+		return (*flag);
+	}
 	while (name[i])
 	{
 		if (ft_isalpha(name[i]) || (ft_isdigit(name[i]) && i > 0)
@@ -48,6 +53,13 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
 			ret = ft_strdup(ft_get_status(node->env));
+		else if (ft_strlen(split_end[0]) == 1 && ft_isdigit(split_end[0][0]))
+		{
+			if (split_end[0][0] == '0')
+				ret = ft_strdup("minishell");
+			else
+				ret = ft_strdup("");
+		}
 		else if (check_error_in_name(split_end[0], &node->stop) == 0)
 			ret = ft_strdup(ft_getenv(split_end[0], node->env));
 	}
@@ -63,8 +75,8 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
 	if (node->stop)
 	{
-		ft_putstr_fd("minishell: ${", 1);
-		ft_putstr_fd(split_end[0], 1);
+		ft_putstr_fd("minishell: ${", STD_ERR);
+		ft_putstr_fd(split_end[0], STD_ERR);
 		ft_set_ret(1, "}: bad substitution\n", node->env);
 	}
 	ft_free_str_of_str(&split_end);

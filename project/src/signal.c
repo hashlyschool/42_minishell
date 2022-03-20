@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/19 20:40:00 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 14:40:43 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	sig_d(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-	write(1, "exit\n", 5);
+
 	clear_history();
 	#elif __linux__
 	rl_clear_history();
-	write(1, "exit\n", 5);
+	ft_putstr_fd("exit\n", STD_OUT);
 	#endif
 	exit(0);
 }
@@ -35,12 +35,11 @@ static void	sig_int(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-	#define STR "\n"
-	write(1, STR, ft_strlen(STR));
-	write(1, rl_prompt, ft_strlen(rl_prompt));
+	ft_putstr_fd("\n", STD_OUT);
+	ft_putstr_fd(rl_prompt, STD_OUT);
 	#elif __linux__
-	write(1, "\n", 1);
-	write(1, rl_prompt, ft_strlen(rl_prompt));
+	ft_putstr_fd("\n", STD_OUT);
+	ft_putstr_fd(rl_prompt, STD_OUT);
 	#endif
 }
 
@@ -51,9 +50,9 @@ static void	sig_quit(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-	
+
 	#elif __linux__
-	write(1, "\b\b  \b\b", 6);
+	ft_putstr_fd("\b\b  \b\b", STD_OUT);
 	#endif
 	return ;
 }

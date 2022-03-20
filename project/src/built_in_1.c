@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 19:18:12 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 16:22:05 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 //echo
 int	ft_echo(char **argv, char **env)
 {
-	char	flag_n;
+	int	flag_n;
 	size_t	i;
 
 	flag_n = 0;
-	if (argv && argv[0] && ft_strncmp(argv[0], "-n", 3) == 0)
-		flag_n = 1;
+	while (argv && argv[flag_n] && ft_strncmp(argv[flag_n], "-n", 3) == 0)
+		flag_n++;
 	i = flag_n;
 	while (argv && argv[i])
 	{
-		ft_putstr_fd(argv[i++], 1);
+		ft_putstr_fd(argv[i++], STD_OUT);
 		if (argv[i])
-			write(1, " ", 1);
+		ft_putstr_fd(" ", STD_OUT);
 	}
 	if (flag_n == 0)
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", STD_OUT);
 	return (ft_set_ret(0, NULL, env));
 }
 
@@ -64,8 +64,7 @@ static int	ft_get_path(char **path, char **argv, char **env)
 		if (*path == NULL)
 			return (ft_set_ret(1, "minishell: cd: OLDPWD not set\n", env));
 		*path = ft_strdup(*path);
-		ft_putstr_fd(*path, 1);
-		write(1, "\n", 1);
+		ft_putendl_fd(*path, STD_OUT);
 	}
 	else
 		*path = ft_strdup(argv[0]);
@@ -115,10 +114,7 @@ int	ft_env(char **argv, char **env)
 	while (temp)
 	{
 		if (ft_strchr(temp, '='))
-		{
-			ft_putstr_fd(temp, 1);
-			write(1, "\n", 1);
-		}
+			ft_putendl_fd(temp, STD_OUT);
 		temp = env[i++];
 	}
 	return (ft_set_ret(0, NULL, env));

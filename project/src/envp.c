@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/02/23 22:47:53 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/21 00:09:41 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ int	ft_set_ret(int value, char *msg, char **env)
 	value = (char)value;
 	env[i + 1] = ft_itoa(value);
 	if (msg)
-		write(2, msg, ft_strlen(msg));
+	{
+		if (value)
+			ft_putstr_fd(msg, STD_ERR);
+		else
+			ft_putstr_fd(msg, STD_OUT);
+	}
 	return (value);
 }
 

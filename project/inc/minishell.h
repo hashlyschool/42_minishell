@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 15:22:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 23:04:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
 # define STAR				"\001\002*\003\023"
+
+# define START_DOUBLE_QUOTE	"\1\2!\3\23"
+# define END_DOUBLE_QUOTE	"\1\2!!\3\23"
+
+# define TESTER
+# define STD_IN				0
+# define STD_OUT			1
+# define STD_ERR			2
 
 typedef struct s_data
 {
