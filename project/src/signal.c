@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 15:17:04 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/19 20:40:00 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	sig_quit(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-
+	
 	#elif __linux__
 	write(1, "\b\b  \b\b", 6);
 	#endif

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 21:06:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/19 23:12:25 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 	}
 	if (split_end[1])
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
-
 	if (node->stop)
 	{
 		ft_putstr_fd("minishell: ${", 1);
@@ -170,7 +169,6 @@ void	preparsing(t_node *node)
 	}
 	if (node->stop)
 		return ;
-	//не раскрывает звезду в cmd
 	arr = open_star(node);
 	ft_free_str_of_str(&node->data->argv);
 	node->data->argv = arr;

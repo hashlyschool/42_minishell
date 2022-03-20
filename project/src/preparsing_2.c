@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 14:39:21 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/19 23:20:55 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,22 @@ void	replace_data_in_node(char ***arr, t_node *node)
 Masha
 Функция должна разделить строку по правилам разделения bash,
 затем очитстить указатель end_str и вернуть ret
+if end_str из одних пробелов, то все ок
 */
 char	**split_cmd_line(char **end_str)
 {
 	char	**ret;
+	int		i;
 
-	ret = ft_minishell_split(*end_str);
+	ret = NULL;
+	i = 0;
+	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
+	 || *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
+	 	i++;
+	if (*end_str[i] == 0)
+		ret = ft_add_line(ret, "");
+	else
+		ret = ft_minishell_split(*end_str);
 	free(*end_str);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 20:40:11 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/20 00:51:37 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ static void	action(t_node *node)
 	if (!node->data->cmd)
 	{
 		node->stop = 1;
-		ft_set_ret(127, ": command not found\n", node->env);
+		// ft_set_ret(127, ": command not found\n", node->env);
 	}
-	if (node->exit == 1 || !node->data->cmd || cond_status(node) ||\
+	if (node->exit == 1 || !node->data->cmd || cond_status(node) || \
 	(node->next_lvl && node->next_lvl->exec == 1))
 		return ;
 	preparsing(node);
@@ -95,7 +95,7 @@ static void	action(t_node *node)
 		return ;
 	if (cond_is_built_in(node))
 		;
-	else
+	else if (node->data->cmd[0] != 0)
 		ft_execve(node);
 }
 
@@ -118,8 +118,9 @@ void	execute(t_node *node)
 {
 	t_node	*temp;
 
-	temp = NULL;
-	while (node->exit == 0 && node->exec != 1 && (temp == NULL || temp->stop == 0))
+	temp = node;
+	while (node->exit == 0 && node->exec != 1 && \
+	temp->stop == 0)
 	{
 		temp = node;
 		if (temp->exec == 0)

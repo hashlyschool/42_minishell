@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 18:53:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/19 22:35:22 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	find_cmd(t_node *node)
 	}
 	if (!file_find && ft_strncmp(node->data->cmd_exec, "", 1) != 0)
 		error_handling(mode, node, path);
-	if (mode == 1)
+	if (mode == 1 && file_find)
 		node->data->cmd_exec = ft_strjoin_free_s2("/", node->data->cmd_exec);
 	node->data->cmd_exec = ft_strjoin_free_s2(path[i], node->data->cmd_exec);
 	ft_free_str_of_str(&path);
