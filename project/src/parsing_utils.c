@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/16 00:10:59 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/20 15:25:43 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*ft_dollar(char *str, int *i, char *start, char *end, t_parser *prs)
 		flag = 1;
 	while ((str[(*i)++]))
 	{
-		if (! ft_isalnum(str[(*i)]) && ! ft_isalpha(str[(*i)])
+		if (! ft_isalnum(str[(*i)]) && ! ft_isalpha(str[(*i)]) && str[(*i)] != '_'
 			&& flag == 0 && str[(*i)] != '?')
 			plus = 0;
 		if ((str[(*i)] == '}') || plus == 0)

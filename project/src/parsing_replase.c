@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/03/14 22:57:32 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/03/20 00:02:16 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	tmp = ft_strjoin_free_s1(tmp, start);
 	if (str[*i + flag] != '\0')
 		tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
-	if (str[(*i)] != '>' && str[(*i)] != '<')
+	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*' )
 	{
 		if (prs->str && prs->str[0])
 			ft_parse_split(prs);
