@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 00:51:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 17:49:36 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	ft_execve(t_node *node)
 	{
 		open_path_and_check_access(node);
 		argv = get_argv(node);
-		execve(node->data->cmd_exec, argv, node->env);
+		execve(node->data->cmd_exec, argv, *node->env);
 		ft_free_str_of_str(&argv);
 		perror(node->data->cmd);
 		exit(errno);
@@ -70,9 +70,9 @@ static void	ft_execve(t_node *node)
 		if (waitpid(pid, &ret, 0) == -1)
 			return (perror("WAIT_PID"));
 		if (WIFSIGNALED(ret))
-			ft_set_ret(130, NULL, node->env);
+			ft_set_ret(130, NULL, *node->env);
 		else if (WIFEXITED(ret))
-			ft_set_ret(WEXITSTATUS(ret), NULL, node->env);
+			ft_set_ret(WEXITSTATUS(ret), NULL, *node->env);
 	}
 	return ;
 }
@@ -82,7 +82,7 @@ static void	action(t_node *node)
 	if (node->exec == 1)
 		return ;
 	node->exec = 1;
-	if (!node->data->cmd)
+	if (!node->data->cmd && node->exec != 1)
 	{
 		node->stop = 1;
 		// ft_set_ret(127, ": command not found\n", node->env);
@@ -128,7 +128,8 @@ void	execute(t_node *node)
 		if (node->next_lvl && node->exec == 0)
 		{
 			node->exec = -1;
-			node = node->next_lvl;
+			if (cond_status(node) == 0)
+				node = node->next_lvl;
 		}
 		else if (node->next)
 		{

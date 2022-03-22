@@ -6,13 +6,13 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/17 20:44:03 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 10:50:11 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_node	*create_empty_node(char **env)
+t_node	*create_empty_node(char ***env)
 {
 	t_node	*node;
 
@@ -39,7 +39,7 @@ t_node	*create_empty_node(char **env)
 	return (node);
 }
 
-t_node	*create_node_next_lvl(t_node *node, char **env)
+t_node	*create_node_next_lvl(t_node *node, char ***env)
 {
 	t_node	*temp;
 
@@ -55,7 +55,7 @@ t_node	*go_prev_lvl(t_node *node)
 	return (node);
 }
 
-t_node	*create_next_node(t_node *node, char separator, char **env)
+t_node	*create_next_node(t_node *node, char separator, char ***env)
 {
 	t_node	*temp;
 

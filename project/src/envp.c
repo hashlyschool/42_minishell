@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/21 00:09:41 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:20:53 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,42 @@ NULL
 Код окончания последней программы верхнего уровня
 NULL
 */
-char	**ft_copy_env(char **env, char ***argv)
+char	***ft_copy_env(char **env, char ***argv)
 {
 	size_t	i;
-	char	**ret;
+	char	***ret;
 
 	i = 0;
 	*argv = NULL;
 	while (env[i])
 		i++;
-	ret = (char **)malloc(sizeof(char *) * (i + 1 + 2));
-	ret[i] = NULL;
-	ret[i + 1] = ft_strdup("0");
-	ret[i + 2] = NULL;
+	ret = (char ***)malloc(sizeof(char **) * (1));
+	ret[0] = (char **)malloc(sizeof(char *) * (i + 1 + 2));
+	ret[0][i] = NULL;
+	ret[0][i + 1] = ft_strdup("0");
+	ret[0][i + 2] = NULL;
 	while (--i > 0)
-		ret[i] = ft_strdup(env[i]);
-	ret[i] = ft_strdup(env[i]);
+		ret[0][i] = ft_strdup(env[i]);
+	ret[0][i] = ft_strdup(env[i]);
 	return (ret);
 }
 
 /*
 Функция для очистки глобального массива кастомного окружения.
 */
-int	ft_free_envp(char **env)
+int	ft_free_envp(char ****env)
 {
 	size_t	i;
+	char	***temp;
 
 	i = 0;
-	while (env[i])
-		free(env[i++]);
+	temp = *env;
+	while (temp[0][i])
+		free(temp[0][i++]);
 	i++;
-	free(env[i]);
-	free(env);
+	free(temp[0][i]);
+	free(temp[0]);
+	free(temp);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 21:04:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:22:54 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static char	check_error_in_cmd_line(char **line, t_node *node)
 		;
 	if (error)
 	{
-		ft_set_ret(2, "bash: syntax error near unexpected token `", node->env);
+		ft_set_ret(2, "bash: syntax error near unexpected token `", *node->env);
 		ft_putstr_fd("token", 1); //need find token
 		ft_putstr_fd("`'\n", 1);
 	}
@@ -146,7 +146,7 @@ static char	check_error_in_cmd_line(char **line, t_node *node)
 парсинга входной строки.
 Возвращает указатель на корень дерева.
 */
-t_node	*get_forest(char **line, char **env)
+t_node	*get_forest(char **line, char ***env)
 {
 	t_node	*root;
 	t_node	*temp;

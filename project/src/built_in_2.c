@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 14:27:02 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 18:19:31 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,22 @@ static int	no_arguments(char **argv, char **env)
 bash: export: `"1abc"=1': not a valid identifier
 return (1);
 */
-int	ft_export(char **argv, char ***env)
+int	ft_export(char **argv, char ****env)
 {
 	size_t	i;
 	char	**key;
 	char	**value;
 
-	if (no_arguments(argv, (*env)))
+	if (no_arguments(argv, **env))
 	{
 		key = NULL;
 		value = NULL;
 		if (parsing_argv(argv, &key, &value))
 			return (ft_set_ret(1, \
-			"minishell: export: invalid argument\n", *env));
+			"minishell: export: invalid argument\n", **env));
 		i = 0;
 		while (key[i++])
-			export_action(key[i - 1], value[i - 1], env);
+			export_action(key[i - 1], value[i - 1], *env);
 		i = 0;
 		while (key[i])
 		{
@@ -142,5 +142,5 @@ int	ft_export(char **argv, char ***env)
 		free(key);
 		free(value);
 	}
-	return (ft_set_ret(0, NULL, (*env)));
+	return (ft_set_ret(0, NULL, **env));
 }

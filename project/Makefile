@@ -24,6 +24,8 @@ OPTFLAGS		= -MMD -g
 
 all: libft ${NAME}
 
+bonus: libft ${NAME}
+
 $(NAME): $(OBJS_PATH) $(OBJS)
 	$(CC) $(FLAGS) $(OPTFLAGS) $(FLAGS_RL) $(OBJS) -L$(LIBFT_PATH) -lft -o $(NAME)
 
@@ -48,4 +50,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

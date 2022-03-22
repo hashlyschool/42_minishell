@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 14:30:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 17:53:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	find_cmd_in_dir(t_node *node, char *path)
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd);
-		exit(ft_set_ret(126, NULL, node->env));
+		exit(ft_set_ret(126, NULL, *node->env));
 	}
 	dirent = readdir(dir);
 	while (dirent)
@@ -75,7 +75,7 @@ static void	find_cmd(t_node *node)
 	path = NULL;
 	mode = cmd_in_path(node);
 	if (mode)
-		path = ft_split(ft_getenv("PATH", node->env), ':');
+		path = ft_split(ft_getenv("PATH", *node->env), ':');
 	else
 		path = ret_path_replace_cmd(node);
 	i = 0;

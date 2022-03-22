@@ -6,18 +6,18 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 23:59:42 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:30:32 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	ft_check_status_exit(char status_exit, char ***env)
+static void	ft_check_status_exit(char status_exit, char ****env)
 {
 	if (status_exit)
 	{
-		status_exit = (char)(ft_atoi(ft_get_status(*env)));
-		ft_free_envp(*env);
+		status_exit = (char)(ft_atoi(ft_get_status(**env)));
+		ft_free_envp(env);
 		#ifdef __APPLE__
 		clear_history();
 		#elif __linux__
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	**cmd_line;
 	t_node	*root;
-	char	**env;
+	char	***env;
 	char	status_exit;
 
 	#ifdef	TESTER

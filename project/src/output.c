@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 14:32:04 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 10:57:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ void	output_error(int status, t_node *node)
 	if (status == 1)
 	{
 		ft_putstr_fd(node->data->cmd, STD_ERR);
-		exit(ft_set_ret(127, ": command not found\n", node->env));
+		exit(ft_set_ret(127, ": command not found\n", *node->env));
 	}
 	else if (status == 2)
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		ft_putstr_fd(node->data->cmd, STD_ERR);
-		exit(ft_set_ret(127, ": No such file or directory\n", node->env));
+		exit(ft_set_ret(127, ": No such file or directory\n", *node->env));
 	}
 	else if (status == 3)
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		ft_putstr_fd(node->data->cmd, STD_ERR);
-		exit(ft_set_ret(126, ": Is a directory\n", node->env));
+		exit(ft_set_ret(126, ": Is a directory\n", *node->env));
 	}
 }
 

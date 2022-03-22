@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 01:01:43 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:22:27 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 Функция для получения строки из терминала с помощью readline
 promt - начальная строка aka bash
 */
-static char	*get_line(char **env)
+static char	*get_line(char ***env)
 {
 	char	*line_read;
 	char	*promt;
 
-	promt = get_promt(env);
+	promt = get_promt(*env);
 	line_read = readline(promt);
 	free(promt);
 	if (line_read && *line_read)
 		add_history(line_read);
 	if (!line_read)
 	{
-		ft_free_envp(env);
+		ft_free_envp(&env);
 		sig_d(0);
 	}
 	return (line_read);
@@ -196,7 +196,7 @@ int	preparse(char *str)
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
 */
-char	**parsing(char **env)
+char	**parsing(char ***env)
 {
 	char	*str;
 	char	**ret;
@@ -214,7 +214,7 @@ char	**parsing(char **env)
 	if (!(preparse(str)))
 	{
 		free(str);
-		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", env);
+		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", *env);
 		return (NULL);
 	}
 	if (str[0] == 0)
@@ -223,6 +223,6 @@ char	**parsing(char **env)
 		free(str);
 	}
 	else
-		ret = split_str(str, env);
+		ret = split_str(str, *env);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/18 15:06:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:24:51 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	free_node(t_node *node)
 Функция для освобождения памяти под дерево
 и подмены указателя на env
 */
-void	free_forest(t_node *temp, char ***env)
+void	free_forest(t_node *temp, char ****env)
 {
 	t_node	*for_free;
 

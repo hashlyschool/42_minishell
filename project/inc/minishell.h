@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 23:04:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 18:13:53 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ typedef struct s_node
 	int				def_fd[2];
 	int				pipe[2];
 	int				redir_fd[3];
-	char			**env;
+	char			***env;
 }	t_node;
 
 //minishell.c
 
 //envp.c
-char	**ft_copy_env(char **env, char ***argv);
-int		ft_free_envp(char **env);
+char	***ft_copy_env(char **env, char ***argv);
+int		ft_free_envp(char ****env);
 int		ft_set_ret(int value, char *msg, char **env);
 char	*ft_getenv(char *name, char **env);
 char	*ft_get_status(char **env);
@@ -114,31 +114,31 @@ char	*ft_get_status(char **env);
 void	sig_d(int signo);
 void	set_signal(void);
 //parsing.c
-char	**parsing(char **env);
+char	**parsing(char ***env);
 //output.c
 char	*get_promt(char **env);
 char	*ft_getenv(char *name, char **env);
 void	output_error(int status, t_node *node);
 //built_in_1.c
-int		ft_echo(char **argv, char **env);
-int		ft_cd(char **argv, char **env);
-int		ft_env(char **argv, char **env);
+int		ft_echo(char **argv, char ***env);
+int		ft_cd(char **argv, char ***env);
+int		ft_env(char **argv, char ***env);
 //built_in_2.c
-int		ft_export(char **argv, char ***env);
+int		ft_export(char **argv, char ****env);
 //built_in_3.c
-int		ft_unset(char **argv, char ***env);
+int		ft_unset(char **argv, char ****env);
 void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j);
 //built_in_4.c
-int		ft_pwd(char **argv, char **env);
-int		ft_exit(char **argv, char **env, char *exit);
+int		ft_pwd(char **argv, char ***env);
+int		ft_exit(char **argv, char ***env, char *exit);
 //forest_1.c
-t_node	*create_empty_node(char **env);
-t_node	*create_node_next_lvl(t_node *node, char **env);
+t_node	*create_empty_node(char ***env);
+t_node	*create_node_next_lvl(t_node *node, char ***env);
 t_node	*go_prev_lvl(t_node *node);
-t_node	*create_next_node(t_node *node, char separator, char **env);
+t_node	*create_next_node(t_node *node, char separator, char ***env);
 //forest_2.c
 void	ft_add_argv(t_node *node, char *str);
-t_node	*get_forest(char **line, char **env);
+t_node	*get_forest(char **line, char ***env);
 //execute_1.c
 void	execute(t_node *node);
 void	error_handling(int mode, t_node *node, char **path);
@@ -146,7 +146,7 @@ void	error_handling(int mode, t_node *node, char **path);
 void	open_path_and_check_access(t_node *node);
 //free.c
 void	free_node(t_node *node);
-void	free_forest(t_node *temp, char ***env);
+void	free_forest(t_node *temp, char ****env);
 //condition.c
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);

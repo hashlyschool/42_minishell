@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:03:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 12:58:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 18:21:34 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ static void	malloc_for_unset(size_t index, char ***env)
 	size_t	j;
 
 	i = 0;
-	ret = (*env);
+	ret = *env;
 	while (ret[i])
 		i++;
 	ret = (char **)malloc(sizeof(char *) * (i + 2));
 	ret[i - 1] = NULL;
-	ret[i] = (*env)[i + 1];
+	ret[i] = env[0][i + 1];
 	ret[i + 1] = NULL;
 	i = 0;
 	j = 0;
-	while ((*env)[i])
+	while (env[0][i])
 	{
 		if (j != index)
-			ret[i++] = (*env)[j];
+			ret[i++] = env[0][j];
 		j++;
 	}
-	free((*env)[index]);
-	free((*env));
+	free(env[0][index]);
+	free(env[0]);
 	*env = ret;
 }
 
@@ -47,7 +47,7 @@ static int	ft_unset_in_loop(char *key, char ***env)
 	size_t	i;
 
 	i = 0;
-	temp_envp = (*env);
+	temp_envp = *env;
 	len_key = ft_strlen(key);
 	while (temp_envp[i])
 	{
@@ -64,7 +64,7 @@ static int	ft_unset_in_loop(char *key, char ***env)
 }
 
 //unset
-int	ft_unset(char **argv, char ***env)
+int	ft_unset(char **argv, char ****env)
 {
 	int	i;
 	int	ret;
@@ -75,7 +75,7 @@ int	ft_unset(char **argv, char ***env)
 		return (ret);
 	while (argv[i])
 	{
-		if (ft_unset_in_loop(argv[i++], env))
+		if (ft_unset_in_loop(argv[i++], *env))
 			ret = -1;
 	}
 	return (ret);

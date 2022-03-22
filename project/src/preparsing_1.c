@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/21 00:15:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/22 10:54:48 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 	{
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strdup(ft_get_status(node->env));
+			ret = ft_strdup(ft_get_status(*node->env));
 		else if (ft_strlen(split_end[0]) == 1 && ft_isdigit(split_end[0][0]))
 		{
 			if (split_end[0][0] == '0')
@@ -61,15 +61,15 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 				ret = ft_strdup("");
 		}
 		else if (check_error_in_name(split_end[0], &node->stop) == 0)
-			ret = ft_strdup(ft_getenv(split_end[0], node->env));
+			ret = ft_strdup(ft_getenv(split_end[0], *node->env));
 	}
 	else
 	{
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strjoin_free_s1(ret, ft_get_status(node->env));
+			ret = ft_strjoin_free_s1(ret, ft_get_status(*node->env));
 		else if (check_error_in_name(split_end[0], &node->stop) == 0)
-			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], node->env));
+			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], *node->env));
 	}
 	if (split_end[1])
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
@@ -77,7 +77,7 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 	{
 		ft_putstr_fd("minishell: ${", STD_ERR);
 		ft_putstr_fd(split_end[0], STD_ERR);
-		ft_set_ret(1, "}: bad substitution\n", node->env);
+		ft_set_ret(1, "}: bad substitution\n", *node->env);
 	}
 	ft_free_str_of_str(&split_end);
 	return (ret);
