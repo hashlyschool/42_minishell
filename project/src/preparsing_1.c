@@ -6,36 +6,11 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 10:54:48 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 10:21:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-static int	check_error_in_name(char *name, char *flag)
-{
-	int	i;
-
-	*flag = 0;
-	i = 0;
-	if (name && ft_isdigit(name[0]) && name[1] == 0)
-	{
-		*flag = 0;
-		return (*flag);
-	}
-	while (name[i])
-	{
-		if (ft_isalpha(name[i]) || (ft_isdigit(name[i]) && i > 0)
-			|| name[i] == '_')
-			i++;
-		else
-		{
-			*flag = 1;
-			break ;
-		}
-	}
-	return (*flag);
-}
 
 /*
 Нужно сделать проверку на валидность имени переменной окружения
@@ -60,7 +35,7 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 			else
 				ret = ft_strdup("");
 		}
-		else if (check_error_in_name(split_end[0], &node->stop) == 0)
+		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
 			ret = ft_strdup(ft_getenv(split_end[0], *node->env));
 	}
 	else
@@ -68,7 +43,7 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 		if (split_end && split_end[0] && \
 		split_end[0][0] == '?' && split_end[0][1] == 0)
 			ret = ft_strjoin_free_s1(ret, ft_get_status(*node->env));
-		else if (check_error_in_name(split_end[0], &node->stop) == 0)
+		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
 			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], *node->env));
 	}
 	if (split_end[1])

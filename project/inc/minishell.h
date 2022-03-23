@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 18:13:53 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 10:57:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int		ft_env(char **argv, char ***env);
 int		ft_export(char **argv, char ****env);
 //built_in_3.c
 int		ft_unset(char **argv, char ****env);
-void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j);
+void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env);
 //built_in_4.c
 int		ft_pwd(char **argv, char ***env);
 int		ft_exit(char **argv, char ***env, char *exit);
@@ -162,6 +162,7 @@ void	ft_close_redir_pipe(t_node *node);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c
+int		check_error_in_env_name(char *name, char *flag);
 void	replace_data_in_node(char ***arr, t_node *node);
 char	**split_cmd_line(char **end_str);
 //preparsing_3.c

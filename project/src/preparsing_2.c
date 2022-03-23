@@ -6,11 +6,38 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 16:44:46 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 10:43:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	check_error_in_env_name(char *name, char *flag)
+{
+	int	i;
+
+	*flag = 0;
+	i = 0;
+	if (name && ft_isdigit(name[0]) && name[1] == 0)
+		return (*flag);
+	if (name && name [0] == 0)
+	{
+		*flag = 1;
+		return (*flag);
+	}
+	while (name[i])
+	{
+		if (ft_isalpha(name[i]) || (ft_isdigit(name[i]) && i > 0)
+			|| name[i] == '_')
+			i++;
+		else
+		{
+			*flag = 1;
+			break ;
+		}
+	}
+	return (*flag);
+}
 
 void	replace_data_in_node(char ***arr, t_node *node)
 {

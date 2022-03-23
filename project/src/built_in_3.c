@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:03:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 18:21:34 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 11:23:08 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,15 @@ static char	**ft_add_line_for_export(char **arg, char *line, char **key)
 }
 
 //continue export
-void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j)
+void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env)
 {
 	size_t	i;
+	size_t	j;
 	char	*temp;
+	char	*temp_name;
 
 	i = 0;
+	j = 0;
 	while (argv && argv[i])
 	{
 		while (argv[i][j] && argv[i][j] != '=')
@@ -124,12 +127,25 @@ void	ft_parsing_argv_2(char **argv, char ***key, char ***value, size_t j)
 		}
 		else
 		{
-			temp = ft_substr(argv[i], 0, j);
-			*key = ft_add_line(*key, temp);
-			free(temp);
-			temp = ft_strdup(argv[i] + (j + 1));
-			*value = ft_add_line_for_export(*value, temp, *key);
-			free(temp);
+			if (j && argv[i][j - 1] == '+')
+			{
+				temp = ft_substr(argv[i], 0, j - 1);
+				*key = ft_add_line(*key, temp);
+				temp_name = ft_getenv(temp, env);
+				free(temp);
+				temp = ft_strjoin(temp_name, argv[i] + (j + 1));
+				*value = ft_add_line_for_export(*value, temp, *key);
+				free(temp);
+			}
+			else
+			{
+				temp = ft_substr(argv[i], 0, j);
+				*key = ft_add_line(*key, temp);
+				free(temp);
+				temp = ft_strdup(argv[i] + (j + 1));
+				*value = ft_add_line_for_export(*value, temp, *key);
+				free(temp);
+			}
 		}
 		i++;
 	}

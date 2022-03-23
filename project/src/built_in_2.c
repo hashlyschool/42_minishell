@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 18:19:31 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 15:44:55 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,40 @@ static void	export_action(char *key, char *value, char ***env)
 	return ;
 }
 
-static int	parsing_argv(char **argv, char ***key, char ***value)
+/*
+return (0) - если аргументы в норме
+return (1) - если имя переменной не верно
+return (2) - если в аргументах присутствуют опции (нет по сабжу)
+*/
+static int	parsing_argv(char **argv, char ***key, char ***value, char **env)
 {
 	size_t	i;
+	char	temp;
 
 	i = 0;
 	while (argv && argv[i])
 	{
 		if (argv[i++][0] == '-')
-			return (1);
+			return (ft_set_ret(2, \
+			"minishell: export: invalid argument\n", env));
 	}
-	ft_parsing_argv_2(argv, key, value, 0);
+	ft_parsing_argv_2(argv, key, value, env);
+	i = 0;
+	while (key[0][i])
+	{
+		if (check_error_in_env_name(key[0][i], &temp))
+		{
+			ft_putstr_fd(PROGRAM_NAME": export: `" ,STD_ERR);
+			ft_putstr_fd(key[0][i] ,STD_ERR);
+			return(ft_set_ret(1, \
+			"': not a valid identifier\n", env));
+		}
+		i++;
+	}
 	return (0);
 }
 
-static int	no_arguments(char **argv, char **env)
+static int	yes_arguments(char **argv, char **env)
 {
 	int	i;
 	int	len_key;
@@ -96,7 +115,10 @@ static int	no_arguments(char **argv, char **env)
 		len_key = 0;
 		while (env[i][len_key] && env[i][len_key] != '=')
 			len_key++;
-		write(STD_OUT, env[i], len_key + 1);
+		if (env[i][len_key])
+			write(STD_OUT, env[i], len_key + 1);
+		else
+			write(STD_OUT, env[i], len_key);
 		if (env[i][len_key])
 		{
 			ft_putstr_fd("\"", STD_OUT);
@@ -114,6 +136,7 @@ static int	no_arguments(char **argv, char **env)
 нужно проверить на валидность имя переменной окружения
 
 bash: export: `"1abc"=1': not a valid identifier
+bash: export: `=': not a valid identifier
 return (1);
 */
 int	ft_export(char **argv, char ****env)
@@ -122,13 +145,12 @@ int	ft_export(char **argv, char ****env)
 	char	**key;
 	char	**value;
 
-	if (no_arguments(argv, **env))
+	if (yes_arguments(argv, **env))
 	{
 		key = NULL;
 		value = NULL;
-		if (parsing_argv(argv, &key, &value))
-			return (ft_set_ret(1, \
-			"minishell: export: invalid argument\n", **env));
+		if (parsing_argv(argv, &key, &value, **env))
+			return (0);
 		i = 0;
 		while (key[i++])
 			export_action(key[i - 1], value[i - 1], *env);

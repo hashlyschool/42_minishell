@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 18:17:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 14:12:32 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	ft_env(char **argv, char ***env)
 	{
 		if (ft_strchr(temp, '='))
 			ft_putendl_fd(temp, STD_OUT);
-		temp = env[0][i++];
+		temp = env[0][++i];
 	}
 	return (ft_set_ret(0, NULL, *env));
 }

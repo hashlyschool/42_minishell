@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 14:40:43 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 15:07:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ static void	sig_int(int signo)
 {
 	signo = 0;
 	#ifdef __APPLE__
-	ft_putstr_fd("\n", STD_OUT);
-	ft_putstr_fd(rl_prompt, STD_OUT);
 	#elif __linux__
-	ft_putstr_fd("\n", STD_OUT);
-	ft_putstr_fd(rl_prompt, STD_OUT);
 	#endif
+	rl_replace_line("", 0);
+	rl_done = 1;
 }
 
 /*
@@ -52,9 +50,14 @@ static void	sig_quit(int signo)
 	#ifdef __APPLE__
 
 	#elif __linux__
-	ft_putstr_fd("\b\b  \b\b", STD_OUT);
+	// ft_putstr_fd("\b\b  \b\b", STD_OUT);
 	#endif
 	return ;
+}
+
+static int	event(void )
+{
+	return (0);
 }
 
 /*
@@ -62,6 +65,7 @@ static void	sig_quit(int signo)
 */
 void	set_signal(void)
 {
+	rl_event_hook = event;
 	signal(SIGINT, sig_int);
 	signal(SIGQUIT, sig_quit);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 11:20:53 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/23 13:52:19 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ NULL
 */
 char	***ft_copy_env(char **env, char ***argv)
 {
-	size_t	i;
+	int		i;
+	char	*temp;
 	char	***ret;
 
 	i = 0;
@@ -37,9 +38,12 @@ char	***ft_copy_env(char **env, char ***argv)
 	ret[0][i] = NULL;
 	ret[0][i + 1] = ft_strdup("0");
 	ret[0][i + 2] = NULL;
-	while (--i > 0)
-		ret[0][i] = ft_strdup(env[i]);
-	ret[0][i] = ft_strdup(env[i]);
+	while (i)
+	{
+		temp = env[i - 1];
+		ret[0][i - 1] = ft_strdup(temp);
+		i--;
+	}
 	return (ret);
 }
 
