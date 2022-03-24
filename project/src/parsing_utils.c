@@ -65,7 +65,7 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 		if (str[(*i)] == '$')
 		{
 			prs->quo = 1;
-			str = ft_dollar(str, i, START_VALUE, END_VALUE, prs);
+			str = ft_dollar(str, i, prs);
 			prs->quo = 0;
 		}
 		if (str[(*i)] == '\\' && (str[(*i) + 1] == '\"'
@@ -75,8 +75,11 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 			break ;
 	}
 	tmp = ft_substr(str, 0, j);
+	printf("tmp %s\n",tmp);
 	tmp2 = ft_substr(str, j + 1, (*i) - j - 1);
+	printf("tmp2 %s\n",tmp2);
 	tmp3 = ft_strdup(str + (*i) + 1);
+	printf("tmp3 %s\n",tmp3);
 	tmp = ft_strjoin_free_s1(tmp, tmp2);
 	tmp = ft_strjoin_free_s1(tmp, tmp3);
 	prs->str = ft_strjoin_free_s1(prs->str, tmp2);
@@ -84,50 +87,68 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	free(tmp3);
 	free(str);
 	(*i) -= 2;
+	printf("%s\n",tmp);
 	return (tmp);
 }
 
-char	*ft_dollar(char *str, int *i, char *start, char *end, t_parser *prs)
+void	dollar_data(t_dollars *data)
 {
-	int		j;
-	int		plus;
-	int		flag;
-	char	*tmp;
-	char	*tmp2;
-	char	*tmp3;
+	data->plus = 1;
+	data->flag = 0;
+	data->num = 0;
+	data->start = ft_strdup(START_VALUE);
+	data->end = ft_strdup(END_VALUE);
+}
+
+char	*ft_dollar(char *str, int *i, t_parser *prs)
+{
+	t_dollars	data;
+	int			j;
+	char		*tmp;
+	char		*tmp2;
+	char		*tmp3;
 
 	j = *i;
-	plus = 1;
-	flag = 0;
+	dollar_data(&data);
 	/* Поставить флаг какой это доллар, исходя из этого запускать проверку*/
 	if (str[j + 1] == '{')
-		flag = 1;
+		data.flag = 1;
 	while ((str[(*i)++]))
 	{
-		if (! ft_isalnum(str[(*i)]) && ! ft_isalpha(str[(*i)]) && str[(*i)] != '_'
-			&& flag == 0 && str[(*i)] != '?')
-			plus = 0;
-		if ((str[(*i)] == '}') || plus == 0)
+		if ((! ft_isalnum(str[(*i)]) && str[(*i)]
+			!= '_' && data.flag == 0) || (str[(*i)] == '?'))
+			data.plus = 0;
+		if ((str[(*i)] == '}') || data.plus == 0 || (data.num > 0 && ft_isdigit(str[(*i)])))
 			break ;
+		data.num += 1;
 	}
+	printf("%c \n",str[(*i)]);
 	tmp = ft_substr(str, 0, j);
 	if (str[j] == '$' && str[j + 1] == '{')
 		tmp2 = ft_substr(str, j + 2, *i - j - 2);
 	else
-		tmp2 = ft_substr(str, j + 1, (*i) - j - 1);
-	tmp3 = ft_strdup(str + (*i) + plus);
-	tmp2 = ft_strjoin_free_s2(start, tmp2);
-	tmp2 = ft_strjoin_free_s1(tmp2, end);
-	if (prs->quo == 0)
-		prs->str = ft_strjoin_free_s1(prs->str, tmp2);
+		tmp2 = ft_substr(str, j + 1, (*i) - j);
+	tmp3 = ft_strdup(str + (*i) + 1);
+	if (data.flag == 0)
+	{
+		data.start = ft_strdup(START_DOLLAR);
+		data.end = ft_strdup(END_DOLLAR);
+	}
+	if (data.num > 0)
+	{
+		tmp2 = ft_strjoin_free_s2(data.start, tmp2);
+		tmp2 = ft_strjoin_free_s1(tmp2, data.end);
+		if (prs->quo == 0)
+			prs->str = ft_strjoin_free_s1(prs->str, tmp2);
+	}
 	tmp = ft_strjoin_free_s1(tmp, tmp2);
 	tmp = ft_strjoin_free_s1(tmp, tmp3);
 	free(tmp2);
 	free(tmp3);
 	if (str[j] == '$' && str[j + 1] == '{')
-		(*i) += ft_strlen(start) + ft_strlen(end) - 3;
+		(*i) += ft_strlen(data.start) + ft_strlen(data.end) - 3;
 	else
-		(*i) += ft_strlen(start) + ft_strlen(end) - 2;
+		(*i) += ft_strlen(data.start) + ft_strlen(data.end) - 1;
 	free(str);
 	return (tmp);
 }

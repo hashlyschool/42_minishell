@@ -57,7 +57,7 @@ char	*parce(char *str, t_parser *prs)
 		else if (str[i] == '\"')
 			str = ft_quotechar(str, &i, prs);
 		else if (str[i] == '$')
-			str = ft_dollar(str, &i, START_VALUE, END_VALUE, prs);
+			str = ft_dollar(str, &i, prs);
 		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
 			|| str[i] == '&' || str[i] == '*' || str[i] == ';' || str[i] == '('
 			|| str[i] == ')')
@@ -196,17 +196,35 @@ char	*lexer(char *str)
 {
 	char	*error;
 	int		i;
+	int		red;
+	char	q;
 
 	i = 0;
 	error = NULL;
-	while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && str[i] != '\0')
+	red = 0;
+	q = '0';
+	while (str[i] != '\0')
 	{
-		if (ft_strchr(";&|", str[i]))
+		while (ft_strchr(";& \r\v\n\t|><", str[i]) != NULL && q == '0')
 		{
-			if (((error != NULL && error[0] == str[i])
-				|| !(error)) && ft_strlen(error) != 2)
-				error = ft_charjoin(error, str[i]);
+			if (ft_strchr(";&|><", str[i]))
+			{
+				if (red == 0)
+					red = 1;
+				else if (((error != NULL && error[0] == str[i])
+					|| !(error)) && ft_strlen(error) != 2)
+					error = ft_charjoin(error, str[i]);
+			}
+			i++;
 		}
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			if (str[i] == q)
+				q = '0';
+			else
+				q = str[i];
+		}
+		red = 0;
 		i++;
 	}
 	if (error != NULL && str[i] == '\0')

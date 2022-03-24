@@ -23,10 +23,20 @@ typedef struct s_parser
 	char	red;
 }	t_parser;
 
+typedef struct s_dolar
+{
+	int		quo;
+	int		plus;
+	int		flag;
+	int		num;
+	char	*start;
+	char	*end;
+}	t_dollars;
+
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);
 char	*ft_quotechar(char *str, int *i, t_parser *prs);
-char	*ft_dollar(char *str, int *i, char *start, char *end, t_parser *prs);
+char	*ft_dollar(char *str, int *i, t_parser *prs);
 char	*ft_replace(char *str, int *i, char c, t_parser *prs);
 char	*ft_charjoin(char *str, char c);
 void	ft_parse_split(t_parser *prs);

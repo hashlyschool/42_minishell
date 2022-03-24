@@ -70,6 +70,8 @@
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
 # define STAR				"\001\002*\003\023"
+# define START_DOLLAR		"\001\002$"
+# define END_DOLLAR			"\003\023"
 
 # define START_DOUBLE_QUOTE	"\1\2!\3\23"
 # define END_DOUBLE_QUOTE	"\1\2!!\3\23"
