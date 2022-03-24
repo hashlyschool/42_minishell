@@ -2,7 +2,10 @@ NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
 FLAGS			=	-Wall -Wextra -Werror
-FLAGS_RL		=	-lreadline
+#School MAC
+FLAGS_RL		=	-lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1.2/lib/ -I/Users/${USER}/.brew/Cellar/readline/8.1.2/include/
+#Linux
+# FLAGS_RL		=	-lreadline
 LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a
 LIBFT			=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))

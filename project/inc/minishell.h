@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/23 10:57:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/24 19:12:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2
+
+# ifdef __APPLE__
+	void	rl_replace_line();
+# endif
+
 
 typedef struct s_data
 {

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/23 17:16:53 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/24 19:15:08 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	sig_d(int signo)
 	clear_history();
 	#elif __linux__
 	rl_clear_history();
-	ft_putstr_fd("exit\n", STD_OUT);
 	#endif
+	ft_putstr_fd("exit\n", STD_ERR);
 	exit(0);
 }
 
@@ -34,7 +34,12 @@ static void	sig_int(int signo)
 {
 	signo = 0;
 	rl_replace_line("", 0);
+	#ifdef __Linux__
 	rl_done = 1;
+	#elif __APPLE__
+	ft_putstr_fd("\n", STD_ERR);
+	ft_putstr_fd(rl_prompt, STD_ERR);
+	#endif
 }
 
 /*
@@ -46,17 +51,21 @@ static void	sig_quit(int signo)
 	return ;
 }
 
-static int	event(void )
+#ifdef __Linux__
+int	event(void )
 {
 	return (0);
 }
+#endif
 
 /*
 Функция для установки функций для перехвата окружения
 */
 void	set_signal(void)
 {
+	#ifdef __Linux__
 	rl_event_hook = event;
+	#endif
 	signal(SIGINT, sig_int);
 	signal(SIGQUIT, sig_quit);
 	return ;
