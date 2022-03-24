@@ -155,7 +155,7 @@ int	preparse(char *str)
 	dollar = 0;
 	while (str[i])
 	{
-		if ((str[i] == '\'') || str[i] == '"')
+		if ((str[i] == '\'') || str[i] == '"' || str[i] == '\\')
 		{
 			if (!(i != 0 && str[i - 1] == '\\'))
 			{
@@ -192,6 +192,28 @@ int	preparse(char *str)
 	return (1);
 }
 
+char	*lexer(char *str)
+{
+	char	*error;
+	int		i;
+
+	i = 0;
+	error = NULL;
+	while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && str[i] != '\0')
+	{
+		if (ft_strchr(";&|", str[i]))
+		{
+			if (((error != NULL && error[0] == str[i])
+				|| !(error)) && ft_strlen(error) != 2)
+				error = ft_charjoin(error, str[i]);
+		}
+		i++;
+	}
+	if (error != NULL && str[i] == '\0')
+		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
+	return (NULL);
+}
+
 /*
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
@@ -200,6 +222,7 @@ char	**parsing(char ***env)
 {
 	char	*str;
 	char	**ret;
+	char	*error;
 
 	ret = NULL;
 	str = get_line(env);
@@ -215,6 +238,13 @@ char	**parsing(char ***env)
 	{
 		free(str);
 		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", *env);
+		return (NULL);
+	}
+	error = lexer(str);
+	if (error != NULL)
+	{
+		free(str);
+		ft_set_ret(2, error, *env);
 		return (NULL);
 	}
 	if (str[0] == 0)

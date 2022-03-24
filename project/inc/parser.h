@@ -13,6 +13,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+# define SYN_ERR "minishell: syntax error near unexpected token "
+
 typedef struct s_parser
 {
 	char	*str;
