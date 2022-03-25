@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/24 19:15:08 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 09:36:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sig_int(int signo)
 {
 	signo = 0;
 	rl_replace_line("", 0);
-	#ifdef __Linux__
+	#ifdef __linux__
 	rl_done = 1;
 	#elif __APPLE__
 	ft_putstr_fd("\n", STD_ERR);
@@ -51,7 +51,7 @@ static void	sig_quit(int signo)
 	return ;
 }
 
-#ifdef __Linux__
+#ifdef __linux__
 int	event(void )
 {
 	return (0);
@@ -63,7 +63,7 @@ int	event(void )
 */
 void	set_signal(void)
 {
-	#ifdef __Linux__
+	#ifdef __linux__
 	rl_event_hook = event;
 	#endif
 	signal(SIGINT, sig_int);

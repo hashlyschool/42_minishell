@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 17:49:36 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 10:25:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	action(t_node *node)
 		return ;
 	if (cond_is_built_in(node))
 		;
-	else if (node->data->cmd[0] != 0)
+	else// if (node->data->cmd[0] != 0)
 		ft_execve(node);
 }
 

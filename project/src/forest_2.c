@@ -6,36 +6,11 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 11:22:54 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 17:39:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-static char	str_is_redirect(char *str)
-{
-	size_t	len;
-	size_t	len_str;
-
-	len_str = ft_strlen(str);
-	len = ft_strlen(REDIR_RIGHT_ONE);
-	if (len_str >= len + 2 && str[len] == ' ' && ft_isprint(str[len + 1]) && \
-	ft_strncmp(str, REDIR_RIGHT_ONE, len) == 0)
-		return (1);
-	len = ft_strlen(REDIR_RIGHT_TWO);
-	if (len_str >= len + 2 && str[len] == ' ' && ft_isprint(str[len + 1]) && \
-	ft_strncmp(str, REDIR_RIGHT_TWO, len) == 0)
-		return (2);
-	len = ft_strlen(REDIR_LEFT_ONE);
-	if (len_str >= len + 2 && str[len] == ' ' && ft_isprint(str[len + 1]) && \
-	ft_strncmp(str, REDIR_LEFT_ONE, len) == 0)
-		return (3);
-	len = ft_strlen(REDIR_LEFT_TWO);
-	if (len_str >= len + 2 && str[len] == ' ' && ft_isprint(str[len + 1]) && \
-	ft_strncmp(str, REDIR_LEFT_TWO, len) == 0)
-		return (4);
-	return (0);
-}
 
 static void	ft_add_redir(t_node *node, char *str, char type)
 {
@@ -84,24 +59,18 @@ void	ft_add_argv(t_node *node, char *str)
 	node->data->argv = ret;
 }
 
-static void	fill_node(char *str, t_node *node)
+static void	fill_node(char **str, int i, t_node *node)
 {
 	int	redir;
 
 	node->exec = 0;
-	redir = str_is_redirect(str);
-	if (redir == 1)
-		ft_add_redir(node, str, 1);
-	else if (redir == 2)
-		ft_add_redir(node, str, 2);
-	else if (redir == 3)
-		ft_add_redir(node, str, 3);
-	else if (redir == 4)
-		ft_add_redir(node, str, 4);
+	redir = str_is_redirect(str, i);
+	if (redir)
+		ft_add_redir(node, str[i], redir);
 	else if (node->data->cmd == NULL)
-		node->data->cmd = ft_strdup(str);
+		node->data->cmd = ft_strdup(str[i]);
 	else
-		ft_add_argv(node, str);
+		ft_add_argv(node, str[i]);
 }
 
 
@@ -175,7 +144,7 @@ t_node	*get_forest(char **line, char ***env)
 		else if (ft_strncmp(line[i], SEMICOLON, ft_strlen(SEMICOLON) + 1) == 0)
 			temp = create_next_node(temp, SEMICOLON_CODE, env);
 		else
-			fill_node(line[i], temp);
+			fill_node(line, i, temp);
 	}
 	return (root);
 }

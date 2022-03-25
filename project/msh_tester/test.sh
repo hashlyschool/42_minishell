@@ -260,6 +260,8 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test '"echo " | "pwd "'
   exec_test '/bin/lsa'
   exec_test './Makefile'
+  exec_test './inc'
+  exec_test './project/42_libft/Makefile'
   exec_test '| test'
   exec_test 'echo > <'
   exec_test 'echo | |'
@@ -328,7 +330,7 @@ if [ "$1" == "custom_1" ] || [ "$1" == "all" ]; then
   exec_test "echo \'str1\'str2\"str3 $PWD str4\" \"str5\"\'$PWD\' $PWD \"$PWD\""
   exec_test "echo \"hello><; world\""
   exec_test "echo $hfkdghldf$PWD"
-  exec_test "echo \' \"\"\"\" \'"
+  exec_test " echo \' \"\"\"\" \' "
   exec_test "echo \" \'\'\'\'\'\' \""
   exec_test "echo \"\"\"\"\"\"\"\""
   exec_test "echo \'\'\'\'\'\'\'\'"
@@ -380,6 +382,7 @@ if [ "$1" == "custom_2" ] || [ "$1" == "all" ]; then
   exec_test "ls -la"
   exec_test "ls \"-la\" ; cd -"
   exec_test "echo \'\\'"
+  rm fil\'1\'
 fi
 
 # CUSTOM RANDOM 3
