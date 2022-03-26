@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 10:24:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 23:04:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	cond_is_built_in(t_node *node)
 
 int	node_is_not_empty(t_node *root)
 {
-	if (!root->next && !root->next_lvl && \
-	!root->data->cmd && !root->data->redir)
+	if (!root->next && !root->next_lvl && root->data->cmd && \
+	root->data->cmd[0] == 0 && !root->data->redir)
 		return (0);
 	return (1);
 }

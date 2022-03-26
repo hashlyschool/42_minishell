@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 10:25:14 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 23:07:01 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ static void	action(t_node *node)
 		return ;
 	node->exec = 1;
 	if (!node->data->cmd && node->exec != 1)
-	{
 		node->stop = 1;
-		// ft_set_ret(127, ": command not found\n", node->env);
-	}
 	if (node->exit == 1 || !node->data->cmd || cond_status(node) || \
 	(node->next_lvl && node->next_lvl->exec == 1))
 		return ;
@@ -95,7 +92,7 @@ static void	action(t_node *node)
 		return ;
 	if (cond_is_built_in(node))
 		;
-	else// if (node->data->cmd[0] != 0)
+	else if (node->data->cmd[0] != 0)
 		ft_execve(node);
 }
 

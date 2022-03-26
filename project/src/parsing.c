@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 10:21:08 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 23:13:53 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_line(char ***env)
 
 void	ft_parse_split(t_parser *prs)
 {
-	if (prs->str)
+	if (prs->str && prs->str[0])
 		prs->mass = ft_add_line(prs->mass, prs->str);
 	free(prs->str);
 	prs->str = NULL;
