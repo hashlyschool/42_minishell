@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 17:39:14 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/26 23:20:36 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ t_node	*get_forest(char **line, char ***env)
 	int		i;
 
 	temp = create_empty_node(env);
+	temp->def_fd[0] = dup(0);
+	temp->def_fd[1] = dup(1);
 	root = temp;
 	if (!line || check_error_in_cmd_line(line, root))
 	{

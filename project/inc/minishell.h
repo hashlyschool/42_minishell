@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 17:29:02 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/27 22:25:12 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_node
 	char			exec;
 	char			exit;
 	char			stop;
-	int				def_fd[2];
+	int				def_fd[3];
 	int				pipe[2];
 	int				redir_fd[3];
 	char			***env;
@@ -160,8 +160,10 @@ int		cmd_in_path(t_node *node);
 //condition_redirect.c
 char	str_is_redirect(char **str, int i);
 //redir_pipe_1.c
+void	set_default_fd(t_node *node);
+void	close_default_fd(t_node *node);
 void	ft_set_redir_pipe(t_node *node);
-int		find_def_fd(t_node *node, int fd);
+// int		find_def_fd(t_node *node, int fd);
 //redir_pipe_2.c
 void	ft_set_redir(t_node *node);
 //redir_pipe_3.c

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 23:07:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 00:05:40 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void	ft_execve(t_node *node)
 	return ;
 }
 
+/*
 static void	action(t_node *node)
 {
 	if (node->exec == 1)
@@ -95,6 +96,7 @@ static void	action(t_node *node)
 	else if (node->data->cmd[0] != 0)
 		ft_execve(node);
 }
+*/
 
 void	error_handling(int mode, t_node *node, char **path)
 {
@@ -111,7 +113,7 @@ void	error_handling(int mode, t_node *node, char **path)
 В зависимости от содержимого и структуры дерева происходит
 выполнение соответствующих операций
 */
-void	execute(t_node *node)
+/*void	execute(t_node *node)
 {
 	t_node	*temp;
 
@@ -137,10 +139,80 @@ void	execute(t_node *node)
 		{
 			action(node);
 			node = node->prev_lvl;
+			//exit();
 		}
 		else if (!node->prev_lvl && !node->next && node->exec != 1)
 			action(node);
 		if (temp->exec == 1)
 			ft_close_redir_pipe(temp);
+	}
+}*/
+
+
+static void	action(t_node *node)
+{
+	if (node->next_lvl && cond_status(node) == 0)
+		execute(node->next_lvl);
+	else if (!node->next_lvl)
+	{
+		if (node->exec == 1)
+			return ;
+		node->exec = 1;
+		if (!node->data->cmd && node->exec != 1)
+			node->stop = 1;
+		if (node->exit == 1 || !node->data->cmd || cond_status(node))
+			return ;
+		preparsing(node);
+		if (node->stop)
+			return ;
+		if (cond_is_built_in(node))
+			;
+		else if (node->data->cmd[0] != 0)
+			ft_execve(node);
+	}
+}
+
+void	execute(t_node *node)
+{
+	pid_t	pid;
+	int		ret;
+
+	set_default_fd(node);
+	while (node)
+	{
+		ft_set_redir_pipe(node);
+		if (node->data->pipe)
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				action(node);
+				ft_close_redir_pipe(node);
+				if (node->data->pipe == PIPE_ON_THE_LEFT)
+					exit(ft_atoi(ft_get_status(*node->env)));
+				exit(0);
+			}
+			ft_close_redir_pipe(node);
+			if (node->data->pipe == PIPE_ON_THE_LEFT)
+			{
+				if (waitpid(pid, &ret, 0) == -1)
+					return (perror("WAIT_PID"));
+				if (WIFSIGNALED(ret))
+					ft_set_ret(130, NULL, *node->env);
+				else if (WIFEXITED(ret))
+					ft_set_ret(WEXITSTATUS(ret), NULL, *node->env);
+				//Закрывать все дескрипторы нужно вот здесь!!!
+			}
+			while (waitpid(-1, NULL, WNOHANG) > 0)
+				;
+		}
+		else
+		{
+			action(node);
+			ft_close_redir_pipe(node);
+		}
+		if (node->next == NULL)
+			close_default_fd(node);
+		node = node->next;
 	}
 }
