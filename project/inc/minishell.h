@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/27 22:25:12 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 12:52:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,13 @@ typedef struct s_node
 	char			***env;
 }	t_node;
 
+
+typedef struct s_content
+{
+	pid_t	pid;
+	t_node	*node;
+}	t_content;
+
 //minishell.c
 
 //envp.c
@@ -145,7 +152,7 @@ t_node	*create_next_node(t_node *node, char separator, char ***env);
 void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char ***env);
 //execute_1.c
-void	execute(t_node *node);
+void	execute_level(t_node *node);
 void	error_handling(int mode, t_node *node, char **path);
 //execute_2.c
 void	open_path_and_check_access(t_node *node);
@@ -168,6 +175,8 @@ void	ft_set_redir_pipe(t_node *node);
 void	ft_set_redir(t_node *node);
 //redir_pipe_3.c
 void	ft_close_redir_pipe(t_node *node);
+void	ft_close_redir_pipe_to_fd(pid_t pid, t_list **list_fd);
+void	check_zombie_process_and_close_pipe_redir(t_list **list_fd);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c

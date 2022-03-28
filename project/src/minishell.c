@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/27 17:02:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 10:44:24 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 			root = get_forest(cmd_line, env);
 			ft_free_str_of_str(&cmd_line);
 			if (node_is_not_empty(root))
-				execute(root);
+				execute_level(root);
 			status_exit = root->exit;
 			free_forest(root, &env);
 		}

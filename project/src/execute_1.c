@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/28 00:05:40 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 20:22:02 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	**get_argv(t_node *node)
 	(bash: ./minishell: Permission denied)
 - исполняем
 */
-static void	ft_execve(t_node *node)
+static void	ft_execve_node(t_node *node)
 {
 	pid_t	pid;
 	int		ret;
@@ -149,10 +149,10 @@ void	error_handling(int mode, t_node *node, char **path)
 }*/
 
 
-static void	action(t_node *node)
+static void	execute_cmd_in_node(t_node *node)
 {
 	if (node->next_lvl && cond_status(node) == 0)
-		execute(node->next_lvl);
+		execute_level(node->next_lvl);
 	else if (!node->next_lvl)
 	{
 		if (node->exec == 1)
@@ -168,49 +168,76 @@ static void	action(t_node *node)
 		if (cond_is_built_in(node))
 			;
 		else if (node->data->cmd[0] != 0)
-			ft_execve(node);
+			ft_execve_node(node);
 	}
 }
 
-void	execute(t_node *node)
+static void	execute_child_node(t_node *node)
 {
-	pid_t	pid;
-	int		ret;
+	execute_cmd_in_node(node);
+	ft_close_redir_pipe(node);
+	if (node->data->pipe == PIPE_ON_THE_LEFT)
+		exit(ft_atoi(ft_get_status(*node->env)));
+	exit(0);
+}
+
+static void	execute_parent_node(t_node *node, pid_t pid, t_list **list_fd)
+{
+	int			ret;
+	t_content	*content;
+
+	if (node->data->pipe == PIPE_ON_THE_LEFT)
+	{
+		if (waitpid(pid, &ret, 0) == -1)
+			return (perror("WAIT_PID"));
+		if (WIFSIGNALED(ret))
+			ft_set_ret(130, NULL, *node->env);
+		else if (WIFEXITED(ret))
+			ft_set_ret(WEXITSTATUS(ret), NULL, *node->env);
+		ft_close_redir_pipe(node);
+		dup2(node->def_fd[0], 0);
+		check_zombie_process_and_close_pipe_redir(list_fd);
+		ft_lstclear(list_fd, &free);
+		*list_fd = NULL;
+	}
+	else
+	{
+		content = (t_content *)malloc(sizeof(t_content) * 1);
+		content->node = node;
+		content->pid = pid;
+		ft_lstadd_back(list_fd, ft_lstnew(content));
+		check_zombie_process_and_close_pipe_redir(list_fd);
+	}
+}
+
+static void	execute_node_or_pipe(t_node *node, t_list **list_fd)
+{
+	pid_t		pid;
+
+	if (node->data->pipe)
+	{
+		pid = fork();
+		if (pid == 0)
+			execute_child_node(node);
+		execute_parent_node(node, pid, list_fd);
+	}
+	else
+	{
+		execute_cmd_in_node(node);
+		ft_close_redir_pipe(node);
+	}
+}
+
+void	execute_level(t_node *node)
+{
+	t_list	*list_fd;
 
 	set_default_fd(node);
+	list_fd = NULL;
 	while (node)
 	{
 		ft_set_redir_pipe(node);
-		if (node->data->pipe)
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				action(node);
-				ft_close_redir_pipe(node);
-				if (node->data->pipe == PIPE_ON_THE_LEFT)
-					exit(ft_atoi(ft_get_status(*node->env)));
-				exit(0);
-			}
-			ft_close_redir_pipe(node);
-			if (node->data->pipe == PIPE_ON_THE_LEFT)
-			{
-				if (waitpid(pid, &ret, 0) == -1)
-					return (perror("WAIT_PID"));
-				if (WIFSIGNALED(ret))
-					ft_set_ret(130, NULL, *node->env);
-				else if (WIFEXITED(ret))
-					ft_set_ret(WEXITSTATUS(ret), NULL, *node->env);
-				//Закрывать все дескрипторы нужно вот здесь!!!
-			}
-			while (waitpid(-1, NULL, WNOHANG) > 0)
-				;
-		}
-		else
-		{
-			action(node);
-			ft_close_redir_pipe(node);
-		}
+		execute_node_or_pipe(node, &list_fd);
 		if (node->next == NULL)
 			close_default_fd(node);
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:27:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/27 22:35:20 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 19:43:06 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,20 @@ void	close_default_fd(t_node *node)
 
 static void	ft_set_pipe(t_node *node)
 {
-	if (node->data->pipe == PIPE_ON_THE_LEFT || \
-	node->data->pipe == PIPE_BOTH_SIDES)
+	if (node->data->pipe == PIPE_ON_THE_LEFT)
 	{
 		dup2(node->pipe[0], 0);
+		dup2(node->def_fd[1], 1);
 	}
-	if (node->data->pipe == PIPE_ON_THE_RIGHT || \
-	node->data->pipe == PIPE_BOTH_SIDES)
+	else if (node->data->pipe == PIPE_ON_THE_RIGHT)
 	{
+		pipe(node->next->pipe);
+		dup2(node->next->pipe[1], 1);
+		dup2(node->def_fd[0], 0);
+	}
+	else if (node->data->pipe == PIPE_BOTH_SIDES)
+	{
+		dup2(node->pipe[0], 0);
 		pipe(node->next->pipe);
 		dup2(node->next->pipe[1], 1);
 	}
