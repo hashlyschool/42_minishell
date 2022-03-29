@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/28 12:52:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/29 17:24:05 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,17 +166,18 @@ int		node_is_not_empty(t_node *root);
 int		cmd_in_path(t_node *node);
 //condition_redirect.c
 char	str_is_redirect(char **str, int i);
-//redir_pipe_1.c
+//pipe_redir_1.c
 void	set_default_fd(t_node *node);
-void	close_default_fd(t_node *node);
+void	open_pipe_in_all_pipeline(t_node *node);
 void	ft_set_redir_pipe(t_node *node);
-// int		find_def_fd(t_node *node, int fd);
-//redir_pipe_2.c
+//pipe_redir_2.c
 void	ft_set_redir(t_node *node);
-//redir_pipe_3.c
+//pipe_redir_3.c
+void	close_default_fd(t_node *node);
 void	ft_close_redir_pipe(t_node *node);
-void	ft_close_redir_pipe_to_fd(pid_t pid, t_list **list_fd);
-void	check_zombie_process_and_close_pipe_redir(t_list **list_fd);
+//pipe_redir_4.c
+int		pipilene_is_over(t_list **pipeline);
+void	processing_exit_code(t_list **pipeline, pid_t pid, int ret);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c

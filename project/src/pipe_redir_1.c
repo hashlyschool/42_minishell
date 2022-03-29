@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:27:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/28 19:43:06 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/29 17:25:40 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,17 @@ void	set_default_fd(t_node *node)
 	}
 }
 
-void	close_default_fd(t_node *node)
+void	open_pipe_in_all_pipeline(t_node *node)
 {
-	close(node->def_fd[0]);
-	close(node->def_fd[1]);
-	close(node->def_fd[2]);
+	t_node	*temp;
+
+	temp = node;
+	while (temp->data->pipe != PIPE_ON_THE_LEFT)
+	{
+		pipe(temp->next->pipe);
+		temp = temp->next;
+	}
 }
-
-// int	find_def_fd(t_node *node, int fd)
-// {
-// 	t_node	*temp;
-// 	char	pipe;
-
-// 	temp = node;
-// 	while (temp && temp->next)
-// 		temp = temp->next;
-// 	if (temp->prev_lvl && temp->prev_lvl->data->pipe)
-// 	{
-// 		temp = temp->prev_lvl;
-// 		pipe = temp->data->pipe;
-// 		if (fd == 0 && (pipe == PIPE_ON_THE_LEFT || pipe == PIPE_BOTH_SIDES))
-// 			return (temp->pipe[0]);
-// 		if (fd == 1 && (pipe == PIPE_ON_THE_RIGHT || pipe == PIPE_BOTH_SIDES))
-// 			return (temp->pipe[1]);
-// 	}
-// 	return (node->def_fd[fd]);
-// }
 
 static void	ft_set_pipe(t_node *node)
 {
@@ -64,14 +49,12 @@ static void	ft_set_pipe(t_node *node)
 	}
 	else if (node->data->pipe == PIPE_ON_THE_RIGHT)
 	{
-		pipe(node->next->pipe);
 		dup2(node->next->pipe[1], 1);
 		dup2(node->def_fd[0], 0);
 	}
 	else if (node->data->pipe == PIPE_BOTH_SIDES)
 	{
 		dup2(node->pipe[0], 0);
-		pipe(node->next->pipe);
 		dup2(node->next->pipe[1], 1);
 	}
 }
