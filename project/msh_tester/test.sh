@@ -217,13 +217,14 @@ if [ "$1" == "redirect" ] || [ "$1" == "all" ]; then
   exec_test 'cat <ls'
   exec_test 'pwd >pwd; cat pwd'
   exec_test 'pwd >pwd; cat pwd | echo'
-  exec_test 'cat | <Makefile cat; hello'
+#   exec_test 'cat | <Makefile cat; hello'
+  exec_test 'cat < test.sh < ls'
   exec_test 'cat <test.sh <ls'
   exec_test 'cat << stop;1;stop;'
   exec_test 'cat << stop;1\EOF;stopa;stop'
   exec_test 'cat <test.sh <<stop;1;stop'
-  exec_test 'cat <<stop<ls;1;stop'
-  exec_test 'cat <test.sh << stop1 <<stop2;a;;b;c;stop1; run2;stop2'
+#   exec_test 'cat <<stop<ls;1;stop'
+#   exec_test 'cat <test.sh << stop1 <<stop2;a;;b;c;stop1; run2;stop2'
   exec_test 'rm -f ls >ls'
 fi
 
@@ -244,7 +245,7 @@ if [ "$1" == "multi" ] || [ "$1" == "all" ]; then
   exec_test 'pwd > 1; pwd'
   exec_test 'pwd > 1| pwd'
   exec_test 'pwd; unset HOME; pwd; cd; pwd'
-#   exec_test 'ls | export TEST=5; echo $TEST'
+  exec_test 'ls | export TEST=5; echo $TEST'
   exec_test 'export TEST1=LOL TEST2=PIKAPIKA; unset TEST1 TEST2; echo $TEST1; echo $TEST2'
 fi
 
@@ -265,7 +266,7 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test 'echo | |'
   exec_test 'echo "||"'
   exec_test '<'
-#   exec_test 'rm -f ls; cat < ls > ls'
+  exec_test 'rm -f ls; cat < ls > ls'
   exec_test "grep -z"
   exec_test "ls'| 'wc -l"
   exec_test "/ls"
@@ -401,10 +402,10 @@ if [ "$1" == "custom_3" ] || [ "$1" == "all" ]; then
   exec_test "echo \$PWD > as ; cat as; rm as"
   exec_test "echo \'\'\\'\'\"a|\"\\\'q\'a\'\\a\'w\'"
   exec_test "echo \\\"\\\|\\;\\\"\\\| cat -e > \\q\\w\\e\\r\\t\\y ; cat qwerty; rm qwerty"
-#   exec_test "pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;"
+  exec_test "pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;"
   exec_test "echo"
-#   exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\"
-#   exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1"
+  exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\"
+  exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1"
   exec_test "\\ls\" \";"
   exec_test "ec\"ho;\";pwd"
   exec_test "/bin/ls -la"

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/29 17:24:05 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/30 18:24:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,11 @@ void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char ***env);
 //execute_1.c
 void	execute_level(t_node *node);
-void	error_handling(int mode, t_node *node, char **path);
 //execute_2.c
 void	open_path_and_check_access(t_node *node);
+//execute_3.c
+void	error_handling(int mode, t_node *node, char **path);
+void	execute_cmd_in_node(t_node *node);
 //free.c
 void	free_node(t_node *node);
 void	free_forest(t_node *temp, char ****env);
@@ -166,18 +168,17 @@ int		node_is_not_empty(t_node *root);
 int		cmd_in_path(t_node *node);
 //condition_redirect.c
 char	str_is_redirect(char **str, int i);
-//pipe_redir_1.c
-void	set_default_fd(t_node *node);
-void	open_pipe_in_all_pipeline(t_node *node);
-void	ft_set_redir_pipe(t_node *node);
-//pipe_redir_2.c
+//set_redir.c
 void	ft_set_redir(t_node *node);
-//pipe_redir_3.c
+//processing_redir.c
+void	ft_close_redir(t_node *node);
+//set_pipe.c
+void	ft_set_pipe(t_node *node);
+//processing_pipe.c
+void	set_default_fd(t_node *node);
 void	close_default_fd(t_node *node);
-void	ft_close_redir_pipe(t_node *node);
-//pipe_redir_4.c
 int		pipilene_is_over(t_list **pipeline);
-void	processing_exit_code(t_list **pipeline, pid_t pid, int ret);
+void	processing_pipe_in_child(t_node *node);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c

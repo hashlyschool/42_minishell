@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_redir_2.c                                     :+:      :+:    :+:   */
+/*   set_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 16:21:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/27 22:29:54 by hashly           ###   ########.fr       */
+/*   Created: 2022/03/30 15:27:57 by hashly            #+#    #+#             */
+/*   Updated: 2022/03/30 18:28:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_set_redir(t_node *node)
 	int		code;
 
 	i = 0;
-	while (node->data->redir[i])
+	while (node->data->redir && node->data->redir[i])
 	{
 		code = find_code(node->data->redir[i]);
 		if (code == 1 || code == 2)
