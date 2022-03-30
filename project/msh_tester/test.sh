@@ -232,7 +232,7 @@ fi
 # MULTI TESTS
 if [ "$1" == "multi" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tMULTI TESTS\n"$RESET
-  exec_test 'echo testing multi >lol ; echo <lol <lola ; echo \"test 1  | and 2\" >>lol ; cat <lol ; cat ../Makefile <lol | grep minishell'
+  exec_test 'echo testing multi >lol ; echo <lol <lola ; echo "test 1  | and 2" >>lol ; cat <lol ; cat ../Makefile <lol | grep minishell'
   exec_test 'unset PATH; /bin/ls'
   exec_test 'unset PATH; ./Makefile'
   exec_test 'echo 5 > ls; <5 cat; rm 5'
@@ -259,8 +259,6 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test '"echo " | "pwd "'
   exec_test '/bin/lsa'
   exec_test './Makefile'
-  exec_test './inc'
-  exec_test './project/42_libft/Makefile'
   exec_test '| test'
   exec_test 'echo > <'
   exec_test 'echo | |'
@@ -269,6 +267,7 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test 'rm -f ls; cat < ls > ls'
   exec_test "grep -z"
   exec_test "ls'| 'wc -l"
+  exec_test "ls\'| \'wc -l"
   exec_test "/ls"
 fi
 
@@ -426,7 +425,8 @@ if [ "$1" == "bonus" ] || [ "$1" == "quote" ]; then
   exec_test "echo \'\"\$USER\"\'"
   exec_test "echo \"\'\$USER\'\""
   exec_test 'cat < Makefile 1>1'
-  exec_test 'cat < Makefile 222>1 \; rm 1'
+  exec_test 'cat < Makefile 222>1 ; rm 1'
+  exec_test 'rm 1'
 fi
 
 # BONUS WILDCARD

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/29 12:57:42 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/30 19:33:51 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,17 @@ int	ft_echo(char **argv, char ***env)
 	return (ft_set_ret(0, NULL, *env));
 }
 
-static void	change_old_pwd(char ***env)
+static void	change_old_pwd_and_pwd(char ***env, char *old_pwd)
 {
 	char	**argv;
-	char	*old_pwd;
+	char	*pwd;
+
 
 	argv = NULL;
-	old_pwd = getcwd(NULL, 1024);
-	if (!old_pwd)
-		return ;
-	old_pwd = ft_strjoin_free_s2("OLDPWD=", old_pwd);
 	argv = ft_add_line(argv, old_pwd);
-	free(old_pwd);
+	pwd = ft_strjoin_free_s2("PWD=", getcwd(NULL, 1024));
+	argv = ft_add_line(argv, pwd);
+	free(pwd);
 	ft_export(argv, &env);
 	ft_free_str_of_str(&argv);
 }
@@ -84,12 +83,15 @@ cd Dir1/Dir2	Перемещение в каталог Dir2 по указанно
 int	ft_cd(char **argv, char ***env)
 {
 	char	*path;
+	char	*old_pwd;
 
 	if (ft_get_path(&path, argv, *env))
 		return (1);
-	change_old_pwd(env);
+	old_pwd = ft_strjoin_free_s2("OLDPWD=", getcwd(NULL, 1024));
 	if (chdir(path) == 0)
 	{
+		change_old_pwd_and_pwd(env, old_pwd);
+		free(old_pwd);
 		free(path);
 		return (ft_set_ret(0, NULL, *env));
 	}

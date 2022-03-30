@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 11:23:07 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/30 19:58:09 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,26 @@ static void	ft_execve_node(t_node *node)
 
 void	execute_cmd_in_node(t_node *node)
 {
+	pid_t	pid;
+	int		ret;
+
 	if (node->next_lvl && cond_status(node) == 0)
-		execute_level(node->next_lvl);
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			execute_level(node->next_lvl);
+			exit(ft_atoi(ft_get_status(*node->env)));
+		}
+		else
+		{
+			waitpid(pid, &ret, 0);
+			if (WIFSIGNALED(ret))
+				ft_set_ret(130, NULL, *node->env);
+			else if (WIFEXITED(ret))
+				ft_set_ret(WEXITSTATUS(ret), NULL, *node->env);
+		}
+	}
 	else if (!node->next_lvl)
 	{
 		if (node->exec == 1)

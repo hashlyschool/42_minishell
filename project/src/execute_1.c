@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 18:38:16 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/30 19:19:33 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static void	execute_node_or_pipe(t_node *node, t_list **pipeline)
 		pid = fork();
 		if (pid == 0)
 			execute_child_node(node);
-
 		if (node->data->pipe == PIPE_ON_THE_LEFT || \
 		node->data->pipe == PIPE_BOTH_SIDES)
 		{
