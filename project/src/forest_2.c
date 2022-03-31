@@ -6,39 +6,39 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/26 23:20:36 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/31 17:58:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	ft_add_redir(t_node *node, char *str, char type)
+static void	ft_add_redir(t_node *node, char *str, int type)
 {
-	size_t	q_str;
-	size_t	i;
-	char	**ret;
+	t_list_redir	*content;
+	char			**temp;
 
-	q_str = 0;
-	while (node->data->redir && node->data->redir[q_str])
-		q_str++;
-	ret = (char **)malloc(sizeof(char *) * (q_str + 2));
-	ret[q_str + 1] = NULL;
-	i = -1;
-	while (++i < q_str)
-		ret[i] = node->data->redir[i];
-	while (*str != ' ')
-		str++;
-	++str;
+	content = (t_list_redir *)malloc(sizeof(t_list_redir) * 1);
+	content->type_redir = type;
 	if (type == 1)
-		ret[q_str] = ft_strjoin("> ", str);
-	if (type == 2)
-		ret[q_str] = ft_strjoin(">> ", str);
-	if (type == 3)
-		ret[q_str] = ft_strjoin("< ", str);
-	if (type == 4)
-		ret[q_str] = ft_strjoin("<< ", str);
-	free(node->data->redir);
-	node->data->redir = ret;
+		temp = ft_split_2(str, REDIR_RIGHT_ONE);
+	else if (type == 2)
+		temp = ft_split_2(str, REDIR_RIGHT_TWO);
+	else if (type == 3)
+		temp = ft_split_2(str, REDIR_LEFT_ONE);
+	else
+		temp = ft_split_2(str, REDIR_LEFT_TWO);
+	if (temp[1] == NULL)
+	{
+		content->n = type <= 2;
+		content->word = ft_strtrim(temp[0], "\t\n\v\f\r ");
+	}
+	else
+	{
+		content->n = ft_atoi(temp[0]);
+		content->word = ft_strtrim(temp[1], "\t\n\v\f\r ");
+	}
+	ft_free_str_of_str(&temp);
+	ft_lstadd_back(&node->list_redir, ft_lstnew(content));
 }
 
 void	ft_add_argv(t_node *node, char *str)

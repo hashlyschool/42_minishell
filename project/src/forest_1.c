@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/27 21:33:10 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/31 16:43:44 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ t_node	*create_empty_node(char ***env)
 	node->exec = 0;
 	node->exit = 0;
 	node->stop = 0;
-	node->redir_fd[0] = -1;
-	node->redir_fd[1] = -1;
-	node->redir_fd[2] = -1;
+	// node->redir_fd[0] = -1;
+	// node->redir_fd[1] = -1;
+	// node->redir_fd[2] = -1;
+	node->list_redir = NULL;
 	node->next = NULL;
 	node->next_lvl = NULL;
 	node->prev_lvl = NULL;
@@ -31,7 +32,7 @@ t_node	*create_empty_node(char ***env)
 	node->data->cmd = NULL;
 	node->data->cmd_exec = NULL;
 	node->data->argv = NULL;
-	node->data->redir = NULL;
+	// node->data->redir = NULL;
 	node->data->pipe = NONE;
 	node->data->sep = NONE;
 	return (node);

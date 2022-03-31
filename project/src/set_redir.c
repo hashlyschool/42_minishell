@@ -6,35 +6,11 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 15:27:57 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 18:28:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/31 18:03:29 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
--1	error
-1	>
-2	>>
-3	<
-4	<<
-*/
-static int	find_code(char *str)
-{
-	if (str[0] == '>')
-	{
-		if (str[1] == '>')
-			return (2);
-		return (1);
-	}
-	else if (str[0] == '<')
-	{
-		if (str[1] == '<')
-			return (4);
-		return (3);
-	}
-	return (-1);
-}
 
 static void	ret_error_and_set_code(t_node *node, char *file_name)
 {
@@ -45,37 +21,34 @@ static void	ret_error_and_set_code(t_node *node, char *file_name)
 	node->exec = 1;
 }
 
-static void	proc_set_redir(t_node *node, char *file_name, int code)
+static void	proc_set_redir(t_node *node, t_list_redir *content)
 {
 	int		fd;
 
-	if (code == 1 || code == 2)
+	if (content->type_redir == 1 || content->type_redir == 2)
 	{
-		if (code == 1)
-			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		if (content->type_redir == 1)
+			fd = open(content->word, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 		else
-			fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
+			fd = open(content->word, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
+		content->fd = -1;
 		if (fd < 0)
-			return (ret_error_and_set_code(node, file_name));
-		dup2(fd, 1);
+			return (ret_error_and_set_code(node, content->word));
+		dup2(fd, content->n);
+		content->fd = fd;
 	}
-	else if (code == 3)
+	else if (content->type_redir == 3)
 	{
-		fd = open(file_name, O_RDONLY);
+		fd = open(content->word, O_RDONLY);
+		content->fd = -1;
 		if (fd < 0)
-			return (ret_error_and_set_code(node, file_name));
-		dup2(fd, 0);
-	}
-	if (node->redir_fd[code - 1] == -1)
-		node->redir_fd[code - 1] = fd;
-	else
-	{
-		close(node->redir_fd[code - 1]);
-		node->redir_fd[code - 1] = fd;
+			return (ret_error_and_set_code(node, content->word));
+		content->fd = fd;
+		dup2(fd, content->n);
 	}
 }
 
-static void	proc_heredoc(t_node *node, char *eof, char *name_file)
+static void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file)
 {
 	char	*str;
 	char	flag;
@@ -94,10 +67,10 @@ static void	proc_heredoc(t_node *node, char *eof, char *name_file)
 			flag = 1;
 			ft_putstr_fd(PROGRAM_NAME": warning: here-document delimited by \
 			end-of-file (wanted `", STD_ERR);
-			ft_putstr_fd(eof, STD_ERR);
+			ft_putstr_fd(content->word, STD_ERR);
 			ft_putstr_fd("')\n", STD_ERR);
 		}
-		else if (ft_strncmp(str, eof, ft_strlen(eof) + 1) == 0)
+		else if (ft_strncmp(str, content->word, ft_strlen(content->word) + 1) == 0)
 		{
 			flag = 1;
 			free(str);
@@ -109,24 +82,25 @@ static void	proc_heredoc(t_node *node, char *eof, char *name_file)
 		}
 	}
 	close(fd);
-	proc_set_redir(node, name_file, 3);
+	content->type_redir = 3;
+	free(content->word);
+	content->word = ft_strdup(name_file);
+	proc_set_redir(node, content);
 }
 
 void	ft_set_redir(t_node *node)
 {
-	size_t	i;
-	int		code;
+	t_list			*temp;
+	t_list_redir	*content;
 
-	i = 0;
-	while (node->data->redir && node->data->redir[i])
+	temp = node->list_redir;
+	while (temp)
 	{
-		code = find_code(node->data->redir[i]);
-		if (code == 1 || code == 2)
-			proc_set_redir(node, node->data->redir[i] + code + 1, code);
-		else if (code == 3)
-			proc_set_redir(node, node->data->redir[i] + 2, code);
-		else if (code == 4)
-			proc_heredoc(node, node->data->redir[i] + 3, "/tmp/.heredoc");
-		i++;
+		content = temp->content;
+		if (content->type_redir == 4)
+			proc_heredoc(node, content, "/tmp/.heredoc");
+		else
+			proc_set_redir(node, content);
+		temp = temp->next;
 	}
 }
