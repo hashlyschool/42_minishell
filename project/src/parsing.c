@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 23:13:53 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/02 00:05:46 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ char	*parce(char *str, t_parser *prs)
 		else if (str[i] == '\"')
 			str = ft_quotechar(str, &i, prs);
 		else if (str[i] == '$')
-			str = ft_dollar(str, &i, START_VALUE, END_VALUE, prs);
+			str = ft_dollar(str, &i, prs);
 		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
 			|| str[i] == '&' || str[i] == '*' || str[i] == ';' || str[i] == '('
 			|| str[i] == ')')
 			str = ft_replace(str, &i, str[i], prs);
-		else if (str[i] == ' ' || str[i] == '\t')
+		else if (str[i] == ' ' || str[i] == '\t' || str[i] == '>' || str[i] == '<')
 		{
 			if (prs->red == '>' || prs->red == '<')
 				prs->str = ft_charjoin(prs->str, str[i]);
@@ -127,6 +127,7 @@ static char	**split_str(char *str, char **env)
 	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
+	prs->d_quo = 0;
 	prs->mass = NULL;
 	if (!env)
 		;
