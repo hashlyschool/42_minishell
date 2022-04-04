@@ -26,10 +26,8 @@
 # include <signal.h>
 //for readline
 # include <readline/readline.h>
-// # include "/Users/sstyx/.brew/Cellar/readline/8.1.2/include/readline/readline.h"
 //for add_history
 # include <readline/history.h>
-// # include "/Users/sstyx/.brew/Cellar/readline/8.1.2/include/readline/history.h"
 //for getenv
 # include <stdlib.h>
 //for errno
