@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:41:41 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:56:08 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	sig_quit(int signo)
 	return ;
 }
 
-
 #ifdef __linux__
 int	event(void )
 {
@@ -64,7 +63,6 @@ int	event(void )
 */
 void	set_signal(void)
 {
-
 	#ifdef __linux__
 	rl_event_hook = event;
 	#endif

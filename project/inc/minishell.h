@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:39:30 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:51:56 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 # include <signal.h>
 //for readline
 # include <readline/readline.h>
+// # include "/Users/sstyx/.brew/Cellar/readline/8.1.2/include/readline/readline.h"
 //for add_history
 # include <readline/history.h>
+// # include "/Users/sstyx/.brew/Cellar/readline/8.1.2/include/readline/history.h"
 //for getenv
 # include <stdlib.h>
 //for errno
@@ -68,9 +70,9 @@
 
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
-# define START_DOLLAR		"\001\002$"
-# define END_DOLLAR			"$\003\023"
 # define STAR				"\001\002*\003\023"
+# define START_DOLLAR		"\001\002$"
+# define END_DOLLAR			"\003\023"
 
 # define START_DOUBLE_QUOTE	"\001\002!\003\0023"
 # define END_DOUBLE_QUOTE	"\001\002!!\003\023"

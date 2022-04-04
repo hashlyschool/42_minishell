@@ -1,6 +1,7 @@
 NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
+FLAGS			=	-Wall -Wextra -Werror -g
 FLAGS_RL		=	-lreadline
 FLAGS			=	-Wall -Wextra -Werror
 #School MAC

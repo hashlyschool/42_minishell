@@ -6,12 +6,14 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/04 14:39:31 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:47:56 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# define SYN_ERR "minishell: syntax error near unexpected token "
 
 typedef struct s_parser
 {
