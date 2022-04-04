@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 11:24:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/31 17:25:13 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ void	free_node(t_node *node)
 			while (data->argv[i])
 				free(data->argv[i++]);
 			free(data->argv);
-		}
-		i = 0;
-		if (data->redir)
-		{
-			while (data->redir[i])
-				free(data->redir[i++]);
-			free(data->redir);
 		}
 		free_node_2(data);
 	}

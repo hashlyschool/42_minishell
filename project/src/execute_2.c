@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/25 23:12:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/28 11:31:51 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	find_cmd(t_node *node)
 
 static char	cmd_is_folder(t_node *node)
 {
-	DIR				*dir;
+	DIR	*dir;
 
 	dir = opendir(node->data->cmd_exec);
 	if (dir)

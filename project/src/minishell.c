@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:57:09 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/31 18:03:58 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 			root = get_forest(cmd_line, env);
 			ft_free_str_of_str(&cmd_line);
 			if (node_is_not_empty(root))
-				execute(root);
+				execute_level(root);
 			status_exit = root->exit;
 			free_forest(root, &env);
 		}

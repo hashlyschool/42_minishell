@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:51:56 by a79856           ###   ########.fr       */
+/*   Updated: 2022/03/31 17:23:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,18 @@ typedef struct s_data
 	char	*cmd;
 	char	*cmd_exec;
 	char	**argv;
-	char	**redir;
+	// char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
 	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
 }	t_data;
+
+typedef struct s_list_redir
+{
+	int		n;
+	int		type_redir;
+	char	*word;
+	int		fd;
+}	t_list_redir;
 
 typedef struct s_node
 {
@@ -104,11 +112,20 @@ typedef struct s_node
 	char			exec;
 	char			exit;
 	char			stop;
-	int				def_fd[2];
+	int				def_fd[3];
 	int				pipe[2];
-	int				redir_fd[3];
+	// int				redir_fd[3];
+	t_list			*list_redir;
 	char			***env;
 }	t_node;
+
+
+
+typedef struct s_content
+{
+	pid_t	pid;
+	t_node	*node;
+}	t_content;
 
 //minishell.c
 
@@ -148,10 +165,12 @@ t_node	*create_next_node(t_node *node, char separator, char ***env);
 void	ft_add_argv(t_node *node, char *str);
 t_node	*get_forest(char **line, char ***env);
 //execute_1.c
-void	execute(t_node *node);
-void	error_handling(int mode, t_node *node, char **path);
+void	execute_level(t_node *node);
 //execute_2.c
 void	open_path_and_check_access(t_node *node);
+//execute_3.c
+void	error_handling(int mode, t_node *node, char **path);
+void	execute_cmd_in_node(t_node *node);
 //free.c
 void	free_node(t_node *node);
 void	free_forest(t_node *temp, char ****env);
@@ -162,13 +181,17 @@ int		node_is_not_empty(t_node *root);
 int		cmd_in_path(t_node *node);
 //condition_redirect.c
 char	str_is_redirect(char **str, int i);
-//redir_pipe_1.c
-void	ft_set_redir_pipe(t_node *node);
-int		find_def_fd(t_node *node, int fd);
-//redir_pipe_2.c
+//set_redir.c
 void	ft_set_redir(t_node *node);
-//redir_pipe_3.c
-void	ft_close_redir_pipe(t_node *node);
+//processing_redir.c
+void	ft_close_redir(t_node *node);
+//set_pipe.c
+void	ft_set_pipe(t_node *node);
+//processing_pipe.c
+void	set_default_fd(t_node *node);
+void	close_default_fd(t_node *node);
+int		pipilene_is_over(t_list **pipeline);
+void	processing_pipe_in_child(t_node *node);
 //predparsing_1.c
 void	preparsing(t_node *node);
 //preparsing_2.c

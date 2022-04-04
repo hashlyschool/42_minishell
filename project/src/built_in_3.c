@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:03:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/23 11:23:08 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/30 19:41:32 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env)
 	char	*temp_name;
 
 	i = 0;
-	j = 0;
 	while (argv && argv[i])
 	{
+		j = 0;
 		while (argv[i][j] && argv[i][j] != '=')
 			j++;
 		if (argv[i][j] == 0)
