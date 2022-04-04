@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/23 10:57:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/24 15:13:19 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@
 
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
+# define START_DOLLAR		"\001\002$"
+# define END_DOLLAR			"$\003\023"
 # define STAR				"\001\002*\003\023"
 
 # define START_DOUBLE_QUOTE	"\1\2!\3\23"

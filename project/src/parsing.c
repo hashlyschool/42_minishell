@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 11:22:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/02 18:08:09 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ char	*parce(char *str, t_parser *prs)
 		else if (str[i] == '\"')
 			str = ft_quotechar(str, &i, prs);
 		else if (str[i] == '$')
-			str = ft_dollar(str, &i, START_VALUE, END_VALUE, prs);
+			str = ft_dollar(str, &i, prs);
 		else if (str[i] == '>' || str[i] == '<' || str[i] == '|'
 			|| str[i] == '&' || str[i] == '*' || str[i] == ';' || str[i] == '('
 			|| str[i] == ')')
 			str = ft_replace(str, &i, str[i], prs);
-		else if (str[i] == ' ' || str[i] == '\t')
+		else if (str[i] == ' ' || str[i] == '\t' || str[i] == '>' || str[i] == '<')
 		{
 			if (prs->red == '>' || prs->red == '<')
 				prs->str = ft_charjoin(prs->str, str[i]);
@@ -127,6 +127,7 @@ static char	**split_str(char *str, char **env)
 	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
+	prs->d_quo = 0;
 	prs->mass = NULL;
 	if (!env)
 		;
@@ -192,6 +193,46 @@ int	preparse(char *str)
 	return (1);
 }
 
+char	*lexer(char *str)
+{
+	char	*error;
+	int		i;
+	int		red;
+	char	q;
+
+	i = 0;
+	error = NULL;
+	red = 0;
+	q = '0';
+	while (str[i] != '\0')
+	{
+		while (ft_strchr(";& \r\v\n\t|><", str[i]) != NULL && q == '0')
+		{
+			if (ft_strchr(";&|><", str[i]))
+			{
+				if (red == 0)
+					red = 1;
+				else if (((error != NULL && error[0] == str[i])
+					|| !(error)) && ft_strlen(error) != 2)
+					error = ft_charjoin(error, str[i]);
+			}
+			i++;
+		}
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			if (str[i] == q)
+				q = '0';
+			else
+				q = str[i];
+		}
+		red = 0;
+		i++;
+	}
+	if (error != NULL && str[i] == '\0')
+		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
+	return (NULL);
+}
+
 /*
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
@@ -200,6 +241,7 @@ char	**parsing(char ***env)
 {
 	char	*str;
 	char	**ret;
+	char	*error;
 
 	ret = NULL;
 	str = get_line(env);
@@ -215,6 +257,13 @@ char	**parsing(char ***env)
 	{
 		free(str);
 		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", *env);
+		return (NULL);
+	}
+	error = lexer(str);
+	if (error != NULL)
+	{
+		free(str);
+		ft_set_ret(2, error, *env);
 		return (NULL);
 	}
 	if (str[0] == 0)
