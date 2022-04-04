@@ -32,7 +32,6 @@ typedef struct s_dollar
 	int		end;
 }	t_dollar;
 
-# define SYN_ERR "minishell: syntax error near unexpected token "
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);
 char	*ft_quotechar(char *str, int *i, t_parser *prs);
