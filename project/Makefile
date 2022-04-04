@@ -1,8 +1,12 @@
 NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror -g
 FLAGS_RL		=	-lreadline
+FLAGS			=	-Wall -Wextra -Werror
+#School MAC
+FLAGS_RL		=	-lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1.2/lib/ -I/Users/${USER}/.brew/Cellar/readline/8.1.2/include/
+#Linux
+# FLAGS_RL		=	-lreadline
 LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a
 LIBFT			=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
@@ -16,7 +20,8 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output.c envp.c \
 					forest_1.c forest_2.c execute_1.c execute_2.c condition.c \
 					free.c preparsing_1.c preparsing_2.c preparsing_3.c \
 					parsing_utils.c parsing_replase.c pipe_redir_1.c \
-					pipe_redir_2.c pipe_redir_3.c ft_minishell_split.c
+					pipe_redir_2.c pipe_redir_3.c ft_minishell_split.c \
+					condition_redirect.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 

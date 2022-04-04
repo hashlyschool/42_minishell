@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/24 14:37:29 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:41:41 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	sig_d(int signo)
 	clear_history();
 	#elif __linux__
 	rl_clear_history();
-	ft_putstr_fd("exit\n", STD_OUT);
 	#endif
+	ft_putstr_fd("exit\n", STD_ERR);
 	exit(0);
 }
 
@@ -33,8 +33,13 @@ void	sig_d(int signo)
 static void	sig_int(int signo)
 {
 	signo = 0;
-	// rl_replace_line("", 0);
-	// rl_done = 1;
+	//rl_replace_line("", 0);
+	#ifdef __linux__
+	rl_done = 1;
+	#elif __APPLE__
+	ft_putstr_fd("\n", STD_ERR);
+	ft_putstr_fd(rl_prompt, STD_ERR);
+	#endif
 }
 
 /*
@@ -46,17 +51,23 @@ static void	sig_quit(int signo)
 	return ;
 }
 
-// static int	event(void )
-// {
-// 	return (0);
-// }
+
+#ifdef __linux__
+int	event(void )
+{
+	return (0);
+}
+#endif
 
 /*
 Функция для установки функций для перехвата окружения
 */
 void	set_signal(void)
 {
-	// rl_event_hook = event;
+
+	#ifdef __linux__
+	rl_event_hook = event;
+	#endif
 	signal(SIGINT, sig_int);
 	signal(SIGQUIT, sig_quit);
 	return ;

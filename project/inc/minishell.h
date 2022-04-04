@@ -6,9 +6,10 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/24 15:13:19 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:39:30 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -53,17 +54,17 @@
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
 
-# define BR_LEFT			"\1\2(\3\23"
-# define BR_RIGHT			"\1\2)\3\23"
-# define AND_STR			"\1\2&&\3\23"
-# define PIPE_STR			"\1\2|\3\23"
-# define OR_STR				"\1\2||\3\23"
-# define SEMICOLON			"\1\2;\3\23"
+# define BR_LEFT			"\001\002(\003\023"
+# define BR_RIGHT			"\001\002)\003\023"
+# define AND_STR			"\001\002&&\003\023"
+# define PIPE_STR			"\001\002|\003\023"
+# define OR_STR				"\001\002||\003\023"
+# define SEMICOLON			"\001\002;\003\023"
 
-# define REDIR_RIGHT_ONE	"\1\2>\3\23"
-# define REDIR_RIGHT_TWO	"\1\2>>\3\23"
-# define REDIR_LEFT_ONE		"\1\2<\3\23"
-# define REDIR_LEFT_TWO		"\1\2<<\3\23"
+# define REDIR_RIGHT_ONE	"\001\002>\003\023"
+# define REDIR_RIGHT_TWO	"\001\002>>\003\023"
+# define REDIR_LEFT_ONE		"\001\002<\003\023"
+# define REDIR_LEFT_TWO		"\001\002<<\003\023"
 
 # define START_VALUE		"\001\002${"
 # define END_VALUE			"}\003\023"
@@ -71,13 +72,18 @@
 # define END_DOLLAR			"$\003\023"
 # define STAR				"\001\002*\003\023"
 
-# define START_DOUBLE_QUOTE	"\1\2!\3\23"
-# define END_DOUBLE_QUOTE	"\1\2!!\3\23"
+# define START_DOUBLE_QUOTE	"\001\002!\003\0023"
+# define END_DOUBLE_QUOTE	"\001\002!!\003\023"
 
 # define TESTER
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2
+
+# ifdef __APPLE__
+	void	rl_replace_line();
+# endif
+
 
 typedef struct s_data
 {
@@ -154,6 +160,8 @@ int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
 int		node_is_not_empty(t_node *root);
 int		cmd_in_path(t_node *node);
+//condition_redirect.c
+char	str_is_redirect(char **str, int i);
 //redir_pipe_1.c
 void	ft_set_redir_pipe(t_node *node);
 int		find_def_fd(t_node *node, int fd);

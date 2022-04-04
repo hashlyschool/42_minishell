@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 16:21:20 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/20 14:33:31 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/26 00:42:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ static int	find_code(char *str)
 	return (-1);
 }
 
+static void	ret_error_and_set_code(t_node *node, char *file_name)
+{
+	ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
+	perror(file_name);
+	errno = 0;
+	ft_set_ret(1, NULL, *node->env);
+	node->exec = 1;
+}
+
 static void	proc_set_redir(t_node *node, char *file_name, int code)
 {
 	int		fd;
@@ -46,11 +55,15 @@ static void	proc_set_redir(t_node *node, char *file_name, int code)
 			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 		else
 			fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
+		if (fd < 0)
+			return (ret_error_and_set_code(node, file_name));
 		dup2(fd, 1);
 	}
 	else if (code == 3)
 	{
 		fd = open(file_name, O_RDONLY);
+		if (fd < 0)
+			return (ret_error_and_set_code(node, file_name));
 		dup2(fd, 0);
 	}
 	if (node->redir_fd[code - 1] == -1)

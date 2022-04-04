@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/22 17:53:09 by hashly           ###   ########.fr       */
+/*   Updated: 2022/03/25 23:12:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,14 @@ void	open_path_and_check_access(t_node *node)
 	find_cmd(node);
 	if (cmd_is_folder(node))
 		output_error(3, node);
-	if (access(node->data->cmd_exec, X_OK))
+	if (access(node->data->cmd_exec, F_OK))
 	{
 		perror(node->data->cmd);
-		exit(errno);
+		exit(127);
+	}
+	else if (access(node->data->cmd_exec, X_OK))
+	{
+		perror(node->data->cmd);
+		exit(126);
 	}
 }

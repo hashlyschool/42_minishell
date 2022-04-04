@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/02 12:29:40 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 14:39:31 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_dollar
 }	t_dollar;
 
 # define SYN_ERR "minishell: syntax error near unexpected token "
-
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);
 char	*ft_quotechar(char *str, int *i, t_parser *prs);
