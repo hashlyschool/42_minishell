@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:54:47 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 17:05:50 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,9 +197,9 @@ char	*lexer(char *str)
 	q = '0';
 	while (str[i] != '\0')
 	{
-		while (ft_strchr(";& \r\v\n\t|><", str[i]) != NULL && q == '0')
+		while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && q == '0')
 		{
-			if (ft_strchr(";&|><", str[i]))
+			if (ft_strchr(";&|", str[i]))
 			{
 				if (red == 0)
 					red = 1;
