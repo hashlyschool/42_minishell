@@ -72,7 +72,7 @@ char	**split_cmd_line(char **end_str)
 
 	i = 0;
 	ret = NULL;
-	new = NULL;;
+	new = NULL;
 	if (ft_strncmp(end_str[i], START_DOUBLE_QUOTE, ft_strlen(START_DOUBLE_QUOTE)) == 0)
 	{
 		new = ft_strtrim(end_str[i], START_DOUBLE_QUOTE);
@@ -82,7 +82,7 @@ char	**split_cmd_line(char **end_str)
 		return (ret);
 	}
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
-	 || *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
+		|| *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
 	 	i++;
 	if ((*end_str)[i] == 0)
 		ret = ft_add_line(ret, "");

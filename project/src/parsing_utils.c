@@ -61,7 +61,6 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	char	*tmp3;
 
 	j = *i;
-	int y = 0;
 	prs->d_quo = 0;
 	while (str[(*i)++])
 	{
@@ -83,7 +82,6 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 		}
 		else if (str[(*i)] == '\"')
 			break ;
-		y++;
 	}
 	tmp = ft_substr(str, 0, j);
 	tmp2 = ft_substr(str, j + 1, (*i) - j - 1);
