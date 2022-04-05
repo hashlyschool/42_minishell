@@ -1,7 +1,7 @@
 NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	-Wall -Wextra -Werror -g
 #School MAC
 # FLAGS_RL		=	-lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1.2/lib/ -I/Users/${USER}/.brew/Cellar/readline/8.1.2/include/
 #Linux

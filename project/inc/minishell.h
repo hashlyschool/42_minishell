@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/31 17:23:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/04 19:57:54 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 # define START_DOLLAR		"\001\002$"
 # define END_DOLLAR			"\003\023"
 
-# define START_DOUBLE_QUOTE	"\001\002!\003\0023"
-# define END_DOUBLE_QUOTE	"\001\002!!\003\023"
+# define START_DOUBLE_QUOTE	"\001\002!\003\002"
+# define END_DOUBLE_QUOTE	"\001\002!!\003\02"
 
 # define TESTER
 # define STD_IN				0
