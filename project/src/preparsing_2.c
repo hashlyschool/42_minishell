@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/02 00:01:48 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 21:46:45 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,22 @@ if end_str из одних пробелов, то все ок
 char	**split_cmd_line(char **end_str)
 {
 	char	**ret;
+	char	*new;
 	int		i;
 
-	ret = NULL;
 	i = 0;
+	ret = NULL;
+	new = NULL;
+	if (ft_strncmp(end_str[i], START_DOUBLE_QUOTE, ft_strlen(START_DOUBLE_QUOTE)) == 0)
+	{
+		new = ft_strtrim(end_str[i], START_DOUBLE_QUOTE);
+		new = ft_strtrim(end_str[i], END_DOUBLE_QUOTE);
+		free(*end_str);
+		ret = ft_add_line(ret, new);
+		return (ret);
+	}
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
-	 || *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
+		|| *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
 	 	i++;
 	if ((*end_str)[i] == 0)
 		ret = ft_add_line(ret, "");

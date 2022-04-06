@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 14:56:08 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/04 19:22:44 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	sig_d(int signo)
 static void	sig_int(int signo)
 {
 	signo = 0;
-	rl_replace_line("", 0);
 	#ifdef __linux__
+	rl_replace_line("", 0);
 	rl_done = 1;
 	#elif __APPLE__
 	ft_putstr_fd("\n", STD_ERR);

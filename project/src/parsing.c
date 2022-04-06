@@ -202,10 +202,13 @@ char	*lexer(char *str)
 			if (ft_strchr(";&|", str[i]))
 			{
 				if (red == 0)
-					red = 1;
-				else if (((error != NULL && error[0] == str[i])
+				{
+					if (((error != NULL && error[0] == str[i])
 					|| !(error)) && ft_strlen(error) != 2)
-					error = ft_charjoin(error, str[i]);
+						error = ft_charjoin(error, str[i]);
+				}
+				else
+					red = 0;
 			}
 			i++;
 		}
@@ -216,11 +219,58 @@ char	*lexer(char *str)
 			else
 				q = str[i];
 		}
-		red = 0;
+		red++;
 		i++;
 	}
 	if (error != NULL && str[i] == '\0')
 		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
+	return (NULL);
+}
+
+char	*check_redirect(char *str)
+{
+	int		i;
+	int		red;
+	char	q;
+	int		start;
+	int		finish;
+
+	i = 0;
+	red = 0;
+	start = 0;
+	finish = 0;
+	q = '0';
+	while (str[i] != '\0')
+	{	
+		if (start > 0 && red > 0 && finish > 0)
+		{
+			red = 0;
+			start = 0;
+			finish = 0;
+		}
+		while (ft_strchr(">< \r\v\n\t", str[i]) != NULL && q == '0' && str[i] != '\0')
+		{
+			if (ft_strchr("<>", str[i]))
+				red++;
+			i++;
+		}
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			if (str[i] == q)
+				q = '0';
+			else
+				q = str[i];
+		}
+		if (str[i] == '\0')
+			break;
+		if (red == 0)
+			start++;
+		else
+			finish++;
+		i++;
+	}
+	if (red > 0 && ((red == 0 && finish == 0) || finish == 0))
+		return ("syntax error near unexpected token `newline'\n");
 	return (NULL);
 }
 
@@ -256,6 +306,15 @@ char	**parsing(char ***env)
 		free(str);
 		ft_set_ret(2, error, *env);
 		return (NULL);
+	}
+	else {
+		error = check_redirect(str);
+		if (error != NULL)
+		{
+			free(str);
+			ft_set_ret(2, error, *env);
+			return (NULL);
+		}
 	}
 	if (str[0] == 0)
 	{
