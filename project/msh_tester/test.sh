@@ -295,8 +295,8 @@ fi
 # CUSTOM RANDOM 1
 if [ "$1" == "custom_1" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tCUSTOM RANDOM 1\n"$RESET
-  exec_test "\'\' "
-  exec_test "\"\""
+#   exec_test "\'\' "
+#   exec_test "\"\""
   exec_test ""
   exec_test "\" \""
   exec_test "\' \'"
@@ -317,8 +317,8 @@ if [ "$1" == "custom_1" ] || [ "$1" == "all" ]; then
   exec_test "ls||"
   exec_test "ls | |"
   exec_test "echo \""
-  exec_test "echo \'"
-  exec_test "echo \'\'\'"
+#   exec_test "echo \'"
+#   exec_test "echo \'\'\'"
   exec_test "echo \"hello\"\""
   exec_test "echo \$PWD"
   exec_test "echo \$321"
@@ -327,8 +327,10 @@ if [ "$1" == "custom_1" ] || [ "$1" == "all" ]; then
   exec_test "echo str1\"\'\$str2\'\""
   exec_test "echo \'str1\'str2\"str3 \$PWD str4\" \"str5\"\'\$PWD\' \$PWD \"\$PWD\""
   exec_test "echo \"hello><; world\""
+  exec_test "echo \'hello><; world\'"
   exec_test "echo \$hfkdghldf\$PWD"
-  exec_test " echo \' \"\"\"\" \' "
+  exec_test "echo \'\$hfkdghldf\$PWD\'"
+  exec_test " echo \' """" \' "
   exec_test "echo \" \'\'\'\'\'\' \""
   exec_test "echo \"\"\"\"\"\"\"\""
   exec_test "echo \'\'\'\'\'\'\'\'"
@@ -348,7 +350,7 @@ if [ "$1" == "custom_2" ] || [ "$1" == "all" ]; then
   exec_test "ec\"ho\" \$str1 \$str4"
   exec_test "	\'export\' \'q\'=e \"w\"=c e=\"h\" r=\'o\' \'t\'=\'x\' \"y\"=\"p\" u=r i=t"
   exec_test "	\'e\'\"x\"p\'o\'r\'t\' \"t\"\$q\'s\'\$i=\'h\'\"e\"\'l\'l\$r"
-  exec_test "echo \"hello;\"; \$q\'c\'\"h\"o \$test"
+  exec_test "echo \"first;\"; \$q\'c\'\"h\"o \$test"
   exec_test "\$q\$w\$e\'o\' \$PWD;  cd .. ;  \$q\"c\"\$e\'o\' \$PWD  ;"
   exec_test "cd -; pwd"
   exec_test "\$lkjlkjllkdfs\$q\$w\$e\$r \"\$e\"\$q\"l\"\'l\'\$r;"
@@ -379,37 +381,39 @@ if [ "$1" == "custom_2" ] || [ "$1" == "all" ]; then
   exec_test "cd -"
   exec_test "ls -la"
   exec_test "ls \"-la\" ; cd -"
+  exec_test "echo \'\\\'"
   exec_test "echo \'\\'"
   rm fil\'1\'
 fi
 
-# CUSTOM RANDOM 3
-if [ "$1" == "custom_3" ] || [ "$1" == "all" ]; then
-  printf $BOLDMAGENTA"\n\tCUSTOM RANDOM 3\n"$RESET
-#   exec_test "echo ~"
-  exec_test "echo \\hello \\\$PWD"
-  exec_test "echo \'\\hello \\\$PWD\'"
-  exec_test "echo \"\\hello \\\$PWD\""
-  exec_test "echo \"\\\$PWD\" \"\\PWD\""
-  exec_test "echo \'\"\\ \"hello\$PWD\""
-  exec_test "echo \"\"\""
-  exec_test "echo \"\'\""
-  exec_test "\"echo f\" hello"
-  exec_test "export t=n; echo -\$t -n \"-\"\'n\' hello"
-  exec_test "echo -\$t \"-n\" \'-\'\'n\' \'-n;\'     -n hello"
-  exec_test "export a=l d=s; \$a\$d"
-  exec_test "echo \$PWD > as ; cat as; rm as"
-  exec_test "echo \'\'\\'\'\"a|\"\\\'q\'a\'\\a\'w\'"
-  exec_test "echo \\\"\\\|\\;\\\"\\\| cat -e > \\q\\w\\e\\r\\t\\y ; cat qwerty; rm qwerty"
-  exec_test "pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;"
-  exec_test "echo"
-  exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\"
-  exec_test "echo hello '\' ';' "  '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1"
-  exec_test "\\ls\" \";"
-  exec_test "ec\"ho;\";pwd"
-  exec_test "/bin/ls -la"
-fi
+# # CUSTOM RANDOM 3
+# if [ "$1" == "custom_3" ] || [ "$1" == "all" ]; then
+#   printf $BOLDMAGENTA"\n\tCUSTOM RANDOM 3\n"$RESET
+# #   exec_test "echo ~"
+#   exec_test "echo \\hello \\\$PWD"
+#   exec_test "echo \'\\hello \\\$PWD\'"
+#   exec_test "echo \"\\hello \\\$PWD\""
+#   exec_test "echo \"\\\$PWD\" \"\\PWD\""
+#   exec_test "echo \'\"\\ \"hello\$PWD\""
+#   exec_test "echo \"\"\""
+#   exec_test "echo \"\'\""
+#   exec_test "\"echo f\" hello"
+#   exec_test "export t=n; echo -\$t -n \"-\"\'n\' hello"
+#   exec_test "echo -\$t \"-n\" \'-\'\'n\' \'-n;\'     -n hello"
+#   exec_test "export a=l d=s; \$a\$d"
+#   exec_test "echo \$PWD > as ; cat as; rm as"
+#   exec_test "echo \'\'\\'\'\"a|\"\\\'q\'a\'\\a\'w\'"
+#   exec_test "echo \\\"\\\|\\;\\\"\\\| cat -e > \\q\\w\\e\\r\\t\\y ; cat qwerty; rm qwerty"
+#   exec_test "pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;"
+#   exec_test "echo"
+#   exec_test "echo hello '\' ';' "  '\' \" " \" "\$PWD\\\"\~\;"\; >> t1 \' \ \ \\"
+#   exec_test "echo hello '\' ';' "  '\' \" " \" "\$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1"
+#   exec_test "\\ls\" \";"
+#   exec_test "ec\"ho;\";pwd"
+#   exec_test "/bin/ls -la"
+# fi
 
+# rm a1 a2 a3 q1 q2 t1
 
 # BONUS
 if [ "$1" == "bonus" ] || [ "$1" == "quote" ] || [ "$1" == "wildcard" ] || [ "$1" == "oper" ]; then
@@ -422,8 +426,11 @@ fi
 # BONUS QUOTES
 if [ "$1" == "bonus" ] || [ "$1" == "quote" ]; then
   printf $BOLDMAGENTA"\n\tBONUS QUOTE\n"$RESET
-  exec_test "echo \'\"\$USER\"\'"
-  exec_test "echo \"\'\$USER\'\""
+  exec_test "echo \'"$USER"\'"
+  exec_test "echo \'"$USER"\' "$USER" "$USERr""
+  exec_test "echo \'"$USERr"\'"
+  exec_test "echo \"'$USER'\""
+  exec_test "echo \"'$USERr'\""
   exec_test 'cat < Makefile 1>1'
   exec_test 'cat < Makefile 222>1 ; rm 1'
   exec_test 'rm 1'
@@ -432,13 +439,13 @@ fi
 # BONUS WILDCARD
 if [ "$1" == "bonus" ] || [ "$1" == "wildcard" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
-  exec_test "echo \* | wc"
-  exec_test "cd .. ; echo \* | wc"
-  exec_test "echo .\* | wc"
-  exec_test "echo M\*e"
-  exec_test "echo \*a\*e"
-  exec_test "echo \*.mp3"
-  exec_test "mkdir empty; cd empty; pwd; echo \*; cd ..; rm -rf empty"
+  exec_test "echo * | wc"
+  exec_test "cd .. ; echo * | wc"
+  exec_test "echo .* | wc"
+  exec_test "echo M*e"
+  exec_test "echo *a*e"
+  exec_test "echo *.mp3"
+  exec_test "mkdir empty; cd empty; pwd; echo *; cd ..; rm -rf empty"
 fi
 
 # BONUS OPERATOR && || ()
@@ -465,7 +472,6 @@ if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   exec_test '( ls '
   exec_test 'ls && (touch 1 && pwd) && rm 1'
 fi
-
 
 if [[ "$1" != "" ]] && (( $TOTAL > 0)); then
   PROCENT=$(( $GOOD * 100  / $TOTAL ))
