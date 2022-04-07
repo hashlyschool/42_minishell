@@ -162,21 +162,21 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
 	exec_test 'echo test test'
 	exec_test 'echo test'
 	exec_test 'echo $TEST'
-	exec_test 'echo "$TEST"'
-	exec_test "echo \'\$TEST\'"
-	exec_test 'echo "$TEST$TEST$TEST"'
-	exec_test 'echo "$TEST$TEST=lol$TEST"'
-	exec_test 'echo " $TEST lol $TEST"'
-	exec_test 'echo $TEST$TEST$TEST'
-	exec_test 'echo $TEST$TEST=lol$TEST""lol'
-	exec_test 'echo $TEST lol $TEST'
-	exec_test 'echo test "$TEST" test "$TEST " test'
-	exec_test 'echo "$=TEST"'
-	exec_test 'echo "$"'
-	exec_test 'echo "$?TEST"'
-	exec_test 'echo $TEST $TEST'
-	exec_test 'echo "$1TEST"'
-	exec_test 'echo "$T1TEST"'
+	exec_test "echo \"$TEST\""
+	exec_test "echo \'$TEST\'"
+	exec_test "echo \"$TEST$TEST$TEST\""
+	exec_test "echo \"$TEST$TEST=lol$TEST\""
+	exec_test "echo \" $TEST lol $TEST\""
+	exec_test "echo $TEST$TEST$TEST"
+	exec_test "echo $TEST$TEST=lol$TEST\"\"lol"
+	exec_test "echo $TEST lol $TEST"
+	exec_test "echo test \"$TEST\" test \"$TEST \" test"
+	exec_test "echo \"$=TEST\""
+	exec_test "echo \"$\""
+	exec_test "echo \"$?TEST\""
+	exec_test "echo $TEST $TEST"
+	exec_test "echo \"$1TEST\""
+	exec_test "echo \"$T1TEST\""
 fi
 
 # EXPORT
