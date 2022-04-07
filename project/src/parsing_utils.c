@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/05 03:05:20 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 17:41:01 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 			|| ft_strchr("$_?!", str[(*i) + 1])))
 		{
 			prs->quo = 1;
-			prs->str = ft_strjoin_free_s1(prs->str, START_DOUBLE_QUOTE);
+			if (prs->d_quo != 1)
+				prs->str = ft_strjoin_free_s1(prs->str, START_DOUBLE_QUOTE);
 			str = ft_dollar(str, i, prs);
 			prs->d_quo = 1;
 			prs->quo = 0;

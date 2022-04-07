@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 01:55:44 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 14:21:40 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	preparse(char *str)
 	c = '0';
 	c2 = 0;
 	c3 = 0;
-	let	=0;
+	let	= 0;
 	dollar = 0;
 	while (str[i])
 	{
@@ -181,7 +181,7 @@ int	preparse(char *str)
 			c2++;
 			let = 0;
 		}
-		else if (str[i] == ')' && c == '0' && let > 0)
+		else if (str[i] == ')' && c == '0' && ((let > 0 && c2 > 0) || c2 == 0))
 			c2--;
 		else if ((ft_strchr(" \r\v\n\t", str[i])) == NULL)
 			let++;
@@ -274,7 +274,7 @@ char	*check_redirect(char *str)
 				q = str[i];
 		}
 		if (str[i] == '\0')
-			break;
+			break ;
 		if (red == 0)
 			start++;
 		else
@@ -282,7 +282,7 @@ char	*check_redirect(char *str)
 		i++;
 	}
 	if (red > 0 && ((red == 0 && finish == 0) || finish == 0))
-		return ("syntax error near unexpected token `newline'\n");
+		return ("syntax error near unexpected token `newline`\n");
 	return (NULL);
 }
 
