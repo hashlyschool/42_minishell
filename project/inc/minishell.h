@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/31 17:23:26 by hashly           ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2022/04/07 17:52:26 by hashly           ###   ########.fr       */
+=======
+/*   Updated: 2022/04/07 12:44:01 by hashly           ###   ########.fr       */
+>>>>>>> e644071... dev env.
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +79,12 @@
 # define START_DOUBLE_QUOTE	"\001\002!\003\0023"
 # define END_DOUBLE_QUOTE	"\001\002!!\003\023"
 
-# define TESTER
+# define TESTER //debug
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2
 
-# ifdef __APPLE__
+# ifdef __APPLE__ //debug
 	void	rl_replace_line();
 # endif
 
@@ -90,7 +94,6 @@ typedef struct s_data
 	char	*cmd;
 	char	*cmd_exec;
 	char	**argv;
-	// char	**redir;
 	char	sep; //NONE, AND, OR, SEMICOLON
 	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
 }	t_data;
@@ -114,7 +117,6 @@ typedef struct s_node
 	char			stop;
 	int				def_fd[3];
 	int				pipe[2];
-	// int				redir_fd[3];
 	t_list			*list_redir;
 	char			***env;
 }	t_node;
