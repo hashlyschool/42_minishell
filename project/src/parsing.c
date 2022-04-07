@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 17:05:50 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 01:55:44 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ static char	**split_str(char *str, char **env)
 	prs->quo = 0;
 	prs->red = 0;
 	prs->d_quo = 0;
+	prs->r = 0;
 	prs->mass = NULL;
 	if (!env)
 		;
@@ -148,11 +149,13 @@ int	preparse(char *str)
 	int		c2;
 	int		c3;
 	int		dollar;
+	int		let;
 
 	i = 0;
 	c = '0';
 	c2 = 0;
 	c3 = 0;
+	let	=0;
 	dollar = 0;
 	while (str[i])
 	{
@@ -166,20 +169,25 @@ int	preparse(char *str)
 					c = str[i];
 			}
 		}
-		else if (str[i] == '(' || str[i] == ')' || str[i] == '{' || str[i] == '}')
+		else if (str[i] == '{' || str[i] == '}')
 		{
-			if (str[i] == '(' && c == '0')
-				c2++;
-			else if (str[i] == ')' && c == '0')
-				c2--;
-			else if (str[i] == '{' && c == '0')
+			if (str[i] == '{' && c == '0')
 				c3++;
 			else if (str[i] == '}' && c == '0')
 				c3--;
 		}
+		else if (str[i] == '(' && c == '0')
+		{
+			c2++;
+			let = 0;
+		}
+		else if (str[i] == ')' && c == '0' && let > 0)
+			c2--;
+		else if ((ft_strchr(" \r\v\n\t", str[i])) == NULL)
+			let++;
 		i++;
 	}
-	if (c != '0' || (c2 + c3) != 0)
+	if (c != '0' || c3 != 0 || c2 != 0)
 		return (0);
 	return (1);
 }
@@ -190,6 +198,7 @@ char	*lexer(char *str)
 	int		i;
 	int		red;
 	char	q;
+	int		c;
 
 	i = 0;
 	error = NULL;
@@ -197,7 +206,8 @@ char	*lexer(char *str)
 	q = '0';
 	while (str[i] != '\0')
 	{
-		while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && q == '0')
+		c = 0;
+		while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && q == '0' && str[i] != '\0')
 		{
 			if (ft_strchr(";&|", str[i]))
 			{
@@ -208,10 +218,12 @@ char	*lexer(char *str)
 						error = ft_charjoin(error, str[i]);
 				}
 				else
-					red = 0;
+					c = 1;
 			}
 			i++;
 		}
+		if (c == 1)
+			red = 0;
 		if (str[i] == '\"' || str[i] == '\'')
 		{
 			if (str[i] == q)
@@ -222,7 +234,7 @@ char	*lexer(char *str)
 		red++;
 		i++;
 	}
-	if (error != NULL && str[i] == '\0')
+	if ((error != NULL && str[i] == '\0') || c == 1)
 		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
 	return (NULL);
 }
@@ -241,7 +253,7 @@ char	*check_redirect(char *str)
 	finish = 0;
 	q = '0';
 	while (str[i] != '\0')
-	{	
+	{
 		if (start > 0 && red > 0 && finish > 0)
 		{
 			red = 0;
