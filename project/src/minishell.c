@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_check_status_exit(status_exit, &env);
 			cmd_line = parsing(env);
-			ft_print_str_of_str(cmd_line);
+			// ft_print_str_of_str(cmd_line);
 			root = get_forest(cmd_line, env);
 			ft_free_str_of_str(&cmd_line);
 			if (node_is_not_empty(root))
