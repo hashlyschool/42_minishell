@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 17:26:34 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 22:07:15 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ if end_str из одних пробелов, то все ок
 // 	return (tmp);
 // }
 
-char	*ft_queote_dollar(char *str, char *new_str)
+char	*ft_queote_dollar(char *str, char *new_str, int i)
 {
 	char	*tmp;
 	int		a;
@@ -100,7 +100,7 @@ char	*ft_queote_dollar(char *str, char *new_str)
 	a = ft_strlen(str);
 	b = ft_strlen(new_str);
 	tmp = ft_substr(str, 0, a - b);
-	tmp = ft_strjoin_free_s1(tmp, new_str + 5);
+	tmp = ft_strjoin_free_s1(tmp, new_str + 5 + i);
 	free(str);
 	return (tmp);
 }
@@ -115,10 +115,10 @@ char	**split_cmd_line(char **end_str)
 	ret = NULL;
 	new_str = ft_strnstr(*end_str, START_DOUBLE_QUOTE, ft_strlen(*end_str));
 	if (new_str != NULL)
-		*end_str = ft_queote_dollar(*end_str, new_str);
+		*end_str = ft_queote_dollar(*end_str, new_str, 0);
 	new_str = ft_strnstr(*end_str, END_DOUBLE_QUOTE, ft_strlen(*end_str));
 	if (new_str != NULL)
-		*end_str = ft_queote_dollar(*end_str, new_str);
+		*end_str = ft_queote_dollar(*end_str, new_str, 1);
 	if (new_str != NULL)
 	{
 		// new = ft_strjoin_free_all(left, right);
