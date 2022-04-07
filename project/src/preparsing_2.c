@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 21:46:45 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 17:26:34 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,66 @@ Masha
 затем очитстить указатель end_str и вернуть ret
 if end_str из одних пробелов, то все ок
 */
+
+// char	*ft_queote_dollar(char *str, char *new_str)
+// {
+// 	char	*tmp;
+// 	char	*tmp2;
+// 	char	*finish;
+// 	int		a;
+// 	int		b;
+// 	int		i;
+
+// 	i = 0;
+// 	tmp = NULL;
+// 	a = ft_strlen(str);
+// 	b = ft_strlen(new_str);
+// 	tmp = ft_substr(str, 0, a - b);
+// 	finish = ft_strnstr(new_str, END_DOUBLE_QUOTE, ft_strlen(new_str));
+// 	c = ft_strlen(finish);
+// 	if (finish != NULL)
+// 		tmp2 = ft_substr(new_str, 5, b - ft_strlen(finish) - 5);
+// 	tmp = ft_strjoin_free_all(tmp, tmp2);
+// 	tmp = ft_strjoin_free_s1(tmp, finish + 5);
+// 	// free(new_str);
+// 	free(str);
+// 	// free(finish);
+// 	return (tmp);
+// }
+
+char	*ft_queote_dollar(char *str, char *new_str)
+{
+	char	*tmp;
+	int		a;
+	int		b;
+
+	a = ft_strlen(str);
+	b = ft_strlen(new_str);
+	tmp = ft_substr(str, 0, a - b);
+	tmp = ft_strjoin_free_s1(tmp, new_str + 5);
+	free(str);
+	return (tmp);
+}
+
 char	**split_cmd_line(char **end_str)
 {
 	char	**ret;
-	char	*new;
+	char	*new_str;
 	int		i;
 
 	i = 0;
 	ret = NULL;
-	new = NULL;
-	if (ft_strncmp(end_str[i], START_DOUBLE_QUOTE, ft_strlen(START_DOUBLE_QUOTE)) == 0)
+	new_str = ft_strnstr(*end_str, START_DOUBLE_QUOTE, ft_strlen(*end_str));
+	if (new_str != NULL)
+		*end_str = ft_queote_dollar(*end_str, new_str);
+	new_str = ft_strnstr(*end_str, END_DOUBLE_QUOTE, ft_strlen(*end_str));
+	if (new_str != NULL)
+		*end_str = ft_queote_dollar(*end_str, new_str);
+	if (new_str != NULL)
 	{
-		new = ft_strtrim(end_str[i], START_DOUBLE_QUOTE);
-		new = ft_strtrim(end_str[i], END_DOUBLE_QUOTE);
-		free(*end_str);
-		ret = ft_add_line(ret, new);
+		// new = ft_strjoin_free_all(left, right);
+		ret = ft_add_line(ret, *end_str);
+		// free(*end_str);
 		return (ret);
 	}
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
