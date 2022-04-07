@@ -339,52 +339,52 @@ if [ "$1" == "custom_1" ] || [ "$1" == "all" ]; then
   exec_test "echo \'\"\"\"\"\"\"\"\"\"\",     wtf   :\"\"\'"
 fi
 
-# CUSTOM RANDOM 2
-if [ "$1" == "custom_2" ] || [ "$1" == "all" ]; then
-  printf $BOLDMAGENTA"\n\tCUSTOM RANDOM 2\n"$RESET
-  exec_test "echo hello            happy                man"
-  exec_test "export = ; echo \$?"
-  exec_test "echo \$?"
-  exec_test "export str1 2str = _3str str4=str5"
-  exec_test "	\'e\'\"x\"p\'o\'r\'t\'"
-  exec_test "ec\"ho\" \$str1 \$str4"
-  exec_test "	\'export\' \'q\'=e \"w\"=c e=\"h\" r=\'o\' \'t\'=\'x\' \"y\"=\"p\" u=r i=t"
-  exec_test "	\'e\'\"x\"p\'o\'r\'t\' \"t\"\$q\'s\'\$i=\'h\'\"e\"\'l\'l\$r"
-  exec_test "echo \"first;\"; \$q\'c\'\"h\"o \$test"
-  exec_test "\$q\$w\$e\'o\' \$PWD;  cd .. ;  \$q\"c\"\$e\'o\' \$PWD  ;"
-  exec_test "cd -; pwd"
-  exec_test "\$lkjlkjllkdfs\$q\$w\$e\$r \"\$e\"\$q\"l\"\'l\'\$r;"
-  exec_test "	echo     \'\"\\"
-  exec_test "echo hello sad man"
-  exec_test "echo \$?"
-  exec_test ">fil\$q\'1\' e\$w\"ho\" s\$i\"r\"ing f\$r\$u file1"
-  exec_test "pwd ; cat file1"
-  exec_test "ls lskdgjdhgisdoigjiredg"
-  exec_test "echo \$?"
-  exec_test "echo \$?"
-  exec_test "unset PWD; echo \$PWD"
-  exec_test "ls; unset PATH; ls   ;"
-  exec_test "echo \$?"
-  exec_test "echo \$?"
-  exec_test "export PATH=/ ; ls"
-  exec_test "echo \$?"
-  exec_test "export PATH=/bin ; ls"
-  exec_test "echo \$?"
-  exec_test "echo \$PWD; unset PWD"
-  exec_test "echo \$PWD; export PWD=/ ; echo \$PWD;"
-  exec_test "pwd; echo \$PWD"
-  exec_test "cd; echo \$PWD; cd -"
-  exec_test "echo \$PWD; echo \$OLDPWD"
-  exec_test "unset OLDPWD; echo \$OLDPWD"
-  exec_test "cd; echo \$OLDPWD"
-  exec_test "cd ; echo \$PWD; echo \$OLDPWD"
-  exec_test "cd -"
-  exec_test "ls -la"
-  exec_test "ls \"-la\" ; cd -"
-  exec_test "echo \'\\\'"
-  exec_test "echo \'\\'"
-  rm fil\'1\'
-fi
+# # CUSTOM RANDOM 2
+# if [ "$1" == "custom_2" ] || [ "$1" == "all" ]; then
+#   printf $BOLDMAGENTA"\n\tCUSTOM RANDOM 2\n"$RESET
+#   exec_test "echo hello            happy                man"
+#   exec_test "export = ; echo \$?"
+#   exec_test "echo \$?"
+#   exec_test "export str1 2str = _3str str4=str5"
+#   exec_test "	\'e\'\"x\"p\'o\'r\'t\'"
+#   exec_test "ec\"ho\" \$str1 \$str4"
+#   exec_test "	\'export\' \'q\'=e \"w\"=c e=\"h\" r=\'o\' \'t\'=\'x\' \"y\"=\"p\" u=r i=t"
+#   exec_test "	\'e\'\"x\"p\'o\'r\'t\' \"t\"\$q\'s\'\$i=\'h\'\"e\"\'l\'l\$r"
+#   exec_test "echo \"first;\"; \$q\'c\'\"h\"o \$test"
+#   exec_test "\$q\$w\$e\'o\' \$PWD;  cd .. ;  \$q\"c\"\$e\'o\' \$PWD  ;"
+#   exec_test "cd -; pwd"
+#   exec_test "\$lkjlkjllkdfs\$q\$w\$e\$r \"\$e\"\$q\"l\"\'l\'\$r;"
+#   exec_test "	echo     \'\"\\"
+#   exec_test "echo hello sad man"
+#   exec_test "echo \$?"
+#   exec_test ">fil\$q\'1\' e\$w\"ho\" s\$i\"r\"ing f\$r\$u file1"
+#   exec_test "pwd ; cat file1"
+#   exec_test "ls lskdgjdhgisdoigjiredg"
+#   exec_test "echo \$?"
+#   exec_test "echo \$?"
+#   exec_test "unset PWD; echo \$PWD"
+#   exec_test "ls; unset PATH; ls   ;"
+#   exec_test "echo \$?"
+#   exec_test "echo \$?"
+#   exec_test "export PATH=/ ; ls"
+#   exec_test "echo \$?"
+#   exec_test "export PATH=/bin ; ls"
+#   exec_test "echo \$?"
+#   exec_test "echo \$PWD; unset PWD"
+#   exec_test "echo \$PWD; export PWD=/ ; echo \$PWD;"
+#   exec_test "pwd; echo \$PWD"
+#   exec_test "cd; echo \$PWD; cd -"
+#   exec_test "echo \$PWD; echo \$OLDPWD"
+#   exec_test "unset OLDPWD; echo \$OLDPWD"
+#   exec_test "cd; echo \$OLDPWD"
+#   exec_test "cd ; echo \$PWD; echo \$OLDPWD"
+#   exec_test "cd -"
+#   exec_test "ls -la"
+#   exec_test "ls \"-la\" ; cd -"
+#   exec_test "echo \'\\\'"
+#   exec_test "echo \'\\'"
+#   rm fil\'1\'
+# fi
 
 # # CUSTOM RANDOM 3
 # if [ "$1" == "custom_3" ] || [ "$1" == "all" ]; then
@@ -468,6 +468,11 @@ if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   exec_test '(true || (echo 1 && echo 2) && echo 3)'
   exec_test 'true || ((echo 1 && echo 2) && echo 3)'
   exec_test '( )'
+  exec_test ')'
+  exec_test ' )'
+  exec_test ' &&'
+  exec_test '&& '
+  exec_test '&&'
   exec_test ' ls )'
   exec_test '( ls '
   exec_test 'ls && (touch 1 && pwd) && rm 1'

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 19:58:56 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/07 12:49:05 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 minishell: ${"USER"}: bad substitution
 return (1);
 */
-static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
+static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node, int *has_env_var)
 {
 	char	**split_end;
+	char	*temp;
 
 	split_end = ft_split_2(split_start[i], END_VALUE);
 	if (!ret)
@@ -36,7 +37,12 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 				ret = ft_strdup("");
 		}
 		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
-			ret = ft_strdup(ft_getenv(split_end[0], *node->env));
+		{
+			temp = ft_getenv(split_end[0], *node->env);
+			if (temp)
+				*has_env_var = 1;
+			ret = ft_strdup(temp);
+		}
 	}
 	else
 	{
@@ -44,10 +50,21 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 		split_end[0][0] == '?' && split_end[0][1] == 0)
 			ret = ft_strjoin_free_s1(ret, ft_get_status(*node->env));
 		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
-			ret = ft_strjoin_free_s1(ret, ft_getenv(split_end[0], *node->env));
+		{
+			temp = ft_getenv(split_end[0], *node->env);
+			if (temp)
+				*has_env_var = 1;
+			ret = ft_strjoin_free_s1(ret, temp);
+		}
 	}
 	if (split_end[1])
+	{
+		if (ft_strncmp(ret, START_DOUBLE_QUOTE, ft_strlen(START_DOUBLE_QUOTE)) == 0 && \
+		ft_strncmp(split_end[1], END_DOUBLE_QUOTE, ft_strlen(END_DOUBLE_QUOTE)) == 0 && \
+		*has_env_var == 0)
+			ret = ft_strjoin_free_s1(ret, " ");
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
+	}
 	if (node->stop)
 	{
 		ft_putstr_fd("minishell: ${", STD_ERR);
@@ -58,7 +75,7 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node)
 	return (ret);
 }
 
-static char	*get_ret(char **split_start, int i, t_node *node)
+static char	*get_ret(char **split_start, int i, t_node *node, int has_env_var)
 {
 	char	*ret;
 
@@ -74,7 +91,7 @@ static char	*get_ret(char **split_start, int i, t_node *node)
 				ret = ft_strjoin_free_s1(ret, split_start[i]);
 		}
 		else
-			ret = get_ret_2(split_start, ret, i, node);
+			ret = get_ret_2(split_start, ret, i, node, &has_env_var);
 		if (node->stop)
 			break ;
 		i++;
@@ -97,7 +114,7 @@ static char	*get_end_str(char *str, t_node *node)
 		return (NULL);
 	}
 	i = 0;
-	ret = get_ret(split_start, i, node);
+	ret = get_ret(split_start, i, node, 0);
 	ft_free_str_of_str(&split_start);
 	return (ret);
 }
