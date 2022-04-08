@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 16:50:05 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/08 22:10:05 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_line(char ***env)
 
 void	ft_parse_split(t_parser *prs)
 {
-	if (prs->str && prs->str[0])
+	if ((prs->str && prs->str[0]) || prs->spase == 1)
 		prs->mass = ft_add_line(prs->mass, prs->str);
 	free(prs->str);
 	prs->str = NULL;
@@ -68,6 +68,7 @@ char	*parce(char *str, t_parser *prs)
 				prs->str = ft_charjoin(prs->str, str[i]);
 			else
 				ft_parse_split(prs);
+			prs->spase = 0;
 		}
 		else
 		{
@@ -129,6 +130,7 @@ static char	**split_str(char *str, char **env)
 	prs->red = 0;
 	prs->d_quo = 0;
 	prs->r = 0;
+	prs->spase = 0;
 	prs->mass = NULL;
 	if (!env)
 		;
@@ -161,7 +163,7 @@ int	preparse(char *str)
 	{
 		if ((str[i] == '\'') || str[i] == '"' || str[i] == '\\')
 		{
-			if (!(i != 0 && str[i - 1] == '\\'))
+			if (!(i != 0 && str[i - 1] == '\\') && str[i] != '\\')
 			{
 				if (c == str[i])
 					c = '0';
