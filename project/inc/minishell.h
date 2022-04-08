@@ -128,7 +128,7 @@ typedef struct s_content
 //minishell.c
 
 //envp.c
-char	***ft_copy_env(char **env, char ***argv);
+char	***ft_copy_env(char **env);
 int		ft_free_envp(char ****env);
 int		ft_set_ret(int value, char *msg, char **env);
 char	*ft_getenv(char *name, char **env);
@@ -137,7 +137,7 @@ char	*ft_get_status(char **env);
 void	sig_d(int signo);
 void	set_signal(void);
 //parsing.c
-char	**parsing(char ***env);
+char	**parsing(char ***env, char *cmd ,char mode_work);
 //output.c
 char	*get_promt(char **env);
 char	*ft_getenv(char *name, char **env);

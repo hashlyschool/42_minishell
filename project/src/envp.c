@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:05:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/23 13:52:19 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/08 16:48:26 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ NULL
 Код окончания последней программы верхнего уровня
 NULL
 */
-char	***ft_copy_env(char **env, char ***argv)
+char	***ft_copy_env(char **env)
 {
 	int		i;
 	char	*temp;
 	char	***ret;
 
 	i = 0;
-	*argv = NULL;
 	while (env[i])
 		i++;
 	ret = (char ***)malloc(sizeof(char **) * (1));
