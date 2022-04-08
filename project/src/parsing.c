@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 14:21:40 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/08 16:50:05 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,14 +290,17 @@ char	*check_redirect(char *str)
 Функция для чтения с стандартного ввода команды с помощью readline, а затем
 разбиения этой строки на составные части
 */
-char	**parsing(char ***env)
+char	**parsing(char ***env, char *cmd ,char mode_work)
 {
 	char	*str;
 	char	**ret;
 	char	*error;
 
 	ret = NULL;
-	str = get_line(env);
+	if (mode_work)
+		str = ft_strdup(cmd);
+	else
+		str = get_line(env);
 	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
 	//Вызывает вывод текста "minishell: syntax error: unexpected end of file"
 	//А нужно выводить "bash: syntax error near unexpected token `)'"
