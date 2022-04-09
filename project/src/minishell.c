@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 14:11:28 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/09 20:04:48 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,41 @@ static void	ft_check_status_exit(char status_exit, char ****env, char *mode_work
 	}
 }
 
+static char	processing_argc(int argc, char **argv)
+{
+	if (argc != 1)
+	{
+		if (argc == 3 && ft_strncmp(argv[1], "-c", 3) == 0)
+			return (1);
+		else
+		{
+			ft_putstr_fd(PROGRAM_NAME": Invalid number of arguments\n", STD_ERR);
+			exit(0);
+		}
+	}
+	return (0);
+}
+
+static void	add_pwd_shlvl_mode_c(char ****env, char	mode_work)
+{
+	char	**arg;
+	char	*temp;
+
+	arg = NULL;
+	if (mode_work)
+	{
+		temp = ft_strdup("SHLVL=1");
+		arg = ft_add_line(arg, temp);
+		free(temp);
+		temp = ft_strdup("PWD=");
+		temp = ft_strjoin_free_all(temp, getcwd(NULL, 1024));
+		arg = ft_add_line(arg, temp);
+		ft_export(arg, env);
+		free(temp);
+		ft_free_str_of_str(&arg);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	**cmd_line;
@@ -37,21 +72,9 @@ int	main(int argc, char **argv, char **envp)
 	char	status_exit;
 	char	mode_work;
 
-	#ifdef	TESTER
-		rl_outstream = stderr;
-	#endif
-	mode_work = 0;
-	if (argc != 1)
-	{
-		if (argc == 3 && ft_strncmp(argv[1], "-c", 3) == 0)
-			mode_work = 1;
-		else
-		{
-			ft_putstr_fd(PROGRAM_NAME": Invalid number of arguments\n", STD_ERR);
-			return (0);
-		}
-	}
+	mode_work = processing_argc(argc, argv);
 	env = ft_copy_env(envp);
+	add_pwd_shlvl_mode_c(&env, mode_work);
 	status_exit = 0;
 	set_signal();
 	while (1)

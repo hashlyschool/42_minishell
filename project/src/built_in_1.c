@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 19:33:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/09 20:15:38 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_echo(char **argv, char ***env)
 	size_t	i;
 
 	flag_n = 0;
-	while (argv && argv[flag_n] && ft_strncmp(argv[flag_n], "-n", 3) == 0)
+	while (argv && argv[flag_n] && ft_strncmp(argv[flag_n], "-n", 2) == 0)
 		flag_n++;
 	i = flag_n;
 	while (argv && argv[i])
@@ -87,7 +87,7 @@ int	ft_cd(char **argv, char ***env)
 
 	if (ft_get_path(&path, argv, *env))
 		return (1);
-	old_pwd = ft_strjoin_free_s2("OLDPWD=", getcwd(NULL, 1024));
+	old_pwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", *env));
 	if (chdir(path) == 0)
 	{
 		change_old_pwd_and_pwd(env, old_pwd);

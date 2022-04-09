@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/06 23:37:21 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 00:12:42 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,14 @@ static int	parsing_argv(char **argv, char ***key, char ***value, char **env)
 		if (check_error_in_env_name(key[0][i], &temp))
 		{
 			ft_putstr_fd(PROGRAM_NAME": export: `" ,STD_ERR);
-			ft_putstr_fd(key[0][i] ,STD_ERR);
-			ft_putstr_fd("=" ,STD_ERR);
-			ft_putstr_fd(value[0][i] ,STD_ERR);
-			return(ft_set_ret(1, \
-			"': not a valid identifier\n", env));
+			ft_putstr_fd(key[0][i], STD_ERR);
+			if (value[0][i])
+				ft_putstr_fd("=", STD_ERR);
+			ft_putstr_fd(value[0][i], STD_ERR);
+			if (key[0][i + 1])
+				ft_set_ret(1, "': not a valid identifier\n", env);
+			else
+				return(ft_set_ret(1, "': not a valid identifier\n", env));
 		}
 		i++;
 	}
@@ -124,6 +127,9 @@ static int	yes_arguments(char **argv, char **env)
 		if (env[i][len_key])
 		{
 			ft_putstr_fd("\"", STD_OUT);
+			if (env[i][len_key + 1] == '"' || \
+			env[i][len_key + 1] == '\\' || env[i][len_key + 1] == '$')
+				ft_putchar_fd('\\', STD_OUT);
 			ft_putstr_fd(env[i] + len_key + 1, STD_OUT);
 			ft_putstr_fd("\"", STD_OUT);
 		}

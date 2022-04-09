@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 22:10:05 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/08 22:56:42 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 
 	ret = NULL;
 	if (mode_work)
-		str = ft_strdup(cmd);
+		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);//ft_strdup(cmd);
 	else
 		str = get_line(env);
 	//Здесь ошибочно считается ошибкой и кейс, вроде `)`

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 23:16:48 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/14 15:16:32 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/08 23:08:12 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,12 @@ char	**open_star(t_node *node)
 		add_star(node->data->argv[i], &split_arr);
 		if (split_arr[0] == NULL || (split_arr[1] == NULL && \
 		ft_strncmp(node->data->argv[i], STAR, ft_strlen(STAR) + 1) != 0))
-			ret = ft_add_line(ret, split_arr[0]);
+		{
+			if (ft_strncmp(node->data->argv[i], "", 1) == 0)
+				ret = ft_add_line(ret, "");
+			else
+				ret = ft_add_line(ret, split_arr[0]);
+		}
 		else
 		{
 			if (!find_file_in_dir(&ret, split_arr))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 22:07:15 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/08 23:31:23 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_error_in_env_name(char *name, char *flag)
 	*flag = 0;
 	i = 0;
 	if (name && ft_isdigit(name[0]) && name[1] == 0)
-		return (*flag);
+		return (1);
 	if (name && name [0] == 0)
 	{
 		*flag = 1;

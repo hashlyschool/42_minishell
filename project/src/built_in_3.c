@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 17:03:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 19:41:32 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 00:33:16 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,17 @@ static int	ft_unset_in_loop(char *key, char ***env)
 	char	**temp_envp;
 	size_t	len_key;
 	size_t	i;
+	char	temp;
 
-	i = 0;
 	temp_envp = *env;
+	if (check_error_in_env_name(key, &temp))
+	{
+		ft_putstr_fd(PROGRAM_NAME": unset: `" ,STD_ERR);
+		ft_putstr_fd(key, STD_ERR);
+		ft_set_ret(1, "': not a valid identifier\n", *env);
+		return (-1);
+	}
+	i = 0;
 	len_key = ft_strlen(key);
 	while (temp_envp[i])
 	{

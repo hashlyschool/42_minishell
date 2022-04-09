@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/04 19:22:44 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/09 14:22:35 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	event(void )
 */
 void	set_signal(void)
 {
+	rl_outstream = stderr;
 	#ifdef __linux__
 	rl_event_hook = event;
 	#endif

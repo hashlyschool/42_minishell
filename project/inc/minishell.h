@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 22:26:58 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/08 22:43:23 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@
 # define START_DOUBLE_QUOTE	"\001\002!\003\002"
 # define END_DOUBLE_QUOTE	"\001\002!!\003\02"
 
-# define TESTER //debug
+// # define TESTER //debug
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2

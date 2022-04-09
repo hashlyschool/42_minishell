@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 19:58:09 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/08 23:15:30 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	ft_execve_node(t_node *node)
 		argv = get_argv(node);
 		execve(node->data->cmd_exec, argv, *node->env);
 		ft_free_str_of_str(&argv);
+		ft_putstr_fd(PROGRAM_NAME":", STD_ERR);
 		perror(node->data->cmd);
 		exit(errno);
 	}

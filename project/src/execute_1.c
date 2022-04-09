@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:52:50 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/30 19:19:33 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/09 22:50:53 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,12 @@ void	execute_level(t_node *node)
 
 	set_default_fd(node);
 	pipeline = NULL;
-	while (node)
+	while (node && !node->exit)
 	{
 		execute_node_or_pipe(node, &pipeline);
 		if (node->next == NULL)
 			close_default_fd(node);
-		node = node->next;
+		if (!node->exit)
+			node = node->next;
 	}
 }
