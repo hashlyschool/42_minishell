@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/28 11:31:51 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 18:06:39 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@ static char	find_cmd_in_dir(t_node *node, char *path)
 	flag = 0;
 	dir = opendir(path);
 	if (!dir)
-	{
-		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
-		perror(node->data->cmd);
-		exit(ft_set_ret(126, NULL, *node->env));
-	}
+		return (flag);
 	dirent = readdir(dir);
 	while (dirent)
 	{
@@ -54,7 +50,7 @@ static char	**ret_path_replace_cmd(t_node *node)
 			end = i - 1;
 	}
 	if (end == -1)
-		return (ft_add_line(ret, "."));
+		return (ft_add_line(ret, "./"));
 	temp = ft_substr(node->data->cmd_exec, 0, end + 1);
 	ret = ft_add_line(ret, temp);
 	free(temp);
@@ -74,7 +70,7 @@ static void	find_cmd(t_node *node)
 
 	path = NULL;
 	mode = cmd_in_path(node);
-	if (mode)
+	if (mode == 1)
 		path = ft_split(ft_getenv("PATH", *node->env), ':');
 	else
 		path = ret_path_replace_cmd(node);
@@ -83,7 +79,7 @@ static void	find_cmd(t_node *node)
 	while (path && path[i] && file_find == 0)
 	{
 		file_find = find_cmd_in_dir(node, path[i]);
-		if (file_find || mode == 0)
+		if (file_find)
 			break ;
 		i++;
 	}
@@ -118,14 +114,16 @@ void	open_path_and_check_access(t_node *node)
 	find_cmd(node);
 	if (cmd_is_folder(node))
 		output_error(3, node);
-	if (access(node->data->cmd_exec, F_OK))
+	else if (access(node->data->cmd_exec, F_OK))
 	{
+		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd);
 		exit(127);
 	}
 	else if (access(node->data->cmd_exec, X_OK))
 	{
-		perror(node->data->cmd);
+		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
+		perror(node->data->cmd_exec);
 		exit(126);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/09 20:04:48 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 15:53:35 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 	mode_work = processing_argc(argc, argv);
 	env = ft_copy_env(envp);
 	add_pwd_shlvl_mode_c(&env, mode_work);
+	// ft_export("_=/usr/bin/bash", &env);
 	status_exit = 0;
 	set_signal();
 	while (1)

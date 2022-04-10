@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 23:15:30 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 18:01:07 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	error_handling(int mode, t_node *node, char **path)
 {
 	if (path)
 		ft_free_str_of_str(&path);
-	if (mode == 1)
+	if (mode == 1 || mode == -1)
 		output_error(1, node);
 	if (mode == 0)
 		output_error(2, node);
@@ -29,7 +29,7 @@ static char	**get_argv(t_node *node)
 
 	i = 0;
 	ret = NULL;
-	ret = ft_add_line(ret, node->data->cmd_exec);
+	ret = ft_add_line(ret, node->data->cmd);
 	while (node->data->argv && node->data->argv[i])
 	{
 		ret = ft_add_line(ret, node->data->argv[i]);
@@ -72,7 +72,7 @@ static void	ft_execve_node(t_node *node)
 		argv = get_argv(node);
 		execve(node->data->cmd_exec, argv, *node->env);
 		ft_free_str_of_str(&argv);
-		ft_putstr_fd(PROGRAM_NAME":", STD_ERR);
+		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd);
 		exit(errno);
 	}
@@ -126,5 +126,6 @@ void	execute_cmd_in_node(t_node *node)
 			;
 		else if (node->data->cmd[0] != 0)
 			ft_execve_node(node);
+		// ft_add_last_cmd(cmd, env);
 	}
 }

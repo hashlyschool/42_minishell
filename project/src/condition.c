@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/31 17:42:58 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/10 17:58:50 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@ int	cmd_in_path(t_node *node)
 	path = ft_getenv("PATH", *node->env);
 	flag_path = 1;
 	flag_abs_rel_path = 1;
-	if (!path)
+	if (!path || path[0] == 0)
 		flag_path = 0;
+	else if (path[0] == ':' || path[ft_strlen(path) - 1] == ':')
+		flag_path = -1;
 	if (ft_strnstr(node->data->cmd_exec, "./", 2) == NULL && \
 	ft_strnstr(node->data->cmd_exec, "../", 3) == NULL && \
 	ft_strnstr(node->data->cmd_exec, "/", \
 	ft_strlen(node->data->cmd_exec)) == NULL)
 		flag_abs_rel_path = 0;
-	if (flag_path && !flag_abs_rel_path)
-		return (1);
-	return (0);
+	if (flag_path == 1)
+		return (!flag_abs_rel_path);
+	return (flag_path);
 }
 
 /*
