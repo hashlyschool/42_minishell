@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/10 18:06:39 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/11 22:40:35 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static char	cmd_is_folder(t_node *node)
 		closedir(dir);
 		return (1);
 	}
+	if (errno == EACCES)
+		return (1);
 	return (0);
 }
 
@@ -114,13 +116,13 @@ void	open_path_and_check_access(t_node *node)
 	find_cmd(node);
 	if (cmd_is_folder(node))
 		output_error(3, node);
-	else if (access(node->data->cmd_exec, F_OK))
+	else if (access(node->data->cmd_exec, F_OK ))
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd);
 		exit(127);
 	}
-	else if (access(node->data->cmd_exec, X_OK))
+	else if (access(node->data->cmd_exec, R_OK | X_OK))
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd_exec);
