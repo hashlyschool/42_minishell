@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/07 01:51:29 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/11 01:42:56 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	}
 	if (prs->r == 0)
 		ft_parse_split(prs);
-	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*' )
+	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*')
 	{
 		if (prs->str && prs->str[0])
 			ft_parse_split(prs);
