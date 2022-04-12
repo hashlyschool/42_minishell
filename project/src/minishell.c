@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_line = parsing(env, argv[2], mode_work);
 		else
 			cmd_line = parsing(env, NULL, mode_work);
-		ft_print_str_of_str(cmd_line);
+		// ft_print_str_of_str(cmd_line);
 		root = get_forest(cmd_line, env);
 		ft_free_str_of_str(&cmd_line);
 		if (node_is_not_empty(root))
