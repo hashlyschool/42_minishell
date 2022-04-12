@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/11 22:40:35 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/12 10:17:37 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,22 @@ static char	find_cmd_in_dir(t_node *node, char *path)
 	DIR				*dir;
 	struct dirent	*dirent;
 	char			flag;
+	size_t			len;
+	char			*str;
 
 	flag = 0;
 	dir = opendir(path);
 	if (!dir)
 		return (flag);
 	dirent = readdir(dir);
+	str = node->data->cmd_exec;
+	len = ft_strlen(str);
 	while (dirent)
 	{
-		if (!flag && ft_strncmp(node->data->cmd_exec, dirent->d_name, \
-		ft_strlen(node->data->cmd_exec) + 1) == 0)
+		if (!flag && ft_strncmp(str, dirent->d_name, len + 1) == 0)
+			flag = 1;
+		else if (!flag && ft_strncmp(dirent->d_name, str, len - 1) == 0 \
+		&& str[len - 1] == '/' && str[len] == 0)
 			flag = 1;
 		dirent = readdir(dir);
 	}
@@ -46,7 +52,7 @@ static char	**ret_path_replace_cmd(t_node *node)
 	ret = NULL;
 	while (node->data->cmd_exec[i])
 	{
-		if (node->data->cmd_exec[i++] == '/')
+		if (node->data->cmd_exec[i++] == '/' && node->data->cmd_exec[i])
 			end = i - 1;
 	}
 	if (end == -1)

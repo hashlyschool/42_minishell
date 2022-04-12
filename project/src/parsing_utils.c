@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/11 19:25:24 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/12 13:09:11 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,10 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 			break ;
 	}
 	if ((data.index == -1 || (data.plus == 0 && data.index == 0)) && data.end != 1)
+	{
+		prs->str = ft_charjoin(prs->str,'$');
 		return (str);
+	}
 	if (ft_strchr("?!", str[(*i)]) || data.end == 1 ||
 	(str[(*i)] == '$' && !data.index))
 		(*i)++;
