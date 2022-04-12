@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/11 01:39:57 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/11 19:25:24 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_gap(char *str, int *i, t_parser *prs)
 	}
 	tmp = ft_substr(str, 0, j);
 	tmp2 = ft_substr(str, j + 1,*i - j - 1);
-	if (tmp2[0] == '\0' && str[(*i) + 1] != '\0' && str[(*i) + 1] == ' ')
+	if (tmp2[0] == '\0' || str[(*i) + 1] != '\0' || str[(*i) + 1] == ' ')
 		prs->spase = 1;
 	prs->str = ft_strjoin_free_s1(prs->str, tmp2);
 	tmp3 = ft_strdup(str + *i + 1);
@@ -88,7 +88,7 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	}
 	tmp = ft_substr(str, 0, j);
 	tmp2 = ft_substr(str, j + 1, (*i) - j - 1);
-	if (tmp2[0] == '\0' && str[(*i) + 1] != '\0' && str[(*i) + 1] == ' ')
+	if (tmp2[0] == '\0' || str[(*i) + 1] != '\0' || str[(*i) + 1] == ' ')
 		prs->spase = 1;
 	tmp3 = ft_strdup(str + (*i) + 1);
 	tmp = ft_strjoin_free_s1(tmp, tmp2);

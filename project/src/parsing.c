@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/11 19:40:44 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/12 00:04:13 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ char	*lexer(char *str)
 		red++;
 		i++;
 	}
-	if ((error != NULL && str[i] == '\0') || c == 1)
+	if ((error != NULL && str[i] == '\0') || (c == 1 && str[i - 2] != ';')
 		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
 	return (NULL);
 }
