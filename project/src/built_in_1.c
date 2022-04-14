@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/11 19:47:26 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 12:22:05 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_cd(char **argv, char ***env)
 	}
 	path = ft_strjoin_free_s2("minishell: cd: ", path);
 	perror(path);
+	free(old_pwd);
 	free(path);
 	errno = 0;
 	return (ft_set_ret(1, NULL, *env));

@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/10 00:12:42 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 12:52:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,18 @@ int	ft_export(char **argv, char ****env)
 		key = NULL;
 		value = NULL;
 		if (parsing_argv(argv, &key, &value, **env))
+		{
+			i = 0;
+			while (key[i])
+			{
+				free(key[i++]);
+				if (value[i - 1])
+					free(value[i - 1]);
+			}
+			free(key);
+			free(value);
 			return (0);
+		}
 		i = 0;
 		while (key[i++])
 			export_action(key[i - 1], value[i - 1], *env);
