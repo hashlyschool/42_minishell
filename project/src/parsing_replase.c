@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/14 23:53:47 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 02:03:57 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,47 @@ char	*ft_charjoin(char *str, char c)
 	return (ptr - len);
 }
 
+char	*ft_charjoin_no_free(char *str, char c)
+{
+	char	*ptr;
+	size_t	len;
+
+	if (!c)
+		return (NULL);
+	if (!str)
+	{
+		str = (char *)malloc(sizeof(char*) + 1);
+		str[0] = c;
+		str[1] = '\0';
+		return (str);
+	}
+	len = ft_strlen(str) + 1;
+	ptr = (char *)malloc(sizeof(*str) * (len + 1));
+	if (!ptr)
+		return (NULL);
+	while (*str)
+		*ptr++ = *str++;
+	*ptr++ = c;
+	*ptr = 0;
+	return (ptr - len);
+}
+
 int	ft_is_fd(char *str, int i)
 {
 	int a;
-	char *str2;
 
-	str2 = NULL;
 	a = 0;
-	while (ft_isdigit(str[i]) && i >= 0 && a < 4)
+	while (ft_isdigit(str[i]))
 	{
 		i--;
 		a++;
 	}
-	return (i + 1);
+	a = ft_atoi(ft_substr(str, i + 1, a));
+	if (a > MAX_FD)
+		//выдать ошибку
+	if (str[i] == ' ' && a >= 0)
+		return (i + 1);
+	return (-1);
 }
 
 /* продолжение функции для замены & > >> | */
@@ -80,7 +108,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 			prs->r = 1;
 	}
 	len = ft_is_fd(str, (*i) - 1);
-	if (len != (*i))
+	if (len != (*i) && len != -1)
 	{
 		len_prs = ft_strlen(prs->str);
 		free(prs->str);
@@ -88,7 +116,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 		ft_parse_split(prs);
 		prs->str = ft_substr(str, len, (*i) - len);
 	}
-	if (prs->r == 0 || len == (*i))
+	if (prs->r == 0 || len == (*i) || len == -1)
 		ft_parse_split(prs);
 	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*')
 	{

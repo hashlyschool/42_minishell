@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 00:49:18 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 01:54:43 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@
 # define PIPE_ON_THE_RIGHT 5
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
-# define MAX_FD 1024
+# ifdef __APPLE__
+	# define MAX_FD 256
+# else
+	# define MAX_FD 1024
+#endif
 
 # define BR_LEFT			"\001\002(\003\023"
 # define BR_RIGHT			"\001\002)\003\023"

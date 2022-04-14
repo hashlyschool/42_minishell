@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 00:16:14 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 02:09:39 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static char	**split_str(char *str, char **env)
 
 /* функция для посчета кавычек */
 
-int	preparse(char *str)
+char	preparse(char *str)
 {
 	char	c;
 	int		i;
@@ -195,9 +195,9 @@ int	preparse(char *str)
 			let++;
 		i++;
 	}
-	if (c != '0' || c3 != 0 || c2 != 0)
-		return (0);
-	return (1);
+	// if (c != '0' || c3 != 0 || c2 != 0)
+	// 	return (c);
+	return (c);
 }
 
 char	*lexer(char *str)
@@ -470,10 +470,11 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	//Если я все правильно понял в парсере, то здесь должны быть проверены
 	//только кавычки
 	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
-	if (!(preparse(str)))
+	if (preparse(str) != '0')
 	{
+		char *help = ft_charjoin_no_free("minishell: unexpected EOF while looking for matching `", preparse(str));
 		free(str);
-		ft_set_ret(2, PROGRAM_NAME": syntax error: unexpected end of file\n", *env);
+		ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
 		return (NULL);
 	}
 	error = lexer(str);
