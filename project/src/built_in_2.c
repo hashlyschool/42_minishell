@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:30:04 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/10 00:12:42 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:32:39 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ static void	export_action(char *key, char *value, char ***env)
 	return ;
 }
 
-/*
-return (0) - если аргументы в норме
-return (1) - если имя переменной не верно
-return (2) - если в аргументах присутствуют опции (нет по сабжу)
-*/
 static int	parsing_argv(char **argv, char ***key, char ***value, char **env)
 {
 	size_t	i;
@@ -91,15 +86,11 @@ static int	parsing_argv(char **argv, char ***key, char ***value, char **env)
 	{
 		if (check_error_in_env_name(key[0][i], &temp))
 		{
-			ft_putstr_fd(PROGRAM_NAME": export: `" ,STD_ERR);
-			ft_putstr_fd(key[0][i], STD_ERR);
-			if (value[0][i])
-				ft_putstr_fd("=", STD_ERR);
-			ft_putstr_fd(value[0][i], STD_ERR);
+			print_error_parsing_argv(key, value, i);
 			if (key[0][i + 1])
 				ft_set_ret(1, "': not a valid identifier\n", env);
 			else
-				return(ft_set_ret(1, "': not a valid identifier\n", env));
+				return (ft_set_ret(1, "': not a valid identifier\n", env));
 		}
 		i++;
 	}
@@ -125,28 +116,13 @@ static int	yes_arguments(char **argv, char **env)
 		else
 			write(STD_OUT, env[i], len_key);
 		if (env[i][len_key])
-		{
-			ft_putstr_fd("\"", STD_OUT);
-			if (env[i][len_key + 1] == '"' || \
-			env[i][len_key + 1] == '\\' || env[i][len_key + 1] == '$')
-				ft_putchar_fd('\\', STD_OUT);
-			ft_putstr_fd(env[i] + len_key + 1, STD_OUT);
-			ft_putstr_fd("\"", STD_OUT);
-		}
+			print_value_export(env, len_key, i);
 		ft_putstr_fd("\n", STD_OUT);
 		i++;
 	}
 	return (0);
 }
 
-
-/*
-нужно проверить на валидность имя переменной окружения
-
-bash: export: `"1abc"=1': not a valid identifier
-bash: export: `=': not a valid identifier
-return (1);
-*/
 int	ft_export(char **argv, char ****env)
 {
 	size_t	i;
@@ -158,19 +134,14 @@ int	ft_export(char **argv, char ****env)
 		key = NULL;
 		value = NULL;
 		if (parsing_argv(argv, &key, &value, **env))
+		{
+			free_arr_export(&key, &value);
 			return (0);
+		}
 		i = 0;
 		while (key[i++])
 			export_action(key[i - 1], value[i - 1], *env);
-		i = 0;
-		while (key[i])
-		{
-			free(key[i++]);
-			if (value[i - 1])
-				free(value[i - 1]);
-		}
-		free(key);
-		free(value);
+		free_arr_export(&key, &value);
 	}
 	return (ft_set_ret(0, NULL, **env));
 }

@@ -6,11 +6,30 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:05:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/10 17:57:36 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:32:11 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	print_value_export(char **env, size_t len_key, size_t i)
+{
+	ft_putstr_fd("\"", STD_OUT);
+	if (env[i][len_key + 1] == '"' || \
+	env[i][len_key + 1] == '\\' || env[i][len_key + 1] == '$')
+		ft_putchar_fd('\\', STD_OUT);
+	ft_putstr_fd(env[i] + len_key + 1, STD_OUT);
+	ft_putstr_fd("\"", STD_OUT);
+}
+
+void	print_error_parsing_argv(char ***key, char ***value, size_t i)
+{
+	ft_putstr_fd(PROGRAM_NAME": export: `", STD_ERR);
+	ft_putstr_fd(key[0][i], STD_ERR);
+	if (value[0][i])
+		ft_putstr_fd("=", STD_ERR);
+	ft_putstr_fd(value[0][i], STD_ERR);
+}
 
 void	output_error(int status, t_node *node)
 {

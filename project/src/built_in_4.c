@@ -6,13 +6,12 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:34:18 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/09 23:43:02 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:51:54 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-//pwd
 int	ft_pwd(char **argv, char ***env)
 {
 	char	*dir;
@@ -58,18 +57,17 @@ static char	str_is_number(char *str)
 {
 	size_t	i;
 	int		start_nbr;
-	char	minus;
 
-	minus = check_minus(str[0]);
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	while (str[i] && (str[i] == '\f' || str[i] == ' ' || str[i] == '\t' || str[i] == '\r'))
+	while (str[i] && (str[i] == '\f' || str[i] == ' ' || str[i] == '\t' \
+	|| str[i] == '\r'))
 		i++;
 	start_nbr = i;
 	while (str[i])
 	{
-		if (check_max_long_long(str, start_nbr, i, minus))
+		if (check_max_long_long(str, start_nbr, i, check_minus(str[0])))
 			return (0);
 		if (!ft_isdigit(str[i]))
 		{
@@ -84,7 +82,6 @@ static char	str_is_number(char *str)
 	return (1);
 }
 
-//exit
 int	ft_exit(char **argv, char ***env, char *exit)
 {
 	// 	ft_putstr_fd("exit\n", STD_ERR); //add in finish minishell

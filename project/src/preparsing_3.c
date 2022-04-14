@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 23:16:48 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 23:08:12 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 14:58:27 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,12 @@ static void	add_line_without_star(char ***ret, char *str, size_t len_star)
 		}
 		else
 		{
-			str_2 = ft_charjoin_libft(str_2, str[i]);
+			str_2 = ft_charjoin_libft_free_s1(str_2, str[i]);
 			i++;
 		}
 	}
 	*ret = ft_add_line(*ret, str_2);
+	free(str_2);
 }
 
 /*

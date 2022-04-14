@@ -6,11 +6,26 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/31 17:25:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:28:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	free_arr_export(char ***key, char ***value)
+{
+	size_t	i;
+
+	i = 0;
+	while (key[0][i])
+	{
+		free(key[0][i++]);
+		if (value[0][i - 1])
+			free(value[0][i - 1]);
+	}
+	free(key[0]);
+	free(value[0]);
+}
 
 static void	free_node_2(t_data *data)
 {
