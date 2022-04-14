@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 14:28:29 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 15:32:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	execute_cmd_in_node(t_node *node)
 		if (node->exit == 1 || !node->data->cmd || cond_status(node))
 			return ;
 		preparsing(node);
+		//func(node);
 		if (node->stop)
 			return ;
 		if (cond_is_built_in(node))

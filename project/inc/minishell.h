@@ -6,10 +6,9 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/08 22:43:23 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:42:04 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -84,14 +83,13 @@
 	void	rl_replace_line();
 # endif
 
-
 typedef struct s_data
 {
 	char	*cmd;
 	char	*cmd_exec;
 	char	**argv;
-	char	sep; //NONE, AND, OR, SEMICOLON
-	char	pipe; //NONE, PIPE, PIPE_ON_THE_LEFT, PIPE_ON_THE_RIGHT, PIPE_BOTH_SIDES
+	char	sep;
+	char	pipe;
 }	t_data;
 
 typedef struct s_list_redir
@@ -117,15 +115,11 @@ typedef struct s_node
 	char			***env;
 }	t_node;
 
-
-
 typedef struct s_content
 {
 	pid_t	pid;
 	t_node	*node;
 }	t_content;
-
-//minishell.c
 
 //envp.c
 char	***ft_copy_env(char **env);
@@ -137,8 +131,10 @@ char	*ft_get_status(char **env);
 void	sig_d(int signo);
 void	set_signal(void);
 //parsing.c
-char	**parsing(char ***env, char *cmd ,char mode_work);
+char	**parsing(char ***env, char *cmd, char mode_work);
 //output.c
+void	print_value_export(char **env, size_t len_key, size_t i);
+void	print_error_parsing_argv(char ***key, char ***value, size_t i);
 char	*get_promt(char **env);
 char	*ft_getenv(char *name, char **env);
 void	output_error(int status, t_node *node);
@@ -150,10 +146,11 @@ int		ft_env(char **argv, char ***env);
 int		ft_export(char **argv, char ****env);
 //built_in_3.c
 int		ft_unset(char **argv, char ****env);
-void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env);
 //built_in_4.c
 int		ft_pwd(char **argv, char ***env);
 int		ft_exit(char **argv, char ***env, char *exit);
+//built_in_5.c
+void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env);
 //forest_1.c
 t_node	*create_empty_node(char ***env);
 t_node	*create_node_next_lvl(t_node *node, char ***env);
@@ -170,6 +167,7 @@ void	open_path_and_check_access(t_node *node);
 void	error_handling(int mode, t_node *node, char **path);
 void	execute_cmd_in_node(t_node *node);
 //free.c
+void	free_arr_export(char ***key, char ***value);
 void	free_node(t_node *node);
 void	free_forest(t_node *temp, char ****env);
 //condition.c
