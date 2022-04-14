@@ -8,3 +8,5 @@ test
 .DS_Store
 src/.DS_Store
 norm
+project/minishell_test.log
+parse!

@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 13:03:16 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 00:16:14 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*parce(char *str, t_parser *prs)
 
 	i = 0;
 	prs->str = ft_strdup("");
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == '\'')
 			str = ft_gap(str, &i, prs);
@@ -75,7 +75,8 @@ char	*parce(char *str, t_parser *prs)
 			prs->str = ft_charjoin(prs->str, str[i]);
 			prs->red = 0;
 		}
-		i++;
+		if (str[i] != '\0')
+			i++;
 	}
 	ft_parse_split(prs);
 	return (str);
@@ -152,24 +153,29 @@ int	preparse(char *str)
 	int		c3;
 	int		dollar;
 	int		let;
+	int		j;
 
 	i = 0;
 	c = '0';
 	c2 = 0;
 	c3 = 0;
+	j = 0;
 	let	= 0;
 	dollar = 0;
 	while (str[i])
 	{
 		if ((str[i] == '\'') || str[i] == '"' || str[i] == '\\')
 		{
-			if (!(i != 0 && str[i - 1] == '\\') && str[i] != '\\')
+			if (!(i != 0 && str[i - 1] == '\\' && j != 1) && str[i] != '\\')
 			{
 				if (c == str[i])
 					c = '0';
 				else if (c == '0')
 					c = str[i];
+				j = 0;
 			}
+			else if (i != 0 && str[i - 1] == '\\' && str[i] == '\\')
+				j = 1;
 		}
 		else if (str[i] == '{' || str[i] == '}')
 		{
@@ -197,34 +203,47 @@ int	preparse(char *str)
 char	*lexer(char *str)
 {
 	char	*error;
+	int		w;
 	int		i;
 	int		red;
 	char	q;
-	int		c;
+	char	c;
+	int		count_char;
 
 	i = 0;
 	error = NULL;
 	red = 0;
 	q = '0';
+	w = 0;
+	count_char = 0;
 	while (str[i] != '\0')
 	{
 		c = 0;
-		while (ft_strchr(";& \r\v\n\t|", str[i]) != NULL && q == '0' && str[i] != '\0')
+		count_char = 0;
+		while (ft_strchr(";& \r\v\n\t|<>", str[i]) != NULL && q == '0' && str[i] != '\0')
 		{
 			if (ft_strchr(";&|", str[i]))
 			{
-				if (red == 0)
+				if (red == 0 || count_char == 2 || (count_char == 1 && c == ';'))
 				{
-					if (((error != NULL && error[0] == str[i])
-					|| !(error)) && ft_strlen(error) != 2)
+					if (((error != NULL && error[1] == str[i])
+					|| !(error)) && ft_strlen(error) != 3)
+					{
+						if (!(error))
+							error = ft_charjoin(error, '`');
 						error = ft_charjoin(error, str[i]);
+					}
 				}
 				else
-					c = 1;
+				{
+					c = str[i];
+					count_char++;
+				}
 			}
 			i++;
+			w = 1;
 		}
-		if (c == 1)
+		if (c != 0)
 			red = 0;
 		if (str[i] == '\"' || str[i] == '\'')
 		{
@@ -233,13 +252,149 @@ char	*lexer(char *str)
 			else
 				q = str[i];
 		}
-		red++;
+		else if (str[i] != '\0')
+			red++;
+		if (w == 1)
+		{
+			i--;
+			w = 0;
+		}
 		i++;
 	}
-	if ((error != NULL && str[i] == '\0') || (c == 1 && str[i - 2] != ';'))
-		return (ft_strjoin_free_s2(SYN_ERR, ft_charjoin(error, '\n')));
+	if ((error != NULL && str[i] == '\0') || (c != ';' && c != 0 && red != 1))
+		return (ft_strjoin_free_s2(SYN_ERR, ft_strjoin_free_s1(error, "\'\n")));
 	return (NULL);
 }
+
+/////////////////////////////SYNTAX ERROR //////////////////////////////
+
+int		error_msg(char c, char ***env)
+{
+	char *error;
+
+	error = ft_strdup("syntax error near unexpected token `");
+	error = ft_charjoin(error, c);
+	error = ft_strjoin_free_s1(error, "\'\n");
+	ft_set_ret(2, error, *env);
+	return (-1);
+}
+
+
+int	inside_quote(char *str, int i)
+{
+	char	quote;
+
+	while (str[i] && (str[i] == '\'' || str[i] == '"'))
+	{
+		quote = str[i];
+		i++;
+		while (str[i] && str[i] != quote)
+		{
+			if (str[i] && str[i] == '\\')
+				i++;
+			i++;
+		}
+		if (i == ((int)ft_strlen(str)))
+			break ;
+		else
+			i++;
+	}
+	return (i);
+}
+
+int	syntax_error_redir(char *str, char c, char ***env)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
+			break ;
+		while (str[i] && (str[i] == c || str[i] == ' '))
+		{
+			if (str[i] == c)
+				j++;
+			i++;
+			if (j == 3)
+				return (error_msg(str[i+1] , env));
+			if (j > 3)
+				return (error_msg(str[i], env));
+		}
+		if (i == (int)ft_strlen(str))
+			break ;
+		i++;
+	}
+	return (0);
+}
+
+int	syntax_error_newline(char *str, char ***env)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	i--;
+	if (str[i] == '>' || str[i] == '<')
+		return (error_msg(str[i], env));
+	i++;
+	while (str[i--] && (str[i] == ' ' || str[i] == '<' || str[i] == '>'))
+	{
+		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
+			break ;
+		if (str[i] == '>' || str[i] == '<')
+			return (error_msg(str[i], env));
+	}
+	return (0);
+}
+
+int	syntax_error_go(char *str, int i, char ***env)
+{
+	i--;
+	if (str[i] && str[i] == '|')
+		return (error_msg(str[i], env));
+	if (syntax_error_redir(str, '>', env) == -1 || syntax_error_redir(str, '<', env) == -1
+		|| syntax_error_newline(str, env) == -1)
+	{
+		// как-то сказать о выходе с ошибкой 2
+		return (-1);
+	}
+	return (0);
+}
+
+int	syntax_error(char *str, char c, int i, char ***env)
+{
+	if (!str)
+		return (0);
+	if (str[0] == c)
+		return (error_msg(str[0], env));
+	while (str[++i] && (str[i] == ' ' || str[i] == '>'
+			|| str[i] == '<' || str[i] == c))
+		if (str[i] == c)
+			return (error_msg(str[i], env));
+	while (str[i])
+	{
+		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
+			break ;
+		if (str[i] && str[i] == c)
+		{
+			while (str[++i] && (str[i] == ' ' || str[i] == '>'
+					|| str[i] == '<' || str[i] == c))
+				if (str[i] == c)
+					return (error_msg(str[i], env));
+			if (str[i] == '\0')
+				break ;
+		}
+		i++;
+	}
+	return (syntax_error_go(str, i, env));
+}
+
+/////////////////////////////////////////////////////////////
+
 
 char	*check_redirect(char *str)
 {
@@ -300,7 +455,11 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 
 	ret = NULL;
 	if (mode_work)
+	#ifdef __APPLE__
 		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);//ft_strdup(cmd);
+	#else
+		str = ft_strdup(cmd);
+	#endif
 	else
 		str = get_line(env);
 	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
@@ -325,6 +484,8 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 		return (NULL);
 	}
 	else {
+	// if (syntax_error(str, '|', 0, env) != -1 && syntax_error(str, ';', 0, env) != -1)
+	// {
 		error = check_redirect(str);
 		if (error != NULL)
 		{

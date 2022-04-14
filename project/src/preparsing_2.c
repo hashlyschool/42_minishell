@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 12:59:32 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:24:30 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,13 @@ char	**split_cmd_line(char **end_str)
 	char	**ret;
 	char	*new_str;
 	int		i;
+	int		end;
 
 	i = 0;
+	end = 0;
 	ret = NULL;
 	new_str = ft_strnstr(*end_str, START_DOUBLE_QUOTE, ft_strlen(*end_str));
+	// printf("\nstr-%s\n",*end_str);
 	while (new_str != NULL)
 	{
 		*end_str = ft_queote_dollar(*end_str, new_str, 0);
@@ -124,13 +127,17 @@ char	**split_cmd_line(char **end_str)
 	{
 		*end_str = ft_queote_dollar(*end_str, new_str, 1);
 		new_str = ft_strnstr(*end_str, END_DOUBLE_QUOTE, ft_strlen(*end_str));
+		end = 1;
 	}
-	if (new_str != NULL)
+	if (end == 1)
 	{
 		// new = ft_strjoin_free_all(left, right);
 		ret = ft_add_line(ret, *end_str);
 		// free(*end_str);
 		return (ret);
+	}
+	else {
+
 	}
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
 		|| *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')

@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/12 13:09:11 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/14 16:52:47 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ char	*ft_slash(char *str, int *i, t_parser *prs)
 
 	tmp = ft_substr(str, 0,*i);
 	tmp2 = ft_strdup(str + *i + 1);
+	if (str[(*i) + 1] && str[(*i) + 1] == ' ')
+		prs->str = ft_strjoin_free_s1(prs->str, START_DOUBLE_QUOTE);
 	if (prs->quo != 1 && (str[*i + 1]) != '\0')
 		prs->str = ft_charjoin(prs->str, str[*i + 1]);
 	tmp = ft_strjoin_free_all(tmp, tmp2);
 	free(str);
-	// ++(i);
+	if  (str[(*i) + 1] == '\0')
+		--(*i);
 	return (tmp);
 }
 
@@ -141,19 +144,23 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 	if ((data.index == -1 || (data.plus == 0 && data.index == 0)) && data.end != 1)
 	{
 		prs->str = ft_charjoin(prs->str,'$');
+		prs->str = ft_charjoin(prs->str,str[(*i)]);
 		return (str);
 	}
-	if (ft_strchr("?!", str[(*i)]) || data.end == 1 ||
-	(str[(*i)] == '$' && !data.index))
-		(*i)++;
+	if ((ft_strchr("?!", str[(*i)]) && str[(*i)] != '\0') || data.end == 1 ||
+		(str[(*i)] == '$' && !data.index))
+		{
+			(*i)++;
+			printf("\nlol\n");
+		}
 	tmp = ft_substr(str, 0, j);
 	if (str[j] == '$' && str[j + 1] == '{')
 		tmp2 = ft_substr(str, j + 2, (*i) - j - 2);
 	else
 		tmp2 = ft_substr(str, j + 1, (*i) - j - 1);
+	tmp3 = ft_strdup(str + (*i) + data.plus);
 	if (ft_strchr("?!", str[(*i) - 1])|| (str[(*i)] == '$' && !data.index))
 		(*i)--;
-	tmp3 = ft_strdup(str + (*i) + data.plus);
 	tmp2 = ft_strjoin_free_s2(START_VALUE, tmp2);
 	// if (prs->quo == 1)
 	// {
@@ -170,7 +177,7 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 	if (str[j] == '$' && str[j + 1] == '{')
 		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 3;
 	else
-		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 2;
+		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 1;
 	free(str);
 	return (tmp);
 }

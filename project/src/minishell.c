@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 13:04:22 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/14 23:54:06 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void	ft_check_status_exit(char status_exit, char ****env, char *mode_work
 		status_exit = (char)(ft_atoi(ft_get_status(**env)));
 		ft_free_envp(env);
 		#ifdef __APPLE__
+		#ifndef TESTER
 		clear_history();
+		#endif
 		#elif __linux__
 		rl_clear_history();
 		#endif
@@ -85,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_line = parsing(env, argv[2], mode_work);
 		else
 			cmd_line = parsing(env, NULL, mode_work);
-		ft_print_str_of_str(cmd_line);
+		// ft_print_str_of_str(cmd_line);
 		root = get_forest(cmd_line, env);
 		ft_free_str_of_str(&cmd_line);
 		if (node_is_not_empty(root))

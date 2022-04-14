@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/11 01:42:56 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/14 23:53:47 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,35 @@ char	*ft_charjoin(char *str, char c)
 	return (ptr - len);
 }
 
+int	ft_is_fd(char *str, int i)
+{
+	int a;
+	char *str2;
+
+	str2 = NULL;
+	a = 0;
+	while (ft_isdigit(str[i]) && i >= 0 && a < 4)
+	{
+		i--;
+		a++;
+	}
+	return (i + 1);
+}
+
 /* продолжение функции для замены & > >> | */
 char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 {
 	char	*tmp;
 	int		j;
 	char	*str2;
+	int		len;
+	int 	len_prs;
 
 	j = *i;
 	tmp = ft_substr(str, 0, *i);
 	str2 = str;
 	tmp = ft_strjoin_free_s1(tmp, start);
+	len_prs = 0;
 	if (str[*i + flag] != '\0')
 		tmp = ft_strjoin_free_all(tmp, ft_strdup(str + *i + flag));
 	if (str[(*i)] == '>')
@@ -61,7 +79,16 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 		else
 			prs->r = 1;
 	}
-	if (prs->r == 0)
+	len = ft_is_fd(str, (*i) - 1);
+	if (len != (*i))
+	{
+		len_prs = ft_strlen(prs->str);
+		free(prs->str);
+		prs->str = ft_substr(str,len - len_prs + 1,len - (len - len_prs + 1));
+		ft_parse_split(prs);
+		prs->str = ft_substr(str, len, (*i) - len);
+	}
+	if (prs->r == 0 || len == (*i))
 		ft_parse_split(prs);
 	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*')
 	{
