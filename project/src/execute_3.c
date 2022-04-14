@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/14 15:32:56 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 01:26:59 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,25 @@ static void	ft_execve_node(t_node *node)
 	return ;
 }
 
+void	delete_spase_define(t_node *node)
+{
+	char *new_str;
+
+	new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	while (new_str != NULL)
+	{
+		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 0);
+		new_str = ft_strnstr(node->data->cmd, START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	}
+	new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	while (new_str != NULL)
+	{
+		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 1);
+		new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	}
+	// return(node->data->cmd);
+}
+
 void	execute_cmd_in_node(t_node *node)
 {
 	pid_t	pid;
@@ -123,6 +142,7 @@ void	execute_cmd_in_node(t_node *node)
 			return ;
 		preparsing(node);
 		//func(node);
+		delete_spase_define(node);
 		if (node->stop)
 			return ;
 		if (cond_is_built_in(node))

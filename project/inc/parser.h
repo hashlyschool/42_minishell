@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/08 22:06:17 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 01:11:42 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ char	*ft_replace(char *str, int *i, char c, t_parser *prs);
 char	*ft_charjoin(char *str, char c);
 void	ft_parse_split(t_parser *prs);
 char	**ft_minishell_split(char const *s);
+char	*ft_queote_dollar(char *str, char *new_str, int i);
 
 #endif
