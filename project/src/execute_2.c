@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 15:07:49 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 10:17:37 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:13:59 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,13 @@ static void	find_cmd(t_node *node)
 		path = ft_split(ft_getenv("PATH", *node->env), ':');
 	else
 		path = ret_path_replace_cmd(node);
-	i = 0;
+	i = -1;
 	file_find = 0;
-	while (path && path[i] && file_find == 0)
+	while (path && path[++i] && file_find == 0)
 	{
 		file_find = find_cmd_in_dir(node, path[i]);
 		if (file_find)
 			break ;
-		i++;
 	}
 	if (!file_find && ft_strncmp(node->data->cmd_exec, "", 1) != 0)
 		error_handling(mode, node, path);
@@ -112,17 +111,12 @@ static char	cmd_is_folder(t_node *node)
 	return (0);
 }
 
-/*
-status:
-	0 - все ок, идет выполнение дальше
-	1 - Path-1, cmd not found in path
-*/
 void	open_path_and_check_access(t_node *node)
 {
 	find_cmd(node);
 	if (cmd_is_folder(node))
 		output_error(3, node);
-	else if (access(node->data->cmd_exec, F_OK ))
+	else if (access(node->data->cmd_exec, F_OK))
 	{
 		ft_putstr_fd(PROGRAM_NAME": ", STD_ERR);
 		perror(node->data->cmd);

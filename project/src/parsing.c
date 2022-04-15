@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/12 13:03:16 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:57:04 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-Функция для получения строки из терминала с помощью readline
-promt - начальная строка aka bash
-*/
 static char	*get_line(char ***env)
 {
 	char	*line_read;
@@ -81,51 +77,12 @@ char	*parce(char *str, t_parser *prs)
 	return (str);
 }
 
-/*
-Masha
-Эта функция разбивает строку str на составные части. В строках должна быть
-информация следующего рода :
-	cmd
-	option or argv
-	>	file_name
-	>>	file_name
-	<	file_name
-	<<	file_name
-	(
-	)
-	&&
-	||
-	|
-	;
-	${NAME}
-	NULL
-
-Т.к. аргумент может быть '(' или '< file_name' и т.д. Следует записать для
-ключевых токенов особенные записи, чтобы в последующем не перепутать токены
-и аргументы к команде. Поэтому в итоге нужно, чтобы
-строка строк была в следующем виде:
-	cmd
-	option or argv
-	\1\2>\3\23	file_name
-	\1\2>>\3\23	file_name
-	\1\2<\3\23	file_name
-	\1\2<<\3\23	file_name
-	\1\2(\3\23
-	\1\2)\3\23
-	\1\2&&\3\23
-	\1\2||\3\23
-	\1\2|\3\23
-	\1\2;\3\23
-	\001\002${NAME}\3\23
-	NULL
-*/
 static char	**split_str(char *str, char **env)
 {
 	t_parser	*prs;
 	char		**ret;
 
 	prs = malloc(sizeof(t_parser));
-	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
 	prs->d_quo = 0;
@@ -141,8 +98,6 @@ static char	**split_str(char *str, char **env)
 	free (prs);
 	return (ret);
 }
-
-/* функция для посчета кавычек */
 
 int	preparse(char *str)
 {
@@ -288,10 +243,6 @@ char	*check_redirect(char *str)
 	return (NULL);
 }
 
-/*
-Функция для чтения с стандартного ввода команды с помощью readline, а затем
-разбиения этой строки на составные части
-*/
 char	**parsing(char ***env, char *cmd ,char mode_work)
 {
 	char	*str;
@@ -303,14 +254,6 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);//ft_strdup(cmd);
 	else
 		str = get_line(env);
-	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
-	//Вызывает вывод текста "minishell: syntax error: unexpected end of file"
-	//А нужно выводить "bash: syntax error near unexpected token `)'"
-	//
-	//Еще ошибочно проверяется доллар (вернее он здесь не должен проверяться)
-	//Если я все правильно понял в парсере, то здесь должны быть проверены
-	//только кавычки
-	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
 	if (!(preparse(str)))
 	{
 		free(str);

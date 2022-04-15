@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:15:36 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 17:37:01 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:33:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,22 @@ t_node	*create_next_node(t_node *node, char separator, char ***env)
 	}
 	node->next = temp;
 	return (temp);
+}
+
+void	ft_add_argv(t_node *node, char *str)
+{
+	int		q_str;
+	char	**ret;
+
+	q_str = 0;
+	while (node->data->argv && node->data->argv[q_str])
+		q_str++;
+	ret = (char **)malloc(sizeof(char *) * (q_str + 2));
+	ret[q_str + 1] = NULL;
+	ret[q_str] = ft_strdup(str);
+	while (--q_str >= 0)
+		ret[q_str] = node->data->argv[q_str];
+	if (node->data->argv)
+		free(node->data->argv);
+	node->data->argv = ret;
 }

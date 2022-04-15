@@ -14,13 +14,14 @@ INC_NAME		=	minishell.h color.h parser.h
 INC				=	$(addprefix $(INC_PATH), $(INC_NAME))
 SRCS_PATH		=	./src/
 OBJS_PATH		=	./objs/
-SRCS_NAME		=	minishell.c signal.c parsing.c output.c envp.c \
+SRCS_NAME		=	minishell.c signal.c parsing.c output_1.c envp.c \
 					built_in_1.c built_in_2.c built_in_3.c built_in_4.c \
 					forest_1.c forest_2.c execute_1.c execute_2.c execute_3.c \
 					condition.c free.c preparsing_1.c preparsing_2.c \
 					preparsing_3.c parsing_utils.c parsing_replase.c \
 					ft_minishell_split.c condition_redirect.c set_redir.c \
-					processing_pipe.c processing_redir.c built_in_5.c
+					processing_pipe.c processing_redir.c built_in_5.c \
+					output_2.c preparsing_4.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 

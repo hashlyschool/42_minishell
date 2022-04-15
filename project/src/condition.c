@@ -6,16 +6,12 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:56:14 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/10 17:58:50 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:11:14 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-Если команду нужно искть в PATH - 1
-иначе 0
-*/
 int	cmd_in_path(t_node *node)
 {
 	char	*path;
@@ -39,10 +35,6 @@ int	cmd_in_path(t_node *node)
 	return (flag_path);
 }
 
-/*
-Функция, которая возвращает 0, если нужно выполнять команду
-иначе 1
-*/
 int	cond_status(t_node	*node)
 {
 	int	status;

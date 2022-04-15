@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/03/31 17:58:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:45:27 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,6 @@ static void	ft_add_redir(t_node *node, char *str, int type)
 	ft_lstadd_back(&node->list_redir, ft_lstnew(content));
 }
 
-void	ft_add_argv(t_node *node, char *str)
-{
-	int		q_str;
-	char	**ret;
-
-	q_str = 0;
-	while (node->data->argv && node->data->argv[q_str])
-		q_str++;
-	ret = (char **)malloc(sizeof(char *) * (q_str + 2));
-	ret[q_str + 1] = NULL;
-	ret[q_str] = ft_strdup(str);
-	while (--q_str >= 0)
-		ret[q_str] = node->data->argv[q_str];
-	if (node->data->argv)
-		free(node->data->argv);
-	node->data->argv = ret;
-}
-
 static void	fill_node(char **str, int i, t_node *node)
 {
 	int	redir;
@@ -73,63 +55,44 @@ static void	fill_node(char **str, int i, t_node *node)
 		ft_add_argv(node, str[i]);
 }
 
-
-/*
-Здесь нужно проверить все токены, которые нам даны по сабжу
-Т.е. 10 штук:
-<	>	|	&&	(
-<<	>>	;	||	)
-Как проверять:
-1) После < << > >> д.б. текст. Причем не обязательно через пробел
-2) До ; должны быть команды
-3) До и после | && || должны быть команды
-4) Команда может быть в скобках или отдельно:
-	cmd
-	cmd argv...
-	(cmd ...)
-
-Может быть эту проверку легче будет сделать уже на свормированном дереве.
-Я могу обьяснить как формируется дерево
-*/
 static char	check_error_in_cmd_line(char **line, t_node *node)
 {
 	char	error;
 
 	error = 0;
-	//check error
-	//if error
-	//	error = 1;
 	if (line || node)
 		;
 	if (error)
 	{
 		ft_set_ret(2, "bash: syntax error near unexpected token `", *node->env);
-		ft_putstr_fd("token", 1); //need find token
+		ft_putstr_fd("token", 1);
 		ft_putstr_fd("`'\n", 1);
 	}
 	return (error);
 }
 
-/*
-Функция создания дерева по массиву строк, полученных из
-парсинга входной строки.
-Возвращает указатель на корень дерева.
-*/
+static char	def_root(t_node **temp, t_node **root, char **line, char ***env)
+{
+	*temp = create_empty_node(env);
+	(*temp)->def_fd[0] = dup(0);
+	(*temp)->def_fd[1] = dup(1);
+	*root = *temp;
+	if (!line || check_error_in_cmd_line(line, *root))
+	{
+		(*root)->stop = 1;
+		return (1);
+	}
+	return (0);
+}
+
 t_node	*get_forest(char **line, char ***env)
 {
 	t_node	*root;
 	t_node	*temp;
 	int		i;
 
-	temp = create_empty_node(env);
-	temp->def_fd[0] = dup(0);
-	temp->def_fd[1] = dup(1);
-	root = temp;
-	if (!line || check_error_in_cmd_line(line, root))
-	{
-		root->stop = 1;
+	if (def_root(&temp, &root, line, env) == 1)
 		return (root);
-	}
 	i = -1;
 	while (line && line[++i])
 	{

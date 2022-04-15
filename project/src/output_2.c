@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processing_redir.c                                 :+:      :+:    :+:   */
+/*   output_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/30 15:39:21 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 14:27:05 by hashly           ###   ########.fr       */
+/*   Created: 2022/04/15 10:54:17 by hashly            #+#    #+#             */
+/*   Updated: 2022/04/15 10:54:44 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_close_redir(t_node *node)
+void	error_handling(int mode, t_node *node, char **path)
 {
-	t_list			*temp;
-	t_list_redir	*content;
-
-	temp = node->list_redir;
-	while (temp)
-	{
-		content = temp->content;
-		if (content->fd >= 0)
-			close(content->fd);
-		free(content->word);
-		temp = temp->next;
-	}
-	dup2(node->def_fd[0], 0);
-	dup2(node->def_fd[1], 1);
-	dup2(node->def_fd[2], 2);
-	ft_lstclear(&node->list_redir, &free);
+	if (path)
+		ft_free_str_of_str(&path);
+	if (mode == 1 || mode == -1)
+		output_error(1, node);
+	if (mode == 0)
+		output_error(2, node);
 }
