@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 14:05:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 17:10:52 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,4 +200,7 @@ char	**open_star(t_node *node);
 void	get_ret_no_ret(char **split_end, char **ret, t_node *node, int *x);
 void	get_ret_yes_ret(char **split_end, char **ret, t_node *node, int *x);
 char	matching(char **split_arr, char *d_name);
+//heredoc.c
+void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file);
+
 #endif
