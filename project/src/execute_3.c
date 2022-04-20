@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 01:26:59 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 04:59:29 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	delete_spase_define(t_node *node)
 {
 	char *new_str;
 
-	new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	new_str = ft_strnstr(node->data->cmd, START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	while (new_str != NULL)
 	{
 		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 0);
@@ -107,6 +107,30 @@ void	delete_spase_define(t_node *node)
 		new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	}
 	// return(node->data->cmd);
+}
+
+void	delete_spase_define2(t_node *node)
+{
+	char *new_str;
+	int		i;
+
+	i = 0;
+	while (node->data->argv[i])
+	{
+		new_str = ft_strnstr(node->data->argv[i], START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		while (new_str != NULL)
+		{
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i], new_str, 0);
+			new_str = ft_strnstr(node->data->argv[i], START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		}
+		new_str = ft_strnstr(node->data->argv[i], END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		while (new_str != NULL)
+		{
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i], new_str, 1);
+			new_str = ft_strnstr(node->data->argv[i], END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		}
+		i++;
+	}
 }
 
 void	execute_cmd_in_node(t_node *node)
@@ -143,6 +167,8 @@ void	execute_cmd_in_node(t_node *node)
 		preparsing(node);
 		//func(node);
 		delete_spase_define(node);
+		if (node->data->argv)
+			delete_spase_define2(node);
 		if (node->stop)
 			return ;
 		if (cond_is_built_in(node))

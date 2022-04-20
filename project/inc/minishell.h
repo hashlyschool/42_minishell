@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 01:54:43 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 03:12:47 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 //open
 # include <fcntl.h>
 # include <sys/stat.h>
+
+#include "parsers.h"
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"

@@ -6,11 +6,12 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 02:09:39 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 22:03:02 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+// #include "parse/parsers.h"
 
 /*
 Функция для получения строки из терминала с помощью readline
@@ -216,6 +217,7 @@ char	*lexer(char *str)
 	q = '0';
 	w = 0;
 	count_char = 0;
+	int spase = 0;
 	while (str[i] != '\0')
 	{
 		c = 0;
@@ -224,7 +226,8 @@ char	*lexer(char *str)
 		{
 			if (ft_strchr(";&|", str[i]))
 			{
-				if (red == 0 || count_char == 2 || (count_char == 1 && c == ';'))
+				if (red == 0 || count_char == 2 || (count_char == 1 && c == ';') ||
+				(spase == 1 && count_char == 1))
 				{
 					if (((error != NULL && error[1] == str[i])
 					|| !(error)) && ft_strlen(error) != 3)
@@ -237,9 +240,15 @@ char	*lexer(char *str)
 				else
 				{
 					c = str[i];
+					if (error)
+						free(error);
+					error = NULL;
 					count_char++;
+					spase= 0;
 				}
 			}
+			else
+				spase = 1;
 			i++;
 			w = 1;
 		}
@@ -261,8 +270,10 @@ char	*lexer(char *str)
 		}
 		i++;
 	}
-	if ((error != NULL && str[i] == '\0') || (c != ';' && c != 0 && red != 1))
+	if ((error != NULL && str[i] == '\0'))
 		return (ft_strjoin_free_s2(SYN_ERR, ft_strjoin_free_s1(error, "\'\n")));
+	if ((c != ';' && c != 0 && red != 1))
+		return ("syntax error: unexpected end of file\n");
 	return (NULL);
 }
 
@@ -452,6 +463,7 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	char	*str;
 	char	**ret;
 	char	*error;
+	// t_parsers prs;
 
 	ret = NULL;
 	if (mode_work)
@@ -470,6 +482,12 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	//Если я все правильно понял в парсере, то здесь должны быть проверены
 	//только кавычки
 	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
+	// parser_init(&prs, str, 0);
+	// if (!(parser_next(&prs)))
+	// {
+	// 	free(str);
+	// 	return (NULL);
+	// }
 	if (preparse(str) != '0')
 	{
 		char *help = ft_charjoin_no_free("minishell: unexpected EOF while looking for matching `", preparse(str));

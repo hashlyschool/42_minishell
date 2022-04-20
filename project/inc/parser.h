@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/15 02:03:40 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 02:28:30 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,47 @@ typedef struct s_dollar
 	int		index;
 	int		end;
 }	t_dollar;
+
+//lexer//
+
+// typedef enum e_type
+// {
+// 	CMD,
+// 	ARG,
+// 	REDIR_IN,
+// 	REDIR_OUT,
+// 	REDIR_APPEND,
+// 	REDIR_FILE,
+// 	PIPE,
+// 	SEP
+// }				t_type;
+
+// typedef struct s_token
+// {
+// 	char		*str;
+// 	int			len;
+// 	int			screened;
+// 	t_type		type;
+
+// 	void		(*append)(struct s_token *self, char *to_append);
+// 	void		(*remove)(struct s_token *self, size_t i);
+// 	void		(*prepare)(struct s_token *self, int exit_status);
+// 	void		(*del)(struct s_token	*self);
+// }				t_token;
+
+// typedef struct s_lexer
+// {
+// 	char	*string;
+// 	char	*buf;
+// 	t_token	**tokens;
+// 	size_t	tokens_len;
+
+// 	void	(*del)(struct s_lexer	*self);
+// 	int		(*tokenize)(struct s_lexer	*self);
+// 	int		(*check_grammar)(struct s_lexer	*self);
+// }				t_lexer;
+
+///////
 
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);
