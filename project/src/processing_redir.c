@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 15:39:21 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 14:27:05 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/21 17:49:54 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	ft_close_redir(t_node *node)
 	while (temp)
 	{
 		content = temp->content;
-		if (content->fd >= 0)
-			close(content->fd);
 		free(content->word);
 		temp = temp->next;
 	}

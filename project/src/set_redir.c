@@ -6,11 +6,18 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 15:27:57 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 17:10:38 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/21 17:58:56 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	sig_int_heredoc(int signo)
+{
+	signo = 0;
+	ft_putstr_fd("\n", STD_ERR);
+	exit(1);
+}
 
 static void	ret_error_and_set_code(t_node *node, char *file_name)
 {
@@ -35,7 +42,7 @@ static void	proc_set_redir(t_node *node, t_list_redir *content)
 		if (fd < 0)
 			return (ret_error_and_set_code(node, content->word));
 		dup2(fd, content->n);
-		content->fd = fd;
+		close(fd);
 	}
 	else if (content->type_redir == 3)
 	{
@@ -43,8 +50,8 @@ static void	proc_set_redir(t_node *node, t_list_redir *content)
 		content->fd = -1;
 		if (fd < 0)
 			return (ret_error_and_set_code(node, content->word));
-		content->fd = fd;
 		dup2(fd, content->n);
+		close(fd);
 	}
 }
 

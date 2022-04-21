@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 17:10:52 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/21 17:59:07 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_list_redir
 	int		type_redir;
 	char	*word;
 	int		fd;
+	int		pipe_heredoc[2];
 }	t_list_redir;
 
 typedef struct s_node
@@ -179,6 +180,7 @@ int		cmd_in_path(t_node *node);
 char	str_is_redirect(char **str, int i);
 //set_redir.c
 void	ft_set_redir(t_node *node);
+void	sig_int_heredoc(int signo);
 //processing_redir.c
 void	ft_close_redir(t_node *node);
 //set_pipe.c
