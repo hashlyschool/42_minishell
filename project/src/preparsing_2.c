@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/14 16:24:30 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 22:24:30 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	replace_data_in_node(char ***arr, t_node *node)
 		ft_add_argv(node, temp[i]);
 		i++;
 	}
+	ft_free_str_of_str(arr);
 }
 
 /*
@@ -141,7 +142,7 @@ char	**split_cmd_line(char **end_str)
 	}
 	while (*end_str[i] == '\t' || *end_str[i] == '\n' || *end_str[i] == '\v' \
 		|| *end_str[i] == '\f' || *end_str[i] == '\r' || *end_str[i] == ' ')
-	 	i++;
+		i++;
 	if ((*end_str)[i] == 0)
 		ret = ft_add_line(ret, "");
 	else

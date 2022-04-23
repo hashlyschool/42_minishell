@@ -6,17 +6,13 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/20 22:03:02 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 04:21:27 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 // #include "parse/parsers.h"
 
-/*
-Функция для получения строки из терминала с помощью readline
-promt - начальная строка aka bash
-*/
 static char	*get_line(char ***env)
 {
 	char	*line_read;
@@ -76,58 +72,19 @@ char	*parce(char *str, t_parser *prs)
 			prs->str = ft_charjoin(prs->str, str[i]);
 			prs->red = 0;
 		}
-		if (str[i] != '\0')
+		if (str[i] != '\0' || (str[i] == '\0' && i < 0))
 			i++;
 	}
 	ft_parse_split(prs);
 	return (str);
 }
 
-/*
-Masha
-Эта функция разбивает строку str на составные части. В строках должна быть
-информация следующего рода :
-	cmd
-	option or argv
-	>	file_name
-	>>	file_name
-	<	file_name
-	<<	file_name
-	(
-	)
-	&&
-	||
-	|
-	;
-	${NAME}
-	NULL
-
-Т.к. аргумент может быть '(' или '< file_name' и т.д. Следует записать для
-ключевых токенов особенные записи, чтобы в последующем не перепутать токены
-и аргументы к команде. Поэтому в итоге нужно, чтобы
-строка строк была в следующем виде:
-	cmd
-	option or argv
-	\1\2>\3\23	file_name
-	\1\2>>\3\23	file_name
-	\1\2<\3\23	file_name
-	\1\2<<\3\23	file_name
-	\1\2(\3\23
-	\1\2)\3\23
-	\1\2&&\3\23
-	\1\2||\3\23
-	\1\2|\3\23
-	\1\2;\3\23
-	\001\002${NAME}\3\23
-	NULL
-*/
 static char	**split_str(char *str, char **env)
 {
 	t_parser	*prs;
 	char		**ret;
 
 	prs = malloc(sizeof(t_parser));
-	// prs->mass = (char **)malloc(sizeof(char *) * (1));
 	prs->quo = 0;
 	prs->red = 0;
 	prs->d_quo = 0;
@@ -145,7 +102,6 @@ static char	**split_str(char *str, char **env)
 }
 
 /* функция для посчета кавычек */
-
 char	preparse(char *str)
 {
 	char	c;
@@ -196,8 +152,8 @@ char	preparse(char *str)
 			let++;
 		i++;
 	}
-	// if (c != '0' || c3 != 0 || c2 != 0)
-	// 	return (c);
+	if (c != '0' || c3 != 0 || c2 != 0)
+		return (c);
 	return (c);
 }
 
@@ -277,136 +233,6 @@ char	*lexer(char *str)
 	return (NULL);
 }
 
-/////////////////////////////SYNTAX ERROR //////////////////////////////
-
-int		error_msg(char c, char ***env)
-{
-	char *error;
-
-	error = ft_strdup("syntax error near unexpected token `");
-	error = ft_charjoin(error, c);
-	error = ft_strjoin_free_s1(error, "\'\n");
-	ft_set_ret(2, error, *env);
-	return (-1);
-}
-
-
-int	inside_quote(char *str, int i)
-{
-	char	quote;
-
-	while (str[i] && (str[i] == '\'' || str[i] == '"'))
-	{
-		quote = str[i];
-		i++;
-		while (str[i] && str[i] != quote)
-		{
-			if (str[i] && str[i] == '\\')
-				i++;
-			i++;
-		}
-		if (i == ((int)ft_strlen(str)))
-			break ;
-		else
-			i++;
-	}
-	return (i);
-}
-
-int	syntax_error_redir(char *str, char c, char ***env)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
-			break ;
-		while (str[i] && (str[i] == c || str[i] == ' '))
-		{
-			if (str[i] == c)
-				j++;
-			i++;
-			if (j == 3)
-				return (error_msg(str[i+1] , env));
-			if (j > 3)
-				return (error_msg(str[i], env));
-		}
-		if (i == (int)ft_strlen(str))
-			break ;
-		i++;
-	}
-	return (0);
-}
-
-int	syntax_error_newline(char *str, char ***env)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	i--;
-	if (str[i] == '>' || str[i] == '<')
-		return (error_msg(str[i], env));
-	i++;
-	while (str[i--] && (str[i] == ' ' || str[i] == '<' || str[i] == '>'))
-	{
-		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
-			break ;
-		if (str[i] == '>' || str[i] == '<')
-			return (error_msg(str[i], env));
-	}
-	return (0);
-}
-
-int	syntax_error_go(char *str, int i, char ***env)
-{
-	i--;
-	if (str[i] && str[i] == '|')
-		return (error_msg(str[i], env));
-	if (syntax_error_redir(str, '>', env) == -1 || syntax_error_redir(str, '<', env) == -1
-		|| syntax_error_newline(str, env) == -1)
-	{
-		// как-то сказать о выходе с ошибкой 2
-		return (-1);
-	}
-	return (0);
-}
-
-int	syntax_error(char *str, char c, int i, char ***env)
-{
-	if (!str)
-		return (0);
-	if (str[0] == c)
-		return (error_msg(str[0], env));
-	while (str[++i] && (str[i] == ' ' || str[i] == '>'
-			|| str[i] == '<' || str[i] == c))
-		if (str[i] == c)
-			return (error_msg(str[i], env));
-	while (str[i])
-	{
-		if ((i = (inside_quote(str, i))) == (int)ft_strlen(str))
-			break ;
-		if (str[i] && str[i] == c)
-		{
-			while (str[++i] && (str[i] == ' ' || str[i] == '>'
-					|| str[i] == '<' || str[i] == c))
-				if (str[i] == c)
-					return (error_msg(str[i], env));
-			if (str[i] == '\0')
-				break ;
-		}
-		i++;
-	}
-	return (syntax_error_go(str, i, env));
-}
-
-/////////////////////////////////////////////////////////////
-
-
 char	*check_redirect(char *str)
 {
 	int		i;
@@ -454,16 +280,12 @@ char	*check_redirect(char *str)
 	return (NULL);
 }
 
-/*
-Функция для чтения с стандартного ввода команды с помощью readline, а затем
-разбиения этой строки на составные части
-*/
 char	**parsing(char ***env, char *cmd ,char mode_work)
 {
 	char	*str;
 	char	**ret;
 	char	*error;
-	// t_parsers prs;
+	t_parsers prs;
 
 	ret = NULL;
 	if (mode_work)
@@ -482,19 +304,20 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	//Если я все правильно понял в парсере, то здесь должны быть проверены
 	//только кавычки
 	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
-	// parser_init(&prs, str, 0);
-	// if (!(parser_next(&prs)))
-	// {
-	// 	free(str);
-	// 	return (NULL);
-	// }
-	if (preparse(str) != '0')
+	parser_init(&prs, str, 0);
+	if (!(parser_next(&prs)))
 	{
-		char *help = ft_charjoin_no_free("minishell: unexpected EOF while looking for matching `", preparse(str));
 		free(str);
-		ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
+		ft_set_ret(2,"", *env);
 		return (NULL);
 	}
+	// if (preparse(str) != '0')
+	// {
+	// 	char *help = ft_charjoin_no_free("minishell: unexpected EOF while looking for matching `", preparse(str));
+	// 	free(str);
+	// 	ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
+	// 	return (NULL);
+	// }
 	error = lexer(str);
 	if (error != NULL)
 	{
@@ -502,18 +325,18 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 		ft_set_ret(2, error, *env);
 		return (NULL);
 	}
-	else {
+	// else {
 	// if (syntax_error(str, '|', 0, env) != -1 && syntax_error(str, ';', 0, env) != -1)
 	// {
-		error = check_redirect(str);
-		if (error != NULL)
-		{
-			free(str);
-			ft_set_ret(2, error, *env);
-			return (NULL);
-		}
-	}
-	if (str[0] == 0)
+	// 	error = check_redirect(str);
+	// 	if (error != NULL)
+	// 	{
+	// 		free(str);
+	// 		ft_set_ret(2, error, *env);
+	// 		return (NULL);
+	// 	}
+	// }
+	if (str == NULL)
 	{
 		ret = ft_add_line(ret, str);
 		free(str);

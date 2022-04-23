@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:39:45 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:29 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 03:39:55 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ static void	lexer_previous_type(t_lexer *self, t_token *token)
 		token->type = ARG;
 	else if ((self->tokens[len - 1])->type == REDIR_OUT
 		|| (self->tokens[len - 1])->type == REDIR_IN
-		|| (self->tokens[len - 1])->type == REDIR_APPEND)
+		|| (self->tokens[len - 1])->type == REDIR_APPEND
+		|| (self->tokens[len - 1])->type == REDIR_HEREDOC)
 		token->type = REDIR_FILE;
 	else if ((self->tokens[len - 1])->type == PIPES
-		|| (self->tokens[len - 1])->type == SEP)
+		|| (self->tokens[len - 1])->type == SEP
+		|| (self->tokens[len - 1])->type == AMPER)
 		token->type = CMD;
 	else
 		token->type = CMD;
@@ -41,12 +43,16 @@ void	lexer_token_type(t_lexer *self, t_token *token)
 	token_str = token->str;
 	if (!ft_strcmp(token_str, "|"))
 		token->type = PIPES;
+	else if (!ft_strcmp(token_str, "&"))
+		token->type = AMPER;
 	else if (!ft_strcmp(token_str, ";"))
 		token->type = SEP;
-	else if (!ft_strcmp(token_str, ">"))
-		token->type = REDIR_OUT;
+	else if (!ft_strcmp(token_str, "<<"))
+		token->type = REDIR_HEREDOC;
 	else if (!ft_strcmp(token_str, ">>"))
 		token->type = REDIR_APPEND;
+	else if (!ft_strcmp(token_str, ">"))
+		token->type = REDIR_OUT;
 	else if (!ft_strcmp(token_str, "<"))
 		token->type = REDIR_IN;
 	else

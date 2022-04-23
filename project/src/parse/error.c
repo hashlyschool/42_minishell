@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:39:26 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:14 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 04:24:29 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ int	process_input_error(size_t errcode)
 {
 	char	*msg[50];
 
-	msg[1] = "No matching quote\n";
-	msg[2] = "syntax error near unexpected token `<`\n";
-	msg[3] = "syntax error near unexpected token `|`\n";
-	msg[4] = "syntax error near unexpected token `;`\n";
-	msg[5] = "syntax error near the redirect token\n";
+	msg[1] = "unexpected EOF while looking for matching `''\n";
+	msg[2] = "syntax error near unexpected token `<'\n";
+	msg[4] = "syntax error near unexpected token `>'\n";
+	msg[5] = "syntax error near unexpected token `<<'\n";
+	msg[6] = "syntax error near unexpected token `>>'\n";
+	// msg[3] = "syntax error near unexpected token `|`\n";
+	// msg[4] = "syntax error near unexpected token `;`\n";
+	// msg[5] = "syntax error near the redirect token\n";
+	// msg[6] = "syntax error near unexpected token `&`\n";
+	msg[3] = "unexpected EOF while looking for matching `\"'\n";
 	write(2, "minishell: ", 11);
 	write(2, msg[errcode], ft_strlen(msg[errcode]));
 	return (-1);

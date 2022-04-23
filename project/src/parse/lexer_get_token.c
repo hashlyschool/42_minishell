@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:39:36 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:24 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 03:46:10 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ static int	lexer_check_sep(t_lexer *self, t_token *token, char **p_token_end)
 			else if ((*token_end + 1) && ((*token_end + 1) == '<'))
 				return (process_input_error(2));
 		}
+		else {
+			if ((*token_end + 1) && ((*(token_end + 1)) == '<'))
+			{
+				token_end++;
+				token_append(token, token_end);
+			}
+		}
 		token_end++;
 	}
 	*p_token_end = token_end;
@@ -47,10 +54,17 @@ static void	lexer_check_space(t_lexer *self, char *token_end)
 
 static int	quotes_error(t_token *token, char *token_end)
 {
+	int error;
+
+	error = 0;
 	if (!*token_end)
-	{
+	{	
 		token->del(token);
-		return (process_input_error(1));
+		if (token->q == '\'')
+			error = 1;
+		else if (token->q == '\"')
+			error = 3;
+		return (process_input_error(error));
 	}
 	return (0);
 }

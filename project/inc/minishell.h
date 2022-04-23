@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/20 03:12:47 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/20 22:26:50 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,5 +203,11 @@ void	replace_data_in_node(char ***arr, t_node *node);
 char	**split_cmd_line(char **end_str);
 //preparsing_3.c
 char	**open_star(t_node *node);
+//preparsing_4.c
+void	get_ret_no_ret(char **split_end, char **ret, t_node *node, int *x);
+void	get_ret_yes_ret(char **split_end, char **ret, t_node *node, int *x);
+char	matching(char **split_arr, char *d_name);
+//heredoc.c
+void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file);
 
 #endif

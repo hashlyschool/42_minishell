@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:53:53 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/14 16:28:18 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 10:47:10 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ static void	free_node_2(t_data *data)
 		free(data->cmd_exec);
 }
 
-/*
-Функция для освобождения узла дерева
-*/
 void	free_node(t_node *node)
 {
 	size_t	i;
@@ -61,10 +58,6 @@ void	free_node(t_node *node)
 	free(node);
 }
 
-/*
-Функция для освобождения памяти под дерево
-и подмены указателя на env
-*/
 void	free_forest(t_node *temp, char ****env)
 {
 	t_node	*for_free;

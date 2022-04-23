@@ -6,61 +6,27 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/07 12:49:05 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/15 12:43:16 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-Нужно сделать проверку на валидность имени переменной окружения
-
-minishell: ${"USER"}: bad substitution
-return (1);
-*/
-static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node, int *has_env_var)
+static char	*get_ret_2(char *str, char *ret, t_node *node, int *has_env_var)
 {
 	char	**split_end;
-	char	*temp;
 
-	split_end = ft_split_2(split_start[i], END_VALUE);
+	split_end = ft_split_2(str, END_VALUE);
 	if (!ret)
-	{
-		if (split_end && split_end[0] && \
-		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strdup(ft_get_status(*node->env));
-		else if (ft_strlen(split_end[0]) == 1 && ft_isdigit(split_end[0][0]))
-		{
-			if (split_end[0][0] == '0')
-				ret = ft_strdup("minishell");
-			else
-				ret = ft_strdup("");
-		}
-		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
-		{
-			temp = ft_getenv(split_end[0], *node->env);
-			if (temp)
-				*has_env_var = 1;
-			ret = ft_strdup(temp);
-		}
-	}
+		get_ret_no_ret(split_end, &ret, node, has_env_var);
 	else
-	{
-		if (split_end && split_end[0] && \
-		split_end[0][0] == '?' && split_end[0][1] == 0)
-			ret = ft_strjoin_free_s1(ret, ft_get_status(*node->env));
-		else if (check_error_in_env_name(split_end[0], &node->stop) == 0)
-		{
-			temp = ft_getenv(split_end[0], *node->env);
-			if (temp)
-				*has_env_var = 1;
-			ret = ft_strjoin_free_s1(ret, temp);
-		}
-	}
+		get_ret_yes_ret(split_end, &ret, node, has_env_var);
 	if (split_end[1])
 	{
-		if (ft_strncmp(ret, START_DOUBLE_QUOTE, ft_strlen(START_DOUBLE_QUOTE)) == 0 && \
-		ft_strncmp(split_end[1], END_DOUBLE_QUOTE, ft_strlen(END_DOUBLE_QUOTE)) == 0 && \
+		if (ft_strncmp(ret, START_DOUBLE_QUOTE, \
+		ft_strlen(START_DOUBLE_QUOTE)) == 0 && \
+		ft_strncmp(split_end[1], END_DOUBLE_QUOTE, \
+		ft_strlen(END_DOUBLE_QUOTE)) == 0 && \
 		*has_env_var == 0)
 			ret = ft_strjoin_free_s1(ret, " ");
 		ret = ft_strjoin_free_s1(ret, split_end[1]);
@@ -75,11 +41,13 @@ static char	*get_ret_2(char **split_start, char *ret, int i, t_node *node, int *
 	return (ret);
 }
 
-static char	*get_ret(char **split_start, int i, t_node *node, int has_env_var)
+static char	*get_ret(char **split_start, int i, t_node *node)
 {
 	char	*ret;
+	int		has_env_var;
 
 	ret = NULL;
+	has_env_var = 0;
 	while (split_start[i])
 	{
 		if (ft_strnstr(split_start[i], END_VALUE, \
@@ -91,7 +59,7 @@ static char	*get_ret(char **split_start, int i, t_node *node, int has_env_var)
 				ret = ft_strjoin_free_s1(ret, split_start[i]);
 		}
 		else
-			ret = get_ret_2(split_start, ret, i, node, &has_env_var);
+			ret = get_ret_2(split_start[i], ret, node, &has_env_var);
 		if (node->stop)
 			break ;
 		i++;
@@ -114,7 +82,7 @@ static char	*get_end_str(char *str, t_node *node)
 		return (NULL);
 	}
 	i = 0;
-	ret = get_ret(split_start, i, node, 0);
+	ret = get_ret(split_start, i, node);
 	ft_free_str_of_str(&split_start);
 	return (ret);
 }
@@ -144,10 +112,6 @@ static void	get_new_cmd_line(char ***cmd_line, char *str, t_node *node)
 	ft_free_str_of_str(&arr);
 }
 
-/*
-Функция, которая раскрывает переменные окружения в узле дерева
-и преписывает узел
-*/
 void	preparsing(t_node *node)
 {
 	char	*str;
@@ -167,10 +131,7 @@ void	preparsing(t_node *node)
 		}
 	}
 	if (arr)
-	{
 		replace_data_in_node(&arr, node);
-		ft_free_str_of_str(&arr);
-	}
 	if (node->stop)
 		return ;
 	arr = open_star(node);

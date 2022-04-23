@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 01:59:08 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/20 03:13:58 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 03:19:13 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ typedef enum e_type
 	REDIR_OUT,
 	REDIR_APPEND,
 	REDIR_FILE,
+	REDIR_HEREDOC,
 	PIPES,
-	SEP
+	SEP,
+	AMPER,
 }				t_type;
 
 typedef struct s_token
@@ -39,6 +41,7 @@ typedef struct s_token
 	int			len;
 	int			screened;
 	t_type		type;
+	char		q;
 
 	void		(*append)(struct s_token *self, char *to_append);
 	void		(*remove)(struct s_token *self, size_t i);

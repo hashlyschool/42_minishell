@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:39:41 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:26 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 02:25:03 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	lexer_quotes(t_token *token, char **p_token_end)
 	{
 		while (*token_end && *token_end != '\'')
 			token->append(token, token_end++);
+		token->q = '\'';
 	}
 	else
 	{
@@ -32,6 +33,7 @@ void	lexer_quotes(t_token *token, char **p_token_end)
 				token->append(token, token_end++);
 			token->append(token, token_end++);
 		}
+		token->q = '"';
 	}
 	if (*token_end)
 		token->append(token, token_end);
