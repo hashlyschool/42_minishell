@@ -6,15 +6,12 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:59:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 16:51:13 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/21 17:50:40 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-Функция для обработки ^D
-*/
 void	sig_d(int signo)
 {
 	signo = 0;
@@ -27,9 +24,6 @@ void	sig_d(int signo)
 	exit(0);
 }
 
-/*
-Функция для обработки ^C
-*/
 static void	sig_int(int signo)
 {
 	signo = 0;
@@ -42,9 +36,6 @@ static void	sig_int(int signo)
 	#endif
 }
 
-/*
-Функция для обработки ^\
-*/
 static void	sig_quit(int signo)
 {
 	signo = 0;
@@ -58,9 +49,6 @@ int	event(void )
 }
 #endif
 
-/*
-Функция для установки функций для перехвата окружения
-*/
 void	set_signal(void)
 {
 	rl_outstream = stderr;

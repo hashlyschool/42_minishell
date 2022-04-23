@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 13:29:57 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 14:10:55 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_check_status_exit(status_exit, &env, &mode_work);
 		cmd_line = parsing(env, argv[2], mode_work);
-		// ft_print_str_of_str(cmd_line);
+		ft_print_str_of_str(cmd_line);
 		root = get_forest(cmd_line, env);
 		ft_free_str_of_str(&cmd_line);
 		if (node_is_not_empty(root))
