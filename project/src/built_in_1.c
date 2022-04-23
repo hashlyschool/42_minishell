@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 18:27:13 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/14 15:44:19 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/23 15:07:29 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	change_old_pwd_and_pwd(char ***env, char *old_pwd)
 
 static int	ft_get_path(char **path, char **argv, char **env)
 {
-	if (!argv || !argv[0] || ft_strncmp(argv[0], "~", 2) == 0)
+	if (!argv || !argv[0] || ft_strncmp(argv[0], "~", 2) == 0 || ft_strncmp(argv[0], "", 1) == 0)
 	{
 		*path = ft_getenv("HOME", env);
 		if (*path == NULL)

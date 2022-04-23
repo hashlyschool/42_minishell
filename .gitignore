@@ -8,3 +8,4 @@ test
 .DS_Store
 src/.DS_Store
 norm
+minishell_test.log
