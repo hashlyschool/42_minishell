@@ -21,7 +21,7 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output_1.c envp.c \
 					preparsing_3.c parsing_utils.c parsing_replase.c \
 					ft_minishell_split.c condition_redirect.c set_redir.c \
 					processing_pipe.c processing_redir.c built_in_5.c \
-					output_2.c preparsing_4.c heredoc.c
+					output_2.c preparsing_4.c heredoc.c shlvl.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 

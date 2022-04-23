@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 15:07:54 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/23 15:54:27 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ static void	add_pwd_shlvl_mode_c(char ****env, char	mode_work)
 	arg = NULL;
 	if (mode_work)
 	{
-		temp = ft_strdup("SHLVL=1");
-		arg = ft_add_line(arg, temp);
-		free(temp);
+		up_shlvl(*env);
 		temp = ft_strdup("PWD=");
 		temp = ft_strjoin_free_all(temp, getcwd(NULL, 1024));
 		arg = ft_add_line(arg, temp);

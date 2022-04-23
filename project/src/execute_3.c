@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 10:21:04 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/23 15:55:32 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	ft_exec_next_lvl(t_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
+		up_shlvl(node->env);
 		execute_level(node->next_lvl);
 		exit(ft_atoi(ft_get_status(*node->env)));
 	}
