@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/23 04:16:34 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/23 13:15:29 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,14 +146,14 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 	if ((data.index == -1 || (data.plus == 0 && data.index == 0)) && data.end != 1)
 	{
 		prs->str = ft_charjoin(prs->str,'$');
-		prs->str = ft_charjoin(prs->str,str[(*i)]);
+		if (str[(*i)] != '\0')
+			prs->str = ft_charjoin(prs->str,str[(*i)]);
 		return (str);
 	}
 	if ((ft_strchr("?!", str[(*i)]) && str[(*i)] != '\0') || data.end == 1 ||
 		(str[(*i)] == '$' && !data.index))
 		{
 			(*i)++;
-			printf("\nlol\n");
 		}
 	tmp = ft_substr(str, 0, j);
 	if (str[j] == '$' && str[j + 1] == '{')
@@ -179,7 +179,7 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 	if (str[j] == '$' && str[j + 1] == '{')
 		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 3;
 	else
-		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 1;
+		(*i) += ft_strlen(START_VALUE) + ft_strlen(END_VALUE) - 2;
 	free(str);
 	return (tmp);
 }
