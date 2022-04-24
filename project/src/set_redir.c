@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 15:27:57 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/21 17:58:56 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/23 15:32:19 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_set_redir(t_node *node)
 		content = temp->content;
 		if (content->type_redir == 4)
 			proc_heredoc(node, content, "/tmp/.heredoc");
-		if (content->type_redir == 3)
+		if (content->type_redir != 4)
 			proc_set_redir(node, content);
 		temp = temp->next;
 	}
