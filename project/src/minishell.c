@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/25 04:00:47 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 22:58:14 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	processing_argc(int argc, char **argv)
 	return (0);
 }
 
-static void	add_pwd_shlvl_mode_c(char ****env, char	mode_work)
+static void	add_pwd_shlvl_mode_c(char ****env, char mode_work)
 {
 	char	**arg;
 	char	*temp;

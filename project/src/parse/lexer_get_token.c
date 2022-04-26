@@ -6,10 +6,9 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:40 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 00:49:41 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 23:01:52 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -31,7 +30,8 @@ static int	lexer_check_sep(t_lexer *self, t_token *token, char **p_token_end)
 			else if ((*token_end + 1) && ((*token_end + 1) == '<'))
 				return (process_input_error(2));
 		}
-		else {
+		else
+		{
 			if ((*token_end + 1) && ((*(token_end + 1)) == '<'))
 			{
 				token_end++;
@@ -54,7 +54,7 @@ static void	lexer_check_space(t_lexer *self, char *token_end)
 
 static int	quotes_error(t_token *token, char *token_end)
 {
-	int error;
+	int	error;
 
 	error = 0;
 	if (!*token_end)

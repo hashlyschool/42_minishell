@@ -6,11 +6,10 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:40:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/26 01:08:13 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 23:02:48 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
 #include "../../inc/minishell.h"
 
 static char	*token_get_varname(t_token *self, size_t i)

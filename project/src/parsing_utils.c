@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/25 01:57:20 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 22:59:18 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_slash(char *str, int *i, t_parser *prs)
 	if (str[(*i) + 1] && str[(*i) + 1] == ' ')
 		prs->str = ft_strjoin_free_s1(prs->str, END_DOUBLE_QUOTE);
 	tmp = ft_strjoin_free_all(tmp, tmp2);
-	if  (str[(*i) + 1] == '\0')
+	if (str[(*i) + 1] == '\0')
 		--(*i);
 	free(str);
 	return (tmp);
@@ -71,8 +71,9 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	prs->d_quo = 0;
 	while (str[(*i)++])
 	{
-		if (str[(*i)] == '$' && (str[(*i) + 1] != '\0') && (ft_isalnum(str[(*i) + 1])
-			|| ft_strchr("$_?!", str[(*i) + 1])))
+		if (str[(*i)] == '$' && (str[(*i) + 1] != '\0')
+			&& (ft_isalnum(str[(*i) + 1])
+				|| ft_strchr("$_?!", str[(*i) + 1])))
 		{
 			prs->quo = 1;
 			if (prs->d_quo != 1)
@@ -107,7 +108,6 @@ char	*ft_quotechar(char *str, int *i, t_parser *prs)
 	(*i) -= 2;
 	return (tmp);
 }
-
 
 void	init_dollar(t_dollar *data)
 {

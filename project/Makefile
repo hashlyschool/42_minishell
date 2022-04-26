@@ -22,6 +22,7 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output_1.c envp.c \
 					ft_minishell_split.c condition_redirect.c set_redir.c \
 					processing_pipe.c processing_redir.c built_in_5.c \
 					output_2.c preparsing_4.c heredoc.c shlvl.c \
+					main_lexer.c preparse.c ft_charjoin.c \
 					parse/check_symbol.c parse/job.c parse/lexer.c parse/lexer_check_grammar.c parse/lexer_get_token.c parse/error.c \
 					parse/lexer_quotes.c parse/lexer_token_type.c parse/parser.c parse/parser_make_jobs.c parse/token.c parse/token_prepare.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))

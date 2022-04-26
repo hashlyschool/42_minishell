@@ -6,69 +6,15 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/26 00:57:02 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 23:20:34 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/* функция для посимвольного добаления в строку*/
-char	*ft_charjoin(char *str, char c)
-{
-	char	*ptr;
-	size_t	len;
-	char	*tmp;
-
-	if (!c)
-		return (NULL);
-	if (!str)
-	{
-		str = (char *)malloc(sizeof(char*) + 1);
-		str[0] = c;
-		str[1] = '\0';
-		return (str);
-	}
-	len = ft_strlen(str) + 1;
-	ptr = (char *)malloc(sizeof(*str) * (len + 1));
-	if (!ptr)
-		return (NULL);
-	tmp = str;
-	while (*str)
-		*ptr++ = *str++;
-	*ptr++ = c;
-	*ptr = 0;
-	free(tmp);
-	return (ptr - len);
-}
-
-char	*ft_charjoin_no_free(char *str, char c)
-{
-	char	*ptr;
-	size_t	len;
-
-	if (!c)
-		return (NULL);
-	if (!str)
-	{
-		str = (char *)malloc(sizeof(char*) + 1);
-		str[0] = c;
-		str[1] = '\0';
-		return (str);
-	}
-	len = ft_strlen(str) + 1;
-	ptr = (char *)malloc(sizeof(*str) * (len + 1));
-	if (!ptr)
-		return (NULL);
-	while (*str)
-		*ptr++ = *str++;
-	*ptr++ = c;
-	*ptr = 0;
-	return (ptr - len);
-}
-
 int	ft_is_fd(char *str, int i)
 {
-	int 	a;
+	int		a;
 	char	*num;
 
 	a = 0;
@@ -82,9 +28,9 @@ int	ft_is_fd(char *str, int i)
 	a = ft_atoi(num);
 	free(num);
 	if (a > MAX_FD)
-		//выдать ошибку
+		;//выдать ошибку
 	if (str[i] == ' ' && a >= 0)
-		return(i+1);
+		return (i + 1);
 	return (-1);
 }
 
@@ -95,7 +41,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	int		j;
 	char	*str2;
 	int		len;
-	int 	len_prs;
+	int		len_prs;
 
 	j = *i;
 	tmp = ft_substr(str, 0, *i);
@@ -116,7 +62,7 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	{
 		len_prs = ft_strlen(prs->str);
 		free(prs->str);
-		prs->str = ft_substr(str,len - len_prs + 1,len - (len - len_prs + 1));
+		prs->str = ft_substr(str, len - len_prs + 1, len - (len - len_prs + 1));
 		ft_parse_split(prs);
 		prs->str = ft_substr(str, len, (*i) - len);
 	}
@@ -139,46 +85,51 @@ char	*ft_replace_util(char *str, int *i, int flag, char *start, t_parser *prs)
 	return (tmp);
 }
 
+void	ft_replase_continue(char *str, int *i, t_replase *t, t_parser *prs)
+{
+	if (t->c == '<' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, REDIR_LEFT_ONE, prs);
+	else if (t->c == '&' && t->flag == 1)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, AND_STR, prs);
+	else if (t->c == '|' && t->flag == 1)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, OR_STR, prs);
+	else if (t->c == '|' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, PIPE_STR, prs);
+	else if (t->c == ';' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, SEMICOLON, prs);
+	else if (t->c == '*' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, STAR, prs);
+	else if (t->c == '(' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, BR_LEFT, prs);
+	else if (t->c == ')' && t->flag == 0)
+		t->tmp = ft_replace_util(str, i, t->flag + 1, BR_RIGHT, prs);
+}
+
 /* функции для замены & > >> | */
 char	*ft_replace(char *str, int *i, char c, t_parser *prs)
 {
-	int		j;
-	int		flag;
-	char	*tmp;
+	t_replase	t;
 
-	j = *i;
-	flag = 0;
-	tmp = NULL;
+	t.j = *i;
+	t.flag = 0;
+	t.tmp = NULL;
+	t.c = c;
 	prs->red = c;
 	if (str[(*i + 1)] == c && c != ';' && c != '(' && c != ')' && c != '*')
-		flag = 1;
-	if (c == '>' && flag == 1)
-		tmp = ft_replace_util(str, i, flag + 1, REDIR_RIGHT_TWO, prs);
-	else if (c == '>' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, REDIR_RIGHT_ONE, prs);
-	else if (c == '<' && flag == 1)
-		tmp = ft_replace_util(str, i, flag + 1, REDIR_LEFT_TWO, prs);
-	else if (c == '<' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, REDIR_LEFT_ONE, prs);
-	else if (c == '&' && flag == 1)
-		tmp = ft_replace_util(str, i, flag + 1, AND_STR, prs);
-	else if (c == '|' && flag == 1)
-		tmp = ft_replace_util(str, i, flag + 1, OR_STR, prs);
-	else if (c == '|' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, PIPE_STR, prs);
-	else if (c == ';' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, SEMICOLON, prs);
-	else if (c == '*' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, STAR, prs);
-	else if (c == '(' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, BR_LEFT, prs);
-	else if (c == ')' && flag == 0)
-		tmp = ft_replace_util(str, i, flag + 1, BR_RIGHT, prs);
+		t.flag = 1;
+	if (c == '>' && t.flag == 1)
+		t.tmp = ft_replace_util(str, i, t.flag + 1, REDIR_RIGHT_TWO, prs);
+	else if (c == '>' && t.flag == 0)
+		t.tmp = ft_replace_util(str, i, t.flag + 1, REDIR_RIGHT_ONE, prs);
+	else if (c == '<' && t.flag == 1)
+		t.tmp = ft_replace_util(str, i, t.flag + 1, REDIR_LEFT_TWO, prs);
+	else if (ft_strchr("<&|;*()", c))
+		ft_replase_continue(str, i, &t, prs);
 	else
 	{
 		prs->str = ft_charjoin(prs->str, c);
-		free(tmp);
+		free(t.tmp);
 		return (str);
 	}
-	return (tmp);
+	return (t.tmp);
 }

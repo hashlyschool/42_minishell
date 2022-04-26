@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:17 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 00:49:21 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 23:01:18 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ int	process_input_error(size_t errcode)
 	msg[4] = "syntax error near unexpected token `>'\n";
 	msg[5] = "syntax error near unexpected token `<<'\n";
 	msg[6] = "syntax error near unexpected token `>>'\n";
-	// msg[3] = "syntax error near unexpected token `|`\n";
-	// msg[4] = "syntax error near unexpected token `;`\n";
-	// msg[5] = "syntax error near the redirect token\n";
-	// msg[6] = "syntax error near unexpected token `&`\n";
 	msg[3] = "unexpected EOF while looking for matching `\"'\n";
 	write(2, "minishell: ", 11);
 	write(2, msg[errcode], ft_strlen(msg[errcode]));

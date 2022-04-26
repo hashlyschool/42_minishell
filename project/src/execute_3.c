@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/25 01:42:33 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 23:26:11 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,42 +66,51 @@ static void	ft_execve_node(t_node *node)
 
 void	delete_spase_define(t_node *node)
 {
-	char *new_str;
+	char	*new_str;
 
-	new_str = ft_strnstr(node->data->cmd, START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	new_str = ft_strnstr(node->data->cmd,
+			START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	while (new_str != NULL)
 	{
 		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 0);
-		new_str = ft_strnstr(node->data->cmd, START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+		new_str = ft_strnstr(node->data->cmd,
+				START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	}
-	new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	new_str = ft_strnstr(node->data->cmd,
+			END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	while (new_str != NULL)
 	{
 		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 1);
-		new_str = ft_strnstr(node->data->cmd, END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+		new_str = ft_strnstr(node->data->cmd,
+				END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
 	}
-	// return(node->data->cmd);
 }
 
 void	delete_spase_define2(t_node *node)
 {
-	char *new_str;
+	char	*new_str;
 	int		i;
 
 	i = 0;
 	while (node->data->argv[i])
 	{
-		new_str = ft_strnstr(node->data->argv[i], START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		new_str = ft_strnstr(node->data->argv[i],
+				START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
 		while (new_str != NULL)
 		{
-			node->data->argv[i] = ft_queote_dollar(node->data->argv[i], new_str, 0);
-			new_str = ft_strnstr(node->data->argv[i], START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i],
+					new_str, 0);
+			new_str = ft_strnstr(node->data->argv[i],
+					START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
 		}
-		new_str = ft_strnstr(node->data->argv[i], END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		new_str = ft_strnstr(node->data->argv[i],
+				END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
 		while (new_str != NULL)
 		{
-			node->data->argv[i] = ft_queote_dollar(node->data->argv[i], new_str, 1);
-			new_str = ft_strnstr(node->data->argv[i], END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i],
+					new_str, 1);
+			new_str = ft_strnstr(node->data->argv[i],
+					END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
 		}
 		i++;
 	}
