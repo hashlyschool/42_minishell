@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:50:04 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 00:50:04 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 01:11:37 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	parser_del(t_parsers *self)
 			while (self->jobs[i])
 			{
 				(self->jobs[i])->del(self->jobs[i]);
-				self->jobs[i] = NULL;
+				free(self->jobs[i]);
 				i++;
 			}
-			self->jobs = NULL;
+			free(self->jobs);
 		}
 	}
 }

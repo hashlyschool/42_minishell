@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_prepare.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:40:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:39 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 01:08:13 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static void	token_expandvar(t_token *self, size_t *i, int exit_status)
 		process_syserror();
 	token_insert_varvalue(self, i, varvalue, varname);
 	free(varname);
-	free(varvalue);
 	*i += ft_strlen(varvalue);
+	free(varvalue);
 }
 
 static void	token_handle_dquotes(t_token *self, size_t *index, int exit_status)

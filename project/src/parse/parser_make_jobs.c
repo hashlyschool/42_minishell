@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:59 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 00:50:00 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 01:11:55 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	parser_append_job(t_parsers *self, t_job *job)
 	}
 	self->jobs = tmp;
 	self->jobs_len += 1;
+	free(tmp);
 }
 
 static void	parser_fill_job(t_parsers *self, t_job *job, size_t *index)
