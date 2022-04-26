@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 04:21:27 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/25 12:52:12 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,25 +136,30 @@ char	preparse(char *str)
 		}
 		else if (str[i] == '{' || str[i] == '}')
 		{
-			if (str[i] == '{' && c == '0')
+			if (str[i] == '{' && c != '\'' && c != '\"')
 				c3++;
-			else if (str[i] == '}' && c == '0')
+			else if (str[i] == '}' && c != '\'' && c != '\"')
 				c3--;
+			c = str[i];
 		}
-		else if (str[i] == '(' && c == '0')
+		else if (str[i] == '(' || str[i] == ')')
 		{
-			c2++;
-			let = 0;
+			if (str[i] == '(' && c != '\'' && c != '\"')
+			{
+				c2++;
+				let = 0;
+			}
+			else if (str[i] == ')' && (c != '\'' && c != '\"') && ((let > 0 && c2 > 0) || c2 == 0))
+				c2--;
+			c = str[i];
 		}
-		else if (str[i] == ')' && c == '0' && ((let > 0 && c2 > 0) || c2 == 0))
-			c2--;
 		else if ((ft_strchr(" \r\v\n\t", str[i])) == NULL)
 			let++;
 		i++;
 	}
-	if (c != '0' || c3 != 0 || c2 != 0)
+	if (c3 != 0 || c2 != 0)
 		return (c);
-	return (c);
+	return (0);
 }
 
 char	*lexer(char *str)
@@ -172,25 +177,34 @@ char	*lexer(char *str)
 	red = 0;
 	q = '0';
 	w = 0;
+	int ops = 0;
 	count_char = 0;
 	int spase = 0;
 	while (str[i] != '\0')
 	{
 		c = 0;
 		count_char = 0;
+		ops = 0;
 		while (ft_strchr(";& \r\v\n\t|<>", str[i]) != NULL && q == '0' && str[i] != '\0')
 		{
 			if (ft_strchr(";&|", str[i]))
 			{
-				if (red == 0 || count_char == 2 || (count_char == 1 && c == ';') ||
+				if (red == 0 || count_char > 1 || (count_char == 1 && c == ';') ||
 				(spase == 1 && count_char == 1))
 				{
 					if (((error != NULL && error[1] == str[i])
 					|| !(error)) && ft_strlen(error) != 3)
 					{
-						if (!(error))
-							error = ft_charjoin(error, '`');
-						error = ft_charjoin(error, str[i]);
+						if (str[i] == ';' && ops == 1 && red == 0)
+							;
+						else 
+						{
+							if (!(error))
+								error = ft_charjoin(error, '`');
+							if (c == ';' && count_char == 1 && str[i] == ';' && ops != 1)
+								error = ft_charjoin(error, str[i]);
+							error = ft_charjoin(error, str[i]);
+						}
 					}
 				}
 				else
@@ -199,12 +213,16 @@ char	*lexer(char *str)
 					if (error)
 						free(error);
 					error = NULL;
-					count_char++;
 					spase= 0;
 				}
+				count_char++;
 			}
 			else
+			{
+				if (c == ';' || (error != NULL && error[1] == ';'))
+					ops = 1;
 				spase = 1;
+			}
 			i++;
 			w = 1;
 		}
@@ -289,11 +307,11 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 
 	ret = NULL;
 	if (mode_work)
-	#ifdef __APPLE__
+	//#ifdef __APPLE__
 		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);//ft_strdup(cmd);
-	#else
-		str = ft_strdup(cmd);
-	#endif
+	//#else
+		//str = ft_strdup(cmd);
+	//#endif
 	else
 		str = get_line(env);
 	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
@@ -311,13 +329,13 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 		ft_set_ret(2,"", *env);
 		return (NULL);
 	}
-	// if (preparse(str) != '0')
-	// {
-	// 	char *help = ft_charjoin_no_free("minishell: unexpected EOF while looking for matching `", preparse(str));
-	// 	free(str);
-	// 	ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
-	// 	return (NULL);
-	// }
+	if (preparse(str) != 0)
+	{
+		char *help = ft_charjoin_no_free("minishell: syntax error near unexpected token `", preparse(str));
+		free(str);
+		ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
+		return (NULL);
+	}
 	error = lexer(str);
 	if (error != NULL)
 	{

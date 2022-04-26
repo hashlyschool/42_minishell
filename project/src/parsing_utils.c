@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:49:18 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/23 13:15:29 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/25 01:57:20 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ char	*ft_slash(char *str, int *i, t_parser *prs)
 	if (str[(*i) + 1] && str[(*i) + 1] == ' ')
 		prs->str = ft_strjoin_free_s1(prs->str, END_DOUBLE_QUOTE);
 	tmp = ft_strjoin_free_all(tmp, tmp2);
-	free(str);
 	if  (str[(*i) + 1] == '\0')
 		--(*i);
+	free(str);
 	return (tmp);
 }
 
@@ -146,7 +146,7 @@ char	*ft_dollar(char *str, int *i, t_parser *prs)
 	if ((data.index == -1 || (data.plus == 0 && data.index == 0)) && data.end != 1)
 	{
 		prs->str = ft_charjoin(prs->str,'$');
-		if (str[(*i)] != '\0')
+		if (str[(*i)] != '\0' && str[(*i)] != '\\')
 			prs->str = ft_charjoin(prs->str,str[(*i)]);
 		return (str);
 	}

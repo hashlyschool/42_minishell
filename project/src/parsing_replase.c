@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_replase.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 03:08:16 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/15 02:03:57 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 00:57:02 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,23 @@ char	*ft_charjoin_no_free(char *str, char c)
 
 int	ft_is_fd(char *str, int i)
 {
-	int a;
+	int 	a;
+	char	*num;
 
 	a = 0;
+	num = NULL;
 	while (ft_isdigit(str[i]))
 	{
 		i--;
 		a++;
 	}
-	a = ft_atoi(ft_substr(str, i + 1, a));
+	num = ft_substr(str, i + 1, a);
+	a = ft_atoi(num);
+	free(num);
 	if (a > MAX_FD)
 		//выдать ошибку
 	if (str[i] == ' ' && a >= 0)
-		return (i + 1);
+		return(i+1);
 	return (-1);
 }
 

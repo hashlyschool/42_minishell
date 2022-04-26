@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/20 22:27:33 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/25 01:42:33 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ static void	ft_exec_next_lvl(t_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
+		up_shlvl(node->env);
 		execute_level(node->next_lvl);
 		exit(ft_atoi(ft_get_status(*node->env)));
 	}

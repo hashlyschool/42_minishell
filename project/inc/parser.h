@@ -34,6 +34,16 @@ typedef struct s_dollar
 	int		end;
 }	t_dollar;
 
+typedef struct main
+{
+	char	**m;
+	char	*str1;
+	char	*str2;
+	char	*new_str;
+	char	*new_str2;
+	int		len;
+} t_main;
+
 //lexer//
 
 // typedef enum e_type

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:59 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/23 03:35:11 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:50:04 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:50:04 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 void	parser_del(t_parsers *self)
@@ -89,6 +89,7 @@ int	parser_next(t_parsers *self)
 	if (self->pos < self->lexer->tokens_len)
 	{
 		parser_make_jobs(self);
+		self->lexer->del(self->lexer);
 		return (1);
 	}
 	else

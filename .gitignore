@@ -11,3 +11,4 @@ norm
 project/minishell_test.log
 parse!
 minishell_test.log
+.vscode/

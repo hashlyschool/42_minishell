@@ -10,7 +10,7 @@ LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a
 LIBFT			=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 INC_PATH		=	./inc/
-INC_NAME		=	minishell.h color.h parser.h
+INC_NAME		=	minishell.h color.h parser.h parsers.h
 INC				=	$(addprefix $(INC_PATH), $(INC_NAME))
 SRCS_PATH		=	./src/
 OBJS_PATH		=	./objs/
@@ -21,10 +21,9 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output_1.c envp.c \
 					preparsing_3.c parsing_utils.c parsing_replase.c \
 					ft_minishell_split.c condition_redirect.c set_redir.c \
 					processing_pipe.c processing_redir.c built_in_5.c \
-					output_2.c preparsing_4.c heredoc.c \
+					output_2.c preparsing_4.c heredoc.c shlvl.c \
 					parse/check_symbol.c parse/job.c parse/lexer.c parse/lexer_check_grammar.c parse/lexer_get_token.c parse/error.c \
 					parse/lexer_quotes.c parse/lexer_token_type.c parse/parser.c parse/parser_make_jobs.c parse/token.c parse/token_prepare.c
-
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 

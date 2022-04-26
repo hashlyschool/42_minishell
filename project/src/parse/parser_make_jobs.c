@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_make_jobs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:55 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/20 03:11:34 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:49:59 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:50:00 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 void	parser_append_job(t_parsers *self, t_job *job)

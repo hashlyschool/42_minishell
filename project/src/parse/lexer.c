@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:50 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/23 03:34:23 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:49:54 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:49:55 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 void	lexer_append_token(t_lexer *self, t_token *token)

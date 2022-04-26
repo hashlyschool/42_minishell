@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_type.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:45 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/23 03:39:55 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:49:50 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:49:51 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 static void	lexer_previous_type(t_lexer *self, t_token *token)

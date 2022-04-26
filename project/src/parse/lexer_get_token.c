@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_get_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:36 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/23 03:46:10 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:49:40 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:49:41 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 static int	lexer_check_sep(t_lexer *self, t_token *token, char **p_token_end)

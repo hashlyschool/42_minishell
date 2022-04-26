@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:40:12 by gcredibl          #+#    #+#             */
+/*   Created: 2021/11/13 17:40:12 by a79856            #+#    #+#             */
 /*   Updated: 2022/04/20 03:11:39 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -92,7 +92,8 @@ static void	token_handle_dquotes(t_token *self, size_t *index, int exit_status)
 {
 	size_t		i;
 
-	i = *index;
+	exit_status = 0;
+	i = (*index);
 	self->remove(self, i);
 	while (self->str[i] != '\"')
 	{
@@ -104,15 +105,15 @@ static void	token_handle_dquotes(t_token *self, size_t *index, int exit_status)
 			self->remove(self, i);
 			i++;
 		}
-		else if (self->str[i] == '$' && self->str[i + 1]
-			&& (ft_isalnum(self->str[i + 1]) || self->str[i + 1] == '_'
-				|| self->str[i + 1] == '?'))
-			token_expandvar(self, &i, exit_status);
+		// else if (self->str[i] == '$' && self->str[i + 1]
+		// 	&& (ft_isalnum(self->str[i + 1]) || self->str[i + 1] == '_'
+		// 		|| self->str[i + 1] == '?'))
+		// 	token_expandvar(self, &i, exit_status);
 		else
 			i++;
 	}
 	self->remove(self, i);
-	*index = i;
+	(*index) = i;
 }
 
 void	token_prepare(t_token *self, int exit_status)

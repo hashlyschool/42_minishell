@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 17:39:41 by gcredibl          #+#    #+#             */
-/*   Updated: 2022/04/23 02:25:03 by a79856           ###   ########.fr       */
+/*   Created: 2022/04/26 00:49:46 by sstyx             #+#    #+#             */
+/*   Updated: 2022/04/26 00:49:46 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+
 #include "../../inc/minishell.h"
 
 void	lexer_quotes(t_token *token, char **p_token_end)

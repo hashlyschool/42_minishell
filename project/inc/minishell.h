@@ -6,7 +6,7 @@
 /*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 13:33:40 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/25 01:43:58 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int		ft_env(char **argv, char ***env);
 int		ft_export(char **argv, char ****env);
 //built_in_3.c
 int		ft_unset(char **argv, char ****env);
+void	processing_valid_shlvl(char **value);
 //built_in_4.c
 int		ft_pwd(char **argv, char ***env);
 int		ft_exit(char **argv, char ***env, char *exit);
@@ -211,5 +212,8 @@ void	get_ret_yes_ret(char **split_end, char **ret, t_node *node, int *x);
 char	matching(char **split_arr, char *d_name);
 //heredoc.c
 void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file);
+//shlvl.c
+void	up_shlvl(char ***env);
+
 
 #endif
