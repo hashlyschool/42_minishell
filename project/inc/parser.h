@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/20 02:28:30 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 20:40:17 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# define SYN_ERR "minishell: syntax error near unexpected token "
+# define SYN_ERR "minishell: syntax error near unexpected token `"
+# define TOK_ERR "syntax error near unexpected token `newline`\n"
+# define END_ERR "syntax error: unexpected end of file\n"
 
 typedef struct s_parser
 {
@@ -44,46 +46,18 @@ typedef struct main
 	int		len;
 } t_main;
 
-//lexer//
-
-// typedef enum e_type
-// {
-// 	CMD,
-// 	ARG,
-// 	REDIR_IN,
-// 	REDIR_OUT,
-// 	REDIR_APPEND,
-// 	REDIR_FILE,
-// 	PIPE,
-// 	SEP
-// }				t_type;
-
-// typedef struct s_token
-// {
-// 	char		*str;
-// 	int			len;
-// 	int			screened;
-// 	t_type		type;
-
-// 	void		(*append)(struct s_token *self, char *to_append);
-// 	void		(*remove)(struct s_token *self, size_t i);
-// 	void		(*prepare)(struct s_token *self, int exit_status);
-// 	void		(*del)(struct s_token	*self);
-// }				t_token;
-
-// typedef struct s_lexer
-// {
-// 	char	*string;
-// 	char	*buf;
-// 	t_token	**tokens;
-// 	size_t	tokens_len;
-
-// 	void	(*del)(struct s_lexer	*self);
-// 	int		(*tokenize)(struct s_lexer	*self);
-// 	int		(*check_grammar)(struct s_lexer	*self);
-// }				t_lexer;
-
-///////
+typedef struct s_lex_q
+{
+	char	*error;
+	int		w;
+	int		i;
+	int		red;
+	char	q;
+	char	c;
+	int		count_char;
+	int		ops;
+	int		spase;
+} t_lex_q;
 
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);

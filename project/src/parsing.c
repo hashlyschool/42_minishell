@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/25 12:52:12 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/26 21:51:33 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-// #include "parse/parsers.h"
 
 static char	*get_line(char ***env)
 {
@@ -39,6 +38,15 @@ void	ft_parse_split(t_parser *prs)
 	prs->str = NULL;
 }
 
+void	parse_spase(char *str, t_parser *prs, int i)
+{
+	if (prs->red == '>' || prs->red == '<')
+		prs->str = ft_charjoin(prs->str, str[i]);
+	else
+		ft_parse_split(prs);
+	prs->spase = 0;
+}
+
 char	*parce(char *str, t_parser *prs)
 {
 	int	i;
@@ -61,11 +69,12 @@ char	*parce(char *str, t_parser *prs)
 			str = ft_replace(str, &i, str[i], prs);
 		else if (str[i] == ' ' || str[i] == '\t' || str[i] == '>' || str[i] == '<')
 		{
-			if (prs->red == '>' || prs->red == '<')
-				prs->str = ft_charjoin(prs->str, str[i]);
-			else
-				ft_parse_split(prs);
-			prs->spase = 0;
+			parse_spase(str, prs, i);
+			// if (prs->red == '>' || prs->red == '<')
+			// 	prs->str = ft_charjoin(prs->str, str[i]);
+			// else
+			// 	ft_parse_split(prs);
+			// prs->spase = 0;
 		}
 		else
 		{
@@ -162,93 +171,90 @@ char	preparse(char *str)
 	return (0);
 }
 
-char	*lexer(char *str)
+char	*lexer(char *str, t_lex_q *data)
 {
-	char	*error;
-	int		w;
-	int		i;
-	int		red;
-	char	q;
-	char	c;
-	int		count_char;
-
-	i = 0;
-	error = NULL;
-	red = 0;
-	q = '0';
-	w = 0;
-	int ops = 0;
-	count_char = 0;
-	int spase = 0;
-	while (str[i] != '\0')
+	while (str[data->i] != '\0')
 	{
-		c = 0;
-		count_char = 0;
-		ops = 0;
-		while (ft_strchr(";& \r\v\n\t|<>", str[i]) != NULL && q == '0' && str[i] != '\0')
+		data->c = 0;
+		data->count_char = 0;
+		data->ops = 0;
+		while (ft_strchr(";& \r\v\n\t|<>", str[data->i]) != NULL && data->q == '0' && str[data->i] != '\0')
 		{
-			if (ft_strchr(";&|", str[i]))
+			if (ft_strchr(";&|", str[data->i]))
 			{
-				if (red == 0 || count_char > 1 || (count_char == 1 && c == ';') ||
-				(spase == 1 && count_char == 1))
+				if (data->red == 0 || data->count_char > 1 || (data->count_char == 1 && data->c == ';') ||
+				(data->spase == 1 && data->count_char == 1))
 				{
-					if (((error != NULL && error[1] == str[i])
-					|| !(error)) && ft_strlen(error) != 3)
+					if (((data->error != NULL && data->error[1] == str[data->i])
+					|| !(data->error)) && ft_strlen(data->error) != 2)
 					{
-						if (str[i] == ';' && ops == 1 && red == 0)
+						if (str[data->i] == ';' && data->ops == 1 && data->red == 0)
 							;
 						else 
 						{
-							if (!(error))
-								error = ft_charjoin(error, '`');
-							if (c == ';' && count_char == 1 && str[i] == ';' && ops != 1)
-								error = ft_charjoin(error, str[i]);
-							error = ft_charjoin(error, str[i]);
+							if (data->c == ';' && data->count_char == 1 && str[data->i] == ';' && data->ops != 1)
+								data->error = ft_charjoin(data->error, str[data->i]);
+							data->error = ft_charjoin(data->error, str[data->i]);
 						}
 					}
 				}
 				else
 				{
-					c = str[i];
-					if (error)
-						free(error);
-					error = NULL;
-					spase= 0;
+					data->c = str[data->i];
+					if (data->error)
+						free(data->error);
+					data->error = NULL;
+					data->spase= 0;
 				}
-				count_char++;
+				data->count_char++;
 			}
 			else
 			{
-				if (c == ';' || (error != NULL && error[1] == ';'))
-					ops = 1;
-				spase = 1;
+				if (data->c == ';' || (data->error != NULL && data->error[0] == ';'))
+					data->ops = 1;
+				data->spase = 1;
 			}
-			i++;
-			w = 1;
+			data->i++;
+			data->w = 1;
 		}
-		if (c != 0)
-			red = 0;
-		if (str[i] == '\"' || str[i] == '\'')
+		if (data->c != 0)
+			data->red = 0;
+		if (str[data->i] == '\"' || str[data->i] == '\'')
 		{
-			if (str[i] == q)
-				q = '0';
+			if (str[data->i] == data->q)
+				data->q = '0';
 			else
-				q = str[i];
+				data->q = str[data->i];
 		}
-		else if (str[i] != '\0')
-			red++;
-		if (w == 1)
+		else if (str[data->i] != '\0')
+			data->red++;
+		if (data->w == 1)
 		{
-			i--;
-			w = 0;
+			data->i--;
+			data->w = 0;
 		}
-		i++;
+		data->i++;
 	}
-	if ((error != NULL && str[i] == '\0'))
-		return (ft_strjoin_free_s2(SYN_ERR, ft_strjoin_free_s1(error, "\'\n")));
-	if ((c != ';' && c != 0 && red != 1))
-		return ("syntax error: unexpected end of file\n");
+	if ((data->error != NULL && str[data->i] == '\0'))
+		return (ft_strjoin_free_s2(SYN_ERR, ft_strjoin_free_s1(data->error, "\'\n")));
+	if ((data->c != ';' && data->c != 0 && data->red != 1))
+		return (END_ERR);
 	return (NULL);
+}
+
+char	*lexer_init(char *str)
+{
+	t_lex_q data;
+
+	data.i = 0;
+	data.error = NULL;
+	data.red = 0;
+	data.q = '0';
+	data.w = 0;
+	data.ops = 0;
+	data.count_char = 0;
+	data.spase = 0;
+	return(lexer(str, &data));
 }
 
 char	*check_redirect(char *str)
@@ -294,7 +300,7 @@ char	*check_redirect(char *str)
 		i++;
 	}
 	if (red > 0 && ((red == 0 && finish == 0) || finish == 0))
-		return ("syntax error near unexpected token `newline`\n");
+		return (TOK_ERR);
 	return (NULL);
 }
 
@@ -305,23 +311,12 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	char	*error;
 	t_parsers prs;
 
+	error = NULL;
 	ret = NULL;
 	if (mode_work)
-	//#ifdef __APPLE__
-		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);//ft_strdup(cmd);
-	//#else
-		//str = ft_strdup(cmd);
-	//#endif
+		str = ft_substr(cmd, 0, ft_strlen(cmd) - 1);
 	else
 		str = get_line(env);
-	//Здесь ошибочно считается ошибкой и кейс, вроде `)`
-	//Вызывает вывод текста "minishell: syntax error: unexpected end of file"
-	//А нужно выводить "bash: syntax error near unexpected token `)'"
-	//
-	//Еще ошибочно проверяется доллар (вернее он здесь не должен проверяться)
-	//Если я все правильно понял в парсере, то здесь должны быть проверены
-	//только кавычки
-	//Хотя тебе лучше знать. может здесь стоит проверить и еще на какие-то ошибки парсера
 	parser_init(&prs, str, 0);
 	if (!(parser_next(&prs)))
 	{
@@ -331,18 +326,20 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 	}
 	if (preparse(str) != 0)
 	{
-		char *help = ft_charjoin_no_free("minishell: syntax error near unexpected token `", preparse(str));
+		char *help = ft_charjoin_no_free(SYN_ERR, preparse(str));
 		free(str);
 		ft_set_ret(2, ft_strjoin_free_s1(help, "'\n"), *env);
 		return (NULL);
 	}
-	error = lexer(str);
+	error = lexer_init(str);
 	if (error != NULL)
 	{
 		free(str);
 		ft_set_ret(2, error, *env);
+		free(error);
 		return (NULL);
 	}
+	free(error);
 	// else {
 	// if (syntax_error(str, '|', 0, env) != -1 && syntax_error(str, ';', 0, env) != -1)
 	// {

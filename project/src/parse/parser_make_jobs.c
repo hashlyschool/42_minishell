@@ -6,17 +6,16 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:59 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 01:11:55 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/26 20:13:57 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../inc/minishell.h"
 
-void	parser_append_job(t_parsers *self, t_job *job)
+void	parser_append_job(t_parsers *self, t_job *job, size_t i)
 {
 	t_job	**tmp;
-	size_t	i;
 
 	i = 0;
 	tmp = (t_job **)malloc(sizeof(t_job) * (self->jobs_len + 2));
@@ -36,7 +35,6 @@ void	parser_append_job(t_parsers *self, t_job *job)
 		}
 		tmp[i] = job;
 		tmp[++i] = NULL;
-		free(self->jobs);
 	}
 	self->jobs = tmp;
 	self->jobs_len += 1;
@@ -108,7 +106,7 @@ int	parser_make_jobs(t_parsers *self)
 		}
 		if (job->argv)
 			job->cmd = job->argv[0];
-		parser_append_job(self, job);
+		parser_append_job(self, job, 0);
 	}
 	parser_check_sep(self, &i);
 	self->pos = i;
