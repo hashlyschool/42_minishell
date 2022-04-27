@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/26 22:57:03 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 00:20:54 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,17 +190,6 @@ char	**parsing(char ***env, char *cmd ,char mode_work)
 		return (NULL);
 	}
 	free(error);
-	// else {
-	// if (syntax_error(str, '|', 0, env) != -1 && syntax_error(str, ';', 0, env) != -1)
-	// {
-	// 	error = check_redirect(str);
-	// 	if (error != NULL)
-	// 	{
-	// 		free(str);
-	// 		ft_set_ret(2, error, *env);
-	// 		return (NULL);
-	// 	}
-	// }
 	if (str == NULL)
 	{
 		ret = ft_add_line(ret, str);
