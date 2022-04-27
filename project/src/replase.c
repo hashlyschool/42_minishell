@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:11:29 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 17:10:52 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 17:18:42 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	*ft_replace_util(char *str, int *i, char *start, t_replase *t)
 	rep.len = ft_is_fd(str, (*i) - 1);
 	if (rep.len != (*i) && rep.len != -1)
 		ft_replace_len(str, i, &rep, t);
-	if (t->p->r == 0 || rep.len == (*i) || rep.len == -1)
+	if ((t->p->r == 0 || rep.len == (*i)
+			|| rep.len == -1) && str[(*i)] != '*')
 		ft_parse_split(t->p);
 	if (str[(*i)] != '>' && str[(*i)] != '<' && str[(*i)] != '*')
 		ft_replace_red(start, t);
