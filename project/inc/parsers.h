@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parsers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 01:59:08 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/23 03:19:13 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/27 02:56:58 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSERS_H
-#define PARSERS_H
+# define PARSERS_H
 // #include "../../inc/minishell.h"
 
 # include <stddef.h>
@@ -19,7 +19,6 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
-
 
 typedef enum e_type
 {

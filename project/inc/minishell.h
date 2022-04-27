@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/25 01:43:58 by a79856           ###   ########.fr       */
+/*   Updated: 2022/04/27 02:56:47 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "./color.h"
 //for parsing
 # include "./parser.h"
+# include "./parsers.h"
 //for getcwd, chdir
 # include <unistd.h>
 //for signal
@@ -39,8 +40,6 @@
 //open
 # include <fcntl.h>
 # include <sys/stat.h>
-
-#include "parsers.h"
 
 # define CLOSE "$ "
 # define PROMT "FlexTeam@minishell"
@@ -214,6 +213,5 @@ char	matching(char **split_arr, char *d_name);
 void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file);
 //shlvl.c
 void	up_shlvl(char ***env);
-
 
 #endif
