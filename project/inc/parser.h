@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 17:46:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/27 02:58:53 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 12:17:23 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,13 @@ typedef struct s_check_red
 	int		finish;
 }	t_red;
 
+typedef struct s_parsing
+{
+	char	*str;
+	char	**ret;
+	char	*error;
+}	t_parsing;
+
 char	*ft_gap(char *str, int *i, t_parser *prs);
 char	*ft_slash(char *str, int *i, t_parser *prs);
 char	*ft_quotechar(char *str, int *i, t_parser *prs);
@@ -113,6 +120,9 @@ char	*ft_queote_dollar(char *str, char *new_str, int i);
 char	*ft_charjoin_no_free(char *str, char c);
 char	*ft_replace_util(char *str, int *i, char *start, t_replase *t);
 int		ft_is_fd(char *str, int i);
+char	**parsing(char ***env, char *cmd, char mode_work);
+char	**split_str(char *str, char **env);
+char	*get_line(char ***env);
 
 //lexer//
 char	*lexer_init(char *str);

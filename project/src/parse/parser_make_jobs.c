@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:59 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 23:02:35 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 12:28:47 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,34 @@ void	parser_append_job(t_parsers *self, t_job *job, size_t i)
 	free(tmp);
 }
 
-static void	parser_fill_job(t_parsers *self, t_job *job, size_t *index)
-{
-	t_list	*redir_new;
-	t_token	**tokens;
-	char	*redir_file;
-	size_t	i;
+// static void	parser_fill_job(t_parsers *self, t_job *job, size_t *index)
+// {
+// 	t_list	*redir_new;
+// 	t_token	**tokens;
+// 	char	*redir_file;
+// 	size_t	i;
 
-	i = *index;
-	tokens = self->lexer->tokens;
-	if ((tokens[i]->type == CMD) || (tokens[i]->type == ARG))
-		job_append_arg(job, ft_strdup(tokens[i]->str));
-	else if ((tokens[i]->type == REDIR_IN) || (tokens[i]->type == REDIR_OUT)
-		|| (tokens[i]->type == REDIR_APPEND))
-	{
-		i++;
-		redir_file = ft_strdup(tokens[i]->str);
-		redir_new = ft_lstnew(redir_file);
-		if (!redir_file || !redir_new)
-			process_syserror();
-		if (tokens[i - 1]->type == REDIR_IN)
-			ft_lstadd_back(&(job->redir_in), redir_new);
-		else if (tokens[i - 1]->type == REDIR_OUT)
-			ft_lstadd_back(&(job->redir_out), redir_new);
-		else if (tokens[i - 1]->type == REDIR_APPEND)
-			ft_lstadd_back(&(job->redir_append), redir_new);
-	}
-	*index = i;
-}
+// 	i = *index;
+// 	tokens = self->lexer->tokens;
+// 	if ((tokens[i]->type == CMD) || (tokens[i]->type == ARG))
+// 		job_append_arg(job, ft_strdup(tokens[i]->str));
+// 	else if ((tokens[i]->type == REDIR_IN) || (tokens[i]->type == REDIR_OUT)
+// 		|| (tokens[i]->type == REDIR_APPEND))
+// 	{
+// 		i++;
+// 		redir_file = ft_strdup(tokens[i]->str);
+// 		redir_new = ft_lstnew(redir_file);
+// 		if (!redir_file || !redir_new)
+// 			process_syserror();
+// 		if (tokens[i - 1]->type == REDIR_IN)
+// 			ft_lstadd_back(&(job->redir_in), redir_new);
+// 		else if (tokens[i - 1]->type == REDIR_OUT)
+// 			ft_lstadd_back(&(job->redir_out), redir_new);
+// 		else if (tokens[i - 1]->type == REDIR_APPEND)
+// 			ft_lstadd_back(&(job->redir_append), redir_new);
+// 	}
+// 	*index = i;
+// }
 
 static void	parser_check_sep(t_parsers *self, size_t *index)
 {
@@ -87,25 +87,24 @@ int	parser_make_jobs(t_parsers *self)
 {
 	size_t	i;
 	t_token	**tokens;
-	t_job	*job;
-
+	// t_job	*job;
 	i = self->pos;
 	tokens = self->lexer->tokens;
 	while (i < self->lexer->tokens_len && tokens[i]->type != SEP)
 	{
-		job = job_new();
+		// job = job_new();
 		if (tokens[i]->type == PIPES)
 			i++;
 		while (i < self->lexer->tokens_len && (tokens[i]->type != PIPES
 				&& tokens[i]->type != SEP))
 		{
 			tokens[i]->prepare(tokens[i], self->exit_status);
-			parser_fill_job(self, job, &i);
+			// parser_fill_job(self, job, &i);
 			i++;
 		}
-		if (job->argv)
-			job->cmd = job->argv[0];
-		parser_append_job(self, job, 0);
+		// if (job->argv)
+		// 	job->cmd = job->argv[0];
+		// parser_append_job(self, job, 0);
 	}
 	parser_check_sep(self, &i);
 	self->pos = i;

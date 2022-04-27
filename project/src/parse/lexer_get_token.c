@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:40 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 02:53:20 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 12:36:08 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ static int	lexer_check_sep(t_lexer *self, t_token *token, char **p_token_end)
 		else
 		{
 			if ((*token_end + 1) && ((*(token_end + 1)) == '<'))
-			{
-				token_end++;
-				token_append(token, token_end);
-			}
+				token_end = lexer_check_2(token_end, token);
 		}
 		token_end++;
 	}
@@ -59,11 +56,11 @@ static int	quotes_error(t_token *token, char *token_end)
 	error = 0;
 	if (!*token_end)
 	{	
-		token->del(token);
 		if (token->q == '\'')
 			error = 1;
 		else if (token->q == '\"')
 			error = 3;
+		token->del(token);
 		return (process_input_error(error));
 	}
 	return (0);

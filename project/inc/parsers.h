@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 01:59:08 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/27 02:56:58 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 12:36:25 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,5 @@ int		process_input_error(size_t errcode);
 int		perr(char *cmd, char *arg, char *err, int code);
 int		ft_strcmp(const char *s1, const char *s2);
 
+char	*lexer_check_2(char	*token_end, t_token *token);
 #endif

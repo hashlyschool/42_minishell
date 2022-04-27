@@ -6,11 +6,18 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:46 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 23:01:23 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 12:36:03 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+char	*lexer_check_2(char	*token_end, t_token *token)
+{
+	token_end++;
+	token_append(token, token_end);
+	return (token_end);
+}
 
 void	lexer_quotes(t_token *token, char **p_token_end)
 {
