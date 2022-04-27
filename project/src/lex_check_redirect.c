@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 02:33:00 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 02:40:57 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 02:45:07 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,16 @@ char	*check_redirect(char *str, t_red *r)
 	if (r->red > 0 && ((r->red == 0 && r->red == 0) || r->red == 0))
 		return (TOK_ERR);
 	return (NULL);
+}
+
+char	*init_check_red(char *str)
+{
+	t_red	r;
+
+	r.i = 0;
+	r.red = 0;
+	r.start = 0;
+	r.finish = 0;
+	r.q = '0';
+	return (check_redirect(str, &r));
 }

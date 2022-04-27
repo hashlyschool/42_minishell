@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 22:12:09 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/27 02:39:55 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 02:52:51 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,56 +104,7 @@ static char	**split_str(char *str, char **env)
 	return (ret);
 }
 
-// char	*check_redirect(char *str)
-// {
-// 	while (str[i] != '\0')
-// 	{
-// 		if (start > 0 && red > 0 && finish > 0)
-// 		{
-// 			red = 0;
-// 			start = 0;
-// 			finish = 0;
-// 		}
-// 		while (ft_strchr(">< \r\v\n\t", str[i]) != NULL
-// 			&& q == '0' && str[i] != '\0')
-// 		{
-// 			if (ft_strchr("<>", str[i]))
-// 				red++;
-// 			i++;
-// 		}
-// 		if (str[i] == '\"' || str[i] == '\'')
-// 		{
-// 			if (str[i] == q)
-// 				q = '0';
-// 			else
-// 				q = str[i];
-// 		}
-// 		if (str[i] == '\0')
-// 			break ;
-// 		if (red == 0)
-// 			start++;
-// 		else
-// 			finish++;
-// 		i++;
-// 	}
-// 	if (red > 0 && ((red == 0 && finish == 0) || finish == 0))
-// 		return (TOK_ERR);
-// 	return (NULL);
-// }
-
-char	*init_check_red(char *str)
-{
-	t_red	r;
-
-	r.i = 0;
-	r.red = 0;
-	r.start = 0;
-	r.finish = 0;
-	r.q = '0';
-	return (check_redirect(str, &r));
-}
-
-char	**parsing(char ***env, char *cmd ,char mode_work)
+char	**parsing(char ***env, char *cmd, char mode_work)
 {
 	char		*str;
 	char		**ret;
