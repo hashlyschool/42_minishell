@@ -6,11 +6,10 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:49:35 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/26 00:49:36 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 02:27:04 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
 #include "../../inc/minishell.h"
 
 int	lexer_check_sep(t_lexer *self, size_t i)
@@ -26,20 +25,6 @@ int	lexer_check_sep(t_lexer *self, size_t i)
 		|| (token_prev->type == REDIR_OUT)
 		|| (token_prev->type == REDIR_APPEND)
 		|| (token_prev->type == REDIR_HEREDOC)
-		|| (token_prev->type == AMPER))
-		return (-1);
-	return (0);
-}
-
-int	lexer_check_PIPES(t_lexer *self, size_t i)
-{
-	t_token	*token_prev;
-
-	if ((i == 0) || (i == self->tokens_len - 1))
-		return (-1);
-	token_prev = self->tokens[i - 1];
-	if ((token_prev->type == PIPES)
-		|| (token_prev->type == SEP)
 		|| (token_prev->type == AMPER))
 		return (-1);
 	return (0);
@@ -72,25 +57,17 @@ int	lexer_check_grammar(t_lexer *self)
 	while (i < self->tokens_len)
 	{
 		token_cur = self->tokens[i];
-		// if (((token_cur->type) == PIPES) && lexer_check_PIPES(self, i) == -1)
-		// 	return (process_input_error(3));
-		// if (((token_cur->type) == AMPER) && lexer_check_PIPES(self, i) == -1)
-		// 	return (process_input_error(6));
-		// if ((token_cur->type == SEP) && lexer_check_sep(self, i) == -1)
-		// 	return (process_input_error(4));
 		if ((token_cur->type == REDIR_IN) && (lexer_check_redir(self, i) == -1))
 			return (process_input_error(2));
-		else if ((token_cur->type == REDIR_OUT) && (lexer_check_redir(self, i) == -1))
+		else if ((token_cur->type == REDIR_OUT)
+			&& (lexer_check_redir(self, i) == -1))
 			return (process_input_error(4));
-		else if ((token_cur->type == REDIR_HEREDOC) && (lexer_check_redir(self, i) == -1))
+		else if ((token_cur->type == REDIR_HEREDOC)
+			&& (lexer_check_redir(self, i) == -1))
 			return (process_input_error(5));
-		else if ((token_cur->type == REDIR_APPEND) && (lexer_check_redir(self, i) == -1))
+		else if ((token_cur->type == REDIR_APPEND)
+			&& (lexer_check_redir(self, i) == -1))
 			return (process_input_error(6));
-				// || (token_cur->type == REDIR_OUT)
-				// || (token_cur->type == REDIR_APPEND)
-				// || (token_cur->type == REDIR_HEREDOC))
-			// && (lexer_check_redir(self, i) == -1))
-			// return (process_input_error(5));
 		i++;
 	}
 	return (0);
