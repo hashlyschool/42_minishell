@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 11:48:59 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 14:16:14 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/27 16:27:52 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	matching_1(char **split_arr, int *i, char **ptr, char *d_name)
 	*i = 0;
 	if (ft_strncmp(split_arr[*i], STAR, ft_strlen(STAR) + 1) == 0)
 	{
-		i++;
+		(*i)++;
 		while (**ptr && split_arr[*i] && **ptr != split_arr[*i][0])
 			(*ptr)++;
 	}

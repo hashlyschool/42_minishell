@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:50:04 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 11:32:55 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 13:10:20 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	parser_next(t_parsers *self)
 	}
 	if (self->pos < self->lexer->tokens_len)
 	{
-		// parser_make_jobs(self);
 		self->lexer->del(self->lexer);
 		return (1);
 	}

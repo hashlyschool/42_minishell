@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 12:14:25 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 12:27:05 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 13:37:59 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ char	*parce(char *str, t_parser *prs, int i)
 			parse_spase(str, prs, i);
 		else
 			parse_char(str, prs, i);
-		if (i < -1)
-			i = -1 ;
-		i++;
+		if (i < 0)
+			i = 0;
+		else if (str[i] != '\0')
+			i++;
 	}
 	ft_parse_split(prs);
 	return (str);

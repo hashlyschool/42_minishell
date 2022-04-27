@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:40:12 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/26 23:02:48 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 13:10:31 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,6 @@ static void	token_handle_dquotes(t_token *self, size_t *index, int exit_status)
 			self->remove(self, i);
 			i++;
 		}
-		// else if (self->str[i] == '$' && self->str[i + 1]
-		// 	&& (ft_isalnum(self->str[i + 1]) || self->str[i + 1] == '_'
-		// 		|| self->str[i + 1] == '?'))
-		// 	token_expandvar(self, &i, exit_status);
 		else
 			i++;
 	}

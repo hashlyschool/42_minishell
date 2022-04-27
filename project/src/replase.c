@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:11:29 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 00:15:54 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 16:14:18 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	ft_replace_len(char *str, int *i, t_rep_utils *rep, t_replase *t)
 {
 	rep->len_prs = ft_strlen(t->p->str);
 	free(t->p->str);
-	t->p->str = ft_substr(str, rep->len - rep->len_prs + 1,
-			rep->len - (rep->len - rep->len_prs + 1));
+	t->p->str = ft_substr(str, rep->len - rep->len_prs + 3,
+			rep->len - (rep->len - rep->len_prs + 3));
+	// printf("str - [%s], %d %d\n",t->p->str,rep->len,rep->len_prs);
+	// if (t->p->str != " ")
 	ft_parse_split(t->p);
 	t->p->str = ft_substr(str, rep->len, (*i) - rep->len);
 }
