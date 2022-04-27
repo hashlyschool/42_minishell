@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 22:36:13 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 02:54:16 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/27 17:47:41 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ char	*lexer(char *str, t_lex_q *data)
 		return (ft_strjoin_free_s2(SYN_ERR, \
 		ft_strjoin_free_s1(data->error, "\'\n")));
 	if ((data->c != ';' && data->c != 0 && data->red != 1))
-		return (END_ERR);
+		return (ft_strdup(END_ERR));
 	return (NULL);
 }
