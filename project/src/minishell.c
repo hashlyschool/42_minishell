@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:08 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 15:54:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/27 17:26:51 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void	ft_check_status_exit(char status_exit, char ****env, char *mode)
 		status_exit = (char)(ft_atoi(ft_get_status(**env)));
 		ft_free_envp(env);
 		#ifdef __APPLE__
+		#ifndef TESTER
 		clear_history();
+		#endif
 		#elif __linux__
 		rl_clear_history();
 		#endif
@@ -44,7 +46,7 @@ static char	processing_argc(int argc, char **argv)
 	return (0);
 }
 
-static void	add_pwd_shlvl_mode_c(char ****env, char	mode_work)
+static void	add_pwd_shlvl_mode_c(char ****env, char mode_work)
 {
 	char	**arg;
 	char	*temp;

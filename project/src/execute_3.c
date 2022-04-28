@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 10:56:00 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 15:55:32 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/26 23:26:11 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,58 @@ static void	ft_execve_node(t_node *node)
 	return ;
 }
 
+void	delete_spase_define(t_node *node)
+{
+	char	*new_str;
+
+	new_str = ft_strnstr(node->data->cmd,
+			START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	while (new_str != NULL)
+	{
+		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 0);
+		new_str = ft_strnstr(node->data->cmd,
+				START_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	}
+	new_str = ft_strnstr(node->data->cmd,
+			END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	while (new_str != NULL)
+	{
+		node->data->cmd = ft_queote_dollar(node->data->cmd, new_str, 1);
+		new_str = ft_strnstr(node->data->cmd,
+				END_DOUBLE_QUOTE, ft_strlen(node->data->cmd));
+	}
+}
+
+void	delete_spase_define2(t_node *node)
+{
+	char	*new_str;
+	int		i;
+
+	i = 0;
+	while (node->data->argv[i])
+	{
+		new_str = ft_strnstr(node->data->argv[i],
+				START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		while (new_str != NULL)
+		{
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i],
+					new_str, 0);
+			new_str = ft_strnstr(node->data->argv[i],
+					START_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		}
+		new_str = ft_strnstr(node->data->argv[i],
+				END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		while (new_str != NULL)
+		{
+			node->data->argv[i] = ft_queote_dollar(node->data->argv[i],
+					new_str, 1);
+			new_str = ft_strnstr(node->data->argv[i],
+					END_DOUBLE_QUOTE, ft_strlen(node->data->argv[i]));
+		}
+		i++;
+	}
+}
+
 static void	ft_exec_next_lvl(t_node *node)
 {
 	pid_t	pid;
@@ -100,6 +152,10 @@ void	execute_cmd_in_node(t_node *node)
 		if (node->exit == 1 || !node->data->cmd || cond_status(node))
 			return ;
 		preparsing(node);
+		//func(node);
+		delete_spase_define(node);
+		if (node->data->argv)
+			delete_spase_define2(node);
 		if (node->stop)
 			return ;
 		if (cond_is_built_in(node))

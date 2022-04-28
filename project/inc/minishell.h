@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/23 16:50:23 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/27 02:56:47 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "./color.h"
 //for parsing
 # include "./parser.h"
+# include "./parsers.h"
 //for getcwd, chdir
 # include <unistd.h>
 //for signal
@@ -52,6 +53,11 @@
 # define PIPE_ON_THE_RIGHT 5
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
+# ifdef __APPLE__
+	# define MAX_FD 256
+# else
+	# define MAX_FD 1024
+#endif
 
 # define BR_LEFT			"\001\002(\003\023"
 # define BR_RIGHT			"\001\002)\003\023"
@@ -74,7 +80,7 @@
 # define START_DOUBLE_QUOTE	"\001\002!\003\002"
 # define END_DOUBLE_QUOTE	"\001\002!!\003\02"
 
-// # define TESTER //debug
+# define TESTER //debug
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2
@@ -207,6 +213,5 @@ char	matching(char **split_arr, char *d_name);
 void	proc_heredoc(t_node *node, t_list_redir *content, char *name_file);
 //shlvl.c
 void	up_shlvl(char ***env);
-
 
 #endif
