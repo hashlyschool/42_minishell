@@ -2,9 +2,6 @@ NAME			=	minishell
 CC				=	clang
 RM				=	rm -rf
 FLAGS			=	-Wall -Wextra -Werror -g
-#School MAC
-# FLAGS_RL		=	-lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1.2/lib/ -I/Users/${USER}/.brew/Cellar/readline/8.1.2/include/
-#Linux
 FLAGS_RL		=	-lreadline
 LIBFT_PATH		=	./42_libft/
 LIBFT_NAME		=	libft.a
@@ -24,13 +21,15 @@ SRCS_NAME		=	minishell.c signal.c parsing.c output_1.c envp.c \
 					output_2.c preparsing_4.c heredoc.c shlvl.c \
 					main_lexer.c preparse.c ft_charjoin.c replase.c \
 					lex_check_redirect.c main_lexer_init.c parsing_utils_2.c \
-					parsing_get_line.c  parsing_2.c\
-					parse/check_symbol.c parse/job.c parse/lexer.c parse/lexer_check_grammar.c parse/lexer_get_token.c parse/error.c \
-					parse/lexer_quotes.c parse/lexer_token_type.c parse/parser.c parse/parser_make_jobs.c parse/token.c parse/token_prepare.c
+					parsing_get_line.c  parsing_2.c execute_4.c\
+					parse/check_symbol.c parse/job.c parse/lexer.c \
+					parse/lexer_check_grammar.c parse/lexer_get_token.c parse/error.c \
+					parse/lexer_quotes.c parse/lexer_token_type.c parse/parser.c \
+					parse/parser_make_jobs.c parse/token.c parse/token_prepare.c
 SRCS			=	$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS			=	$(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
 
-OPTFLAGS		= -MMD 
+OPTFLAGS		=
 
 all: libft ${NAME}
 
@@ -43,7 +42,7 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)
 	$(CC) $(FLAGS) $(OPTFLAGS) -I $(INC_PATH) -c $< -o $@
 
 $(OBJS_PATH):
-	mkdir -p $(OBJS_PATH)
+	mkdir -p $(OBJS_PATH)/parse
 
 libft:
 	@make -C $(LIBFT_PATH)

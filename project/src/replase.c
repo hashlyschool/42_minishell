@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replase.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 23:11:29 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 17:18:42 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/28 11:51:04 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	ft_replace_len(char *str, int *i, t_rep_utils *rep, t_replase *t)
 	free(t->p->str);
 	t->p->str = ft_substr(str, rep->len,
 			rep->len - (rep->len));
-	// printf("str - [%s], %d %d\n",t->p->str,rep->len,rep->len_prs);
-	// if (t->p->str != " ")
 	ft_parse_split(t->p);
 	t->p->str = ft_substr(str, rep->len, (*i) - rep->len);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparsing_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:10:33 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/27 02:48:10 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:26:42 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,39 +59,6 @@ void	replace_data_in_node(char ***arr, t_node *node)
 	ft_free_str_of_str(arr);
 }
 
-/*
-Masha
-Функция должна разделить строку по правилам разделения bash,
-затем очитстить указатель end_str и вернуть ret
-if end_str из одних пробелов, то все ок
-*/
-
-// char	*ft_queote_dollar(char *str, char *new_str)
-// {
-// 	char	*tmp;
-// 	char	*tmp2;
-// 	char	*finish;
-// 	int		a;
-// 	int		b;
-// 	int		i;
-
-// 	i = 0;
-// 	tmp = NULL;
-// 	a = ft_strlen(str);
-// 	b = ft_strlen(new_str);
-// 	tmp = ft_substr(str, 0, a - b);
-// 	finish = ft_strnstr(new_str, END_DOUBLE_QUOTE, ft_strlen(new_str));
-// 	c = ft_strlen(finish);
-// 	if (finish != NULL)
-// 		tmp2 = ft_substr(new_str, 5, b - ft_strlen(finish) - 5);
-// 	tmp = ft_strjoin_free_all(tmp, tmp2);
-// 	tmp = ft_strjoin_free_s1(tmp, finish + 5);
-// 	// free(new_str);
-// 	free(str);
-// 	// free(finish);
-// 	return (tmp);
-// }
-
 char	*ft_queote_dollar(char *str, char *new_str, int i)
 {
 	char	*tmp;
@@ -106,136 +73,10 @@ char	*ft_queote_dollar(char *str, char *new_str, int i)
 	return (tmp);
 }
 
-// char **ft_join_mass(char **mass1, char *end_str)
-// {
-// 	char **mass2;
-// 	char **mass3;
-// 	int i;
-
-// 	mass3 = NULL;
-// 	mass2 = ft_minishell_split(end_str);
-// 	i = 0;
-// 	while (mass1 && mass1[i])
-// 	{
-// 		mass3 = ft_add_line(mass3, mass1[i]);
-// 		free(mass1[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (mass2 && mass2[i])
-// 	{
-// 		mass3 = ft_add_line(mass3, mass2[i]);
-// 		free(mass2[i]);
-// 		i++;
-// 	}
-// 	// mass3 = ft_add_line(mass3, end_str);
-// 	free(mass1);
-// 	free(mass2);
-// 	return (mass3);
-// }
-
-// char **mass(char *end_str, char **ret, t_main *m, int fre)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (end_str == NULL)
-// 		return(ret);
-// 	while (end_str[i] == '\t' || end_str[i] == '\n' || end_str[i] == '\v' \
-// 		|| end_str[i] == '\f' || end_str[i] == '\r' || end_str[i] == ' ')
-// 	 	i++;
-// 	if (end_str[i] == 0)
-// 		//ret = ft_add_line(ret, "");
-// 		;
-// 	else
-// 		ret = ft_join_mass(ret, end_str);
-// 	if (m->str2 && fre != 1)
-// 		free(m->str2);
-// 	return (ret);
-// }
-
-// char	*start_double(t_main *m, char *end_str, char *new_str, int n)
-// {
-// 	char *str1;
-// 	char *str2;
-// 	int		i;
-
-// 	i = 0;
-// 	if (n > 0)
-// 		i = 1;
-// 	str1 = NULL;
-// 	str1 = ft_substr(end_str, n, new_str - end_str - n);
-// 	if (str1[0] != '\0')
-// 		m->m = mass(str1, m->m, m, 1);
-// 	str2 = ft_strdup(end_str + ft_strlen(str1) + 5 + n);
-// 	free(str1);
-// 	return (str2);
-// }
-
-// char	*end_double(t_main *m, char *str2, char *new_str2, int n)
-// {
-// 	char *str1;
-
-// 	str1 = NULL;
-// 	str1 = ft_substr(str2, n , new_str2 - str2 - n);
-// 	if (str1[0] != '\0')
-// 		m->m = ft_add_line(m->m, str1);
-// 	str2 = ft_strdup(new_str2);
-// 	free(str1);
-// 	return (str2);
-// }
-
-// char **req_dollar2(char *end_str, t_main *m)
-// {
-// 	m->new_str = ft_strnstr(end_str, START_DOUBLE_QUOTE, ft_strlen(end_str));
-// 	m->new_str2 = ft_strnstr(end_str, END_DOUBLE_QUOTE, ft_strlen(end_str));
-// 	if (m->new_str2 > m->new_str && m->new_str != 0)
-// 	{
-// 		m->str1 = start_double(m, end_str, m->new_str, 0);
-// 		m->new_str = ft_strnstr(m->str1, END_DOUBLE_QUOTE, ft_strlen(end_str));
-// 		if (m->new_str != NULL)
-// 			m->str2 = end_double(m, m->str1, m->new_str, 0);
-// 		else
-// 			m->str2 = ft_strdup(m->str1 + 6);
-// 	}
-// 	else 
-// 	{
-// 		m->str1 = end_double(m, end_str, m->new_str2, 0);
-// 		m->new_str = ft_strnstr(m->str1, START_DOUBLE_QUOTE, ft_strlen(end_str));
-// 		if (m->new_str != NULL)
-// 			m->str2 = start_double(m, m->str1, m->new_str, 5);
-// 		else
-// 			m->str2 = ft_strdup(m->str1 + 6);
-// 	}
-// 	if (end_str)
-// 		free(end_str);
-// 	free(m->str1);
-// 	if (m->str2 != NULL && (ft_strnstr(m->str2, START_DOUBLE_QUOTE, ft_strlen(m->str2)) 
-// 		|| ft_strnstr(m->str2, END_DOUBLE_QUOTE, ft_strlen(m->str2))))
-// 		return (req_dollar2(m->str2, m));
-// 	return mass(m->str2, m->m, m, 0);
-// }
-
-// char	**req_dollar(char *end_str, char **ret)
-// {
-// 	t_main m;
-
-// 	m.str1 = NULL;
-// 	m.str2 = NULL;
-// 	m.m = ret;
-// 	return (req_dollar2(end_str, &m));
-// }
-
-char	**split_cmd_line(char **end_str)
+static void	split_cmd_line_2(char **end_str, int *end)
 {
-	char	**ret;
 	char	*new_str;
-	int		i;
-	int		end;
 
-	i = 0;
-	end = 0;
-	ret = NULL;
 	new_str = ft_strnstr(*end_str, START_DOUBLE_QUOTE, ft_strlen(*end_str));
 	while (new_str != NULL)
 	{
@@ -247,8 +88,20 @@ char	**split_cmd_line(char **end_str)
 	{
 		*end_str = ft_queote_dollar(*end_str, new_str, 1);
 		new_str = ft_strnstr(*end_str, END_DOUBLE_QUOTE, ft_strlen(*end_str));
-		end = 1;
+		*end = 1;
 	}
+}
+
+char	**split_cmd_line(char **end_str)
+{
+	char	**ret;
+	int		i;
+	int		end;
+
+	i = 0;
+	ret = NULL;
+	end = 0;
+	split_cmd_line_2(end_str, &end);
 	if (end == 1)
 	{
 		ret = ft_add_line(ret, *end_str);
@@ -264,5 +117,4 @@ char	**split_cmd_line(char **end_str)
 		ret = ft_minishell_split(*end_str);
 	free(*end_str);
 	return (ret);
-	// return (req_dollar(*end_str, ret));
 }

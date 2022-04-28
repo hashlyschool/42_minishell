@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parsers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 01:59:08 by a79856            #+#    #+#             */
-/*   Updated: 2022/04/27 12:36:25 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/28 16:46:25 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSERS_H
 # define PARSERS_H
-// #include "../../inc/minishell.h"
-
-# include <stddef.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <errno.h>
-# include <string.h>
 
 typedef enum e_type
 {
@@ -45,7 +38,7 @@ typedef struct s_token
 	void		(*append)(struct s_token *self, char *to_append);
 	void		(*remove)(struct s_token *self, size_t i);
 	void		(*prepare)(struct s_token *self, int exit_status);
-	void		(*del)(struct s_token	*self);
+	void		(*del)(struct s_token *self);
 }				t_token;
 
 typedef struct s_lexer

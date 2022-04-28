@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/27 02:56:47 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:33:15 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@
 # define PIPE_ON_THE_RIGHT 5
 # define PIPE_BOTH_SIDES 6
 # define SEMICOLON_CODE 7
-# ifdef __APPLE__
-	# define MAX_FD 256
-# else
-	# define MAX_FD 1024
-#endif
+# define MAX_FD 1024
 
 # define BR_LEFT			"\001\002(\003\023"
 # define BR_RIGHT			"\001\002)\003\023"
@@ -84,10 +80,6 @@
 # define STD_IN				0
 # define STD_OUT			1
 # define STD_ERR			2
-
-# ifdef __APPLE__ //debug
-	void	rl_replace_line();
-# endif
 
 typedef struct s_data
 {
@@ -174,6 +166,9 @@ void	open_path_and_check_access(t_node *node);
 //execute_3.c
 void	error_handling(int mode, t_node *node, char **path);
 void	execute_cmd_in_node(t_node *node);
+//execute_4.c
+void	delete_spase_define2(t_node *node);
+void	delete_spase_define(t_node *node);
 //free.c
 void	free_arr_export(char ***key, char ***value);
 void	free_node(t_node *node);
