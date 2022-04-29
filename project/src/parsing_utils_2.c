@@ -6,7 +6,7 @@
 /*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 02:58:10 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 02:59:24 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/29 20:08:47 by sstyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ char	*ft_dollar_1(char *str, int *i, t_parser *prs, t_dollar *data)
 		data->tmp2 = ft_substr(str, data->j + 2, (*i) - data->j - 2);
 	else
 		data->tmp2 = ft_substr(str, data->j + 1, (*i) - data->j - 1);
-	data->tmp3 = ft_strdup(str + (*i) + data->plus);
 	if (ft_strchr("?!", str[(*i) - 1]) || (str[(*i)] == '$' && !data->index))
 		(*i)--;
+	data->tmp3 = ft_strdup(str + (*i) + data->plus);
 	data->tmp2 = ft_strjoin_free_s2(START_VALUE, data->tmp2);
 	data->tmp2 = ft_strjoin_free_s1(data->tmp2, END_VALUE);
 	if (prs->quo == 0)
