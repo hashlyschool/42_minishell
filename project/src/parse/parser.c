@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sstyx <sstyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: a79856 <a79856@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:50:04 by sstyx             #+#    #+#             */
-/*   Updated: 2022/04/27 13:10:20 by sstyx            ###   ########.fr       */
+/*   Updated: 2022/04/29 20:01:00 by a79856           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	parser_next(t_parsers *self)
 			return (0);
 		}
 	}
-	if (self->pos < self->lexer->tokens_len)
+	if (self->pos <= self->lexer->tokens_len)
 	{
 		self->lexer->del(self->lexer);
 		return (1);
