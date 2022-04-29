@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 01:34:18 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/14 16:51:54 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/29 19:01:30 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,10 @@ static char	str_is_number(char *str)
 	return (1);
 }
 
-int	ft_exit(char **argv, char ***env, char *exit)
+int	ft_exit(char **argv, char ***env, char *exit, char mode)
 {
-	// 	ft_putstr_fd("exit\n", STD_ERR); //add in finish minishell
+	if (!mode)
+		ft_putstr_fd("exit\n", STD_ERR);
 	if (argv && argv[0])
 	{
 		if (!str_is_number(argv[0]))

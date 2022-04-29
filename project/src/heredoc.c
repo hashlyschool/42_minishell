@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 17:01:47 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/21 18:17:16 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/29 11:14:27 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	processing_mode(char mode, char *name_file, t_list_redir *content)
 	{
 		free(content->word);
 		content->word = ft_strdup(name_file);
+		content->type_redir = 3;
 	}
 	else
 	{

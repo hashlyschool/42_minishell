@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 18:24:22 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 12:43:16 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/29 14:49:53 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_ret(char **split_start, int i, t_node *node)
 	return (ret);
 }
 
-static char	*get_end_str(char *str, t_node *node)
+char	*get_end_str(char *str, t_node *node)
 {
 	char	**split_start;
 	char	*ret;

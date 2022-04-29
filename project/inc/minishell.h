@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 19:45:11 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/28 13:33:15 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/29 19:07:18 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_node
 	int				pipe[2];
 	t_list			*list_redir;
 	char			***env;
+	char			mode;
 }	t_node;
 
 typedef struct s_content
@@ -137,6 +138,7 @@ void	print_error_parsing_argv(char ***key, char ***value, size_t i);
 char	*get_promt(char **env);
 char	*ft_getenv(char *name, char **env);
 void	output_error(int status, t_node *node);
+void	err_1(t_list_redir **content, t_node *node, char ***arr, char **word);
 //built_in_1.c
 int		ft_echo(char **argv, char ***env);
 int		ft_cd(char **argv, char ***env);
@@ -148,17 +150,17 @@ int		ft_unset(char **argv, char ****env);
 void	processing_valid_shlvl(char **value);
 //built_in_4.c
 int		ft_pwd(char **argv, char ***env);
-int		ft_exit(char **argv, char ***env, char *exit);
+int		ft_exit(char **argv, char ***env, char *exit, char mode);
 //built_in_5.c
 void	ft_parsing_argv_2(char **argv, char ***key, char ***value, char **env);
 //forest_1.c
-t_node	*create_empty_node(char ***env);
-t_node	*create_node_next_lvl(t_node *node, char ***env);
+t_node	*create_empty_node(char ***env, char mode);
+t_node	*create_node_next_lvl(t_node *node, char ***env, char mode);
 t_node	*go_prev_lvl(t_node *node);
-t_node	*create_next_node(t_node *node, char separator, char ***env);
+t_node	*create_next_node(t_node *node, char separator, char ***env, char m);
 //forest_2.c
 void	ft_add_argv(t_node *node, char *str);
-t_node	*get_forest(char **line, char ***env);
+t_node	*get_forest(char **line, char ***env, char mode, int i);
 //execute_1.c
 void	execute_level(t_node *node);
 //execute_2.c
@@ -173,6 +175,7 @@ void	delete_spase_define(t_node *node);
 void	free_arr_export(char ***key, char ***value);
 void	free_node(t_node *node);
 void	free_forest(t_node *temp, char ****env);
+void	free_node_list_redir(void *ptr);
 //condition.c
 int		cond_status(t_node	*node);
 int		cond_is_built_in(t_node *node);
@@ -193,6 +196,7 @@ void	close_default_fd(t_node *node);
 int		pipilene_is_over(t_list **pipeline);
 void	processing_pipe_in_child(t_node *node);
 //predparsing_1.c
+char	*get_end_str(char *str, t_node *node);
 void	preparsing(t_node *node);
 //preparsing_2.c
 int		check_error_in_env_name(char *name, char *flag);

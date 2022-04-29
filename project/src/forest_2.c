@@ -6,7 +6,7 @@
 /*   By: hashly <hashly@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 20:56:31 by hashly            #+#    #+#             */
-/*   Updated: 2022/04/15 10:45:27 by hashly           ###   ########.fr       */
+/*   Updated: 2022/04/29 19:07:06 by hashly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	check_error_in_cmd_line(char **line, t_node *node)
 
 static char	def_root(t_node **temp, t_node **root, char **line, char ***env)
 {
-	*temp = create_empty_node(env);
+	*temp = create_empty_node(env, 0);
 	(*temp)->def_fd[0] = dup(0);
 	(*temp)->def_fd[1] = dup(1);
 	*root = *temp;
@@ -85,29 +85,28 @@ static char	def_root(t_node **temp, t_node **root, char **line, char ***env)
 	return (0);
 }
 
-t_node	*get_forest(char **line, char ***env)
+t_node	*get_forest(char **line, char ***env, char mode, int i)
 {
 	t_node	*root;
 	t_node	*temp;
-	int		i;
 
 	if (def_root(&temp, &root, line, env) == 1)
 		return (root);
-	i = -1;
+	root->mode = mode;
 	while (line && line[++i])
 	{
 		if (ft_strncmp(line[i], BR_LEFT, ft_strlen(BR_LEFT) + 1) == 0)
-			temp = create_node_next_lvl(temp, env);
+			temp = create_node_next_lvl(temp, env, mode);
 		else if (ft_strncmp(line[i], BR_RIGHT, ft_strlen(BR_RIGHT) + 1) == 0)
 			temp = go_prev_lvl(temp);
 		else if (ft_strncmp(line[i], AND_STR, ft_strlen(AND_STR) + 1) == 0)
-			temp = create_next_node(temp, AND, env);
+			temp = create_next_node(temp, AND, env, mode);
 		else if (ft_strncmp(line[i], OR_STR, ft_strlen(OR_STR) + 1) == 0)
-			temp = create_next_node(temp, OR, env);
+			temp = create_next_node(temp, OR, env, mode);
 		else if (ft_strncmp(line[i], PIPE_STR, ft_strlen(PIPE_STR) + 1) == 0)
-			temp = create_next_node(temp, PIPE, env);
+			temp = create_next_node(temp, PIPE, env, mode);
 		else if (ft_strncmp(line[i], SEMICOLON, ft_strlen(SEMICOLON) + 1) == 0)
-			temp = create_next_node(temp, SEMICOLON_CODE, env);
+			temp = create_next_node(temp, SEMICOLON_CODE, env, mode);
 		else
 			fill_node(line, i, temp);
 	}
